@@ -90,7 +90,26 @@ class TabTimeKeepingController extends BaseController {
   }
 
   Future<void> setTimeType(String value) async {
+    listEvent.clear();
+    isLoading.value = false;
     selectedTimeTypeVal.value = value;
-    isLoading.value = true;
+    try {
+      List<EventModel> list = [];
+      list = await TabHomeApi.getEvent(jwt);
+      if (selectedTimeTypeVal.value == 'Tất cả') {
+        listEvent.value = list;
+      } else {
+        if (list.isNotEmpty) {
+          for (var item in list) {
+            if (item.startDate!.year.toString() == selectedTimeTypeVal.value || item.endDate!.year.toString() == selectedTimeTypeVal.value) {
+              listEvent.add(item);
+            }
+          }
+        }
+      }
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+    }
   }
 }

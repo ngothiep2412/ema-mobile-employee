@@ -3,6 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:get/get.dart';
 import 'package:hrea_mobile_employee/app/base/base_view.dart';
+import 'package:hrea_mobile_employee/app/modules/check_in_detail/model/timesheet_model.dart';
+import 'package:hrea_mobile_employee/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_employee/app/resources/style_manager.dart';
@@ -28,32 +30,52 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                   padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(20, context)),
                   child: Column(children: [
                     SizedBox(
-                      height: UtilsReponsive.height(25, context),
+                      height: UtilsReponsive.height(20, context),
+                    ),
+                    Text(
+                      'Lịch sử check in',
+                      style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    ),
+                    SizedBox(
+                      height: UtilsReponsive.height(20, context),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
                           controller.eventName,
-                          style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                          style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.textColor),
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: UtilsReponsive.height(10, context),
+                    ),
                     Expanded(
-                        child: controller.listTimesheet.isEmpty
-                            ? Center(
-                                child: Text(
-                                  'Bạn chưa check in ở sự kiện này này',
-                                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.primary),
-                                ),
-                              )
-                            : ListView.separated(
-                                padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-                                itemBuilder: (context, index) => _itemData(context),
-                                separatorBuilder: (context, index) => SizedBox(
-                                      height: UtilsReponsive.height(10, context),
-                                    ),
-                                itemCount: controller.listTimesheet.length))
+                        child: RefreshIndicator(
+                      onRefresh: controller.refreshPage,
+                      child: controller.listTimesheet.isEmpty
+                          ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Image.asset(
+                                ImageAssets.noCheckIn,
+                                height: 150,
+                              ),
+                              SizedBox(
+                                height: UtilsReponsive.height(20, context),
+                              ),
+                              Text(
+                                'Bạn chưa check in ở sự kiện này này',
+                                style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                              ),
+                            ])
+                          : ListView.separated(
+                              padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                              itemBuilder: (context, index) => _itemData(controller.listTimesheet[index], context),
+                              separatorBuilder: (context, index) => SizedBox(
+                                    height: UtilsReponsive.height(10, context),
+                                  ),
+                              itemCount: controller.listTimesheet.length),
+                    ))
                   ]),
                 ),
               ),
@@ -61,15 +83,15 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
     );
   }
 
-  Card _itemData(BuildContext context) {
+  Card _itemData(TimesheetModel timeSheetModel, BuildContext context) {
     return Card(
       child: Container(
           padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-          height: UtilsReponsive.height(60, context),
+          // height: UtilsReponsive.height(60, context),
           width: double.infinity,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -79,16 +101,19 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                     style: TextStyle(
                         letterSpacing: 1.5,
                         fontFamily: 'Roboto',
-                        color: Colors.black,
+                        color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(16, context),
-                        fontWeight: FontWeight.w300),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.height(10, context),
                   ),
                   Text(
-                    "9:00:00",
+                    timeSheetModel.date.toString(),
                     style: TextStyle(
                         letterSpacing: 1.5,
                         fontFamily: 'Roboto',
-                        color: Colors.black,
+                        color: ColorsManager.primary,
                         fontSize: UtilsReponsive.height(16, context),
                         fontWeight: FontWeight.bold),
                   )
@@ -102,22 +127,24 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                     style: TextStyle(
                         letterSpacing: 1.5,
                         fontFamily: 'Roboto',
-                        color: Colors.black,
+                        color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(16, context),
-                        fontWeight: FontWeight.w300),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.height(10, context),
                   ),
                   Text(
-                    "17:00:00",
+                    timeSheetModel.checkinTime!,
                     style: TextStyle(
                         letterSpacing: 1.5,
                         fontFamily: 'Roboto',
-                        color: Colors.black,
+                        color: ColorsManager.primary,
                         fontSize: UtilsReponsive.height(16, context),
                         fontWeight: FontWeight.bold),
                   )
                 ],
               ),
-              SizedBox()
             ],
           )),
     );
@@ -136,6 +163,18 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
           color: ColorsManager.primary,
         ),
       ),
+      actions: [
+        IconButton(
+          onPressed: () async {
+            await controller.refreshPage();
+          },
+          icon: const Icon(
+            Icons.refresh,
+            // Icons.notification_add_outlined,
+            color: ColorsManager.textColor2,
+          ),
+        ),
+      ],
     );
   }
 }

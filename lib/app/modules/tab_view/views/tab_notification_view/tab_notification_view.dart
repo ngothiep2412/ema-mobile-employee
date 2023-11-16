@@ -43,16 +43,7 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                       // SizedBox(
                       //   width: UtilsReponsive.width(10, context),
                       // ),
-                      IconButton(
-                        onPressed: () async {
-                          await controller.refreshPage();
-                        },
-                        icon: const Icon(
-                          Icons.refresh,
-                          // Icons.notification_add_outlined,
-                          color: ColorsManager.textColor2,
-                        ),
-                      ),
+
                       IconButton(
                         onPressed: () {
                           controller.markAllRead();
@@ -82,23 +73,35 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                   Obx(
                     () => Expanded(
                       child: controller.listNotifications.isEmpty
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  ImageAssets.noNoti,
-                                  fit: BoxFit.contain,
-                                  width: UtilsReponsive.widthv2(context, 200),
-                                  height: UtilsReponsive.heightv2(context, 200),
-                                ),
-                                SizedBox(
-                                  height: UtilsReponsive.height(20, context),
-                                ),
-                                Text(
-                                  'Bạn chưa có thông báo nào',
-                                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary),
-                                ),
-                              ],
+                          ? RefreshIndicator(
+                              onRefresh: controller.refreshPage,
+                              child: ListView(
+                                children: [
+                                  SizedBox(
+                                    height: UtilsReponsive.height(100, context),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center, // Center children horizontally
+                                    mainAxisSize: MainAxisSize.min, // Take up minimum vertical space
+                                    children: [
+                                      Image.asset(
+                                        ImageAssets.noNoti,
+                                        fit: BoxFit.contain,
+                                        width: UtilsReponsive.widthv2(context, 200),
+                                        height: UtilsReponsive.heightv2(context, 200),
+                                      ),
+                                      SizedBox(
+                                        height: UtilsReponsive.height(20, context),
+                                      ),
+                                      Text(
+                                        'Bạn chưa có thông báo nào',
+                                        style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             )
                           : RefreshIndicator(
                               onRefresh: controller.refreshPage,

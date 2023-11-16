@@ -59,4 +59,9 @@ class CheckInDetailController extends BaseController {
       print(e);
     }
   }
+
+  Future<void> refreshPage() async {
+    listTimesheet.clear();
+    await getCheckInDetail();
+  }
 }

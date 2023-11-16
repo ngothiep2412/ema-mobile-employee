@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_employee/app/base/base_view.dart';
 import 'package:hrea_mobile_employee/app/modules/tab_view/controllers/tab_request_controller/tab_request_controller.dart';
+import 'package:hrea_mobile_employee/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_employee/app/resources/style_manager.dart';
@@ -34,14 +35,6 @@ class TabRequestView extends BaseView<TabRequestController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                              onPressed: () {
-                                controller.refreshPage();
-                              },
-                              icon: const Icon(
-                                Icons.refresh,
-                                color: ColorsManager.textColor2,
-                              )),
                           controller.isFilter.value
                               ? IconButton(
                                   onPressed: () {
@@ -305,12 +298,30 @@ class TabRequestView extends BaseView<TabRequestController> {
                     child: RefreshIndicator(
                       onRefresh: controller.refreshPage,
                       child: controller.listRequest.isEmpty
-                          ? Center(
-                              child: Text(
-                                'Hiện không có danh sách yêu cầu',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor),
+                          ? ListView(children: [
+                              SizedBox(
+                                height: UtilsReponsive.height(100, context),
                               ),
-                            )
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center, // Center children horizontally
+                                  mainAxisSize: MainAxisSize.min, // Take up minimum vertical space
+                                  children: [
+                                    Image.asset(
+                                      ImageAssets.noRequest,
+                                      fit: BoxFit.contain,
+                                      width: UtilsReponsive.widthv2(context, 200),
+                                      height: UtilsReponsive.heightv2(context, 200),
+                                    ),
+                                    SizedBox(
+                                      height: UtilsReponsive.height(20, context),
+                                    ),
+                                    Text(
+                                      'Bạn chưa có đơn yêu cầu nào',
+                                      style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                    ),
+                                  ])
+                            ])
                           : ListView.separated(
                               controller: controller.scrollController,
                               separatorBuilder: (context, index) => SizedBox(
