@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "992134154999",
+    "project_id": "hrea-8d10b",
+    "storage_bucket": "hrea-8d10b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992134154999:android:2ef8be919569c11302e1f2",
+        "android_client_info": {
+          "package_name": "com.hrea.hrea_mobile_employee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmW7EPuvpWVkjm1hAKX9YOvPXO4q_Bfpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992134154999:android:53a7106f1872c39302e1f2",
+        "android_client_info": {
+          "package_name": "com.hrea.hrea_mobile_employee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmW7EPuvpWVkjm1hAKX9YOvPXO4q_Bfpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
