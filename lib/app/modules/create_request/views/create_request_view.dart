@@ -21,7 +21,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
           ),
           Text(
             "Tạo đơn",
-            style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+            style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.textColor),
           ),
           SizedBox(
             height: UtilsReponsive.heightv2(context, 10),
@@ -34,7 +34,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                 children: [
                   Text(
                     'Tiêu đề',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -42,7 +42,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                   buildTextField(context, "Tiêu đề", "Ví dụ: Xin nghỉ phép", controller.titleController),
                   Text(
                     'Nội dung',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -50,7 +50,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                   buildTextField(context, "Nội dung", "Ví dụ: Bị bệnh", controller.contentController),
                   Text(
                     'Loại kiểu nghỉ',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   DropdownButtonFormField(
                     items: controller.leaveType
@@ -59,7 +59,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                             value: e,
                             child: Text(
                               e,
-                              style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w400, ColorsManager.textColor),
+                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w400, ColorsManager.textColor),
                             ),
                           ),
                         )
@@ -92,7 +92,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                           children: [
                             Text(
                               'Kiểu ngày nghỉ',
-                              style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                             ),
                             DropdownButtonFormField(
                               items: controller.dayType
@@ -100,7 +100,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                                         value: e,
                                         child: Text(
                                           e,
-                                          style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w400, ColorsManager.textColor),
+                                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w400, ColorsManager.textColor),
                                         ),
                                       ))
                                   .toList(),
@@ -136,7 +136,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                                   children: [
                                     Text(
                                       'Kiểu buổi nghỉ',
-                                      style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                                     ),
                                     DropdownButtonFormField(
                                       items: controller.timeType
@@ -144,7 +144,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                                                 value: e,
                                                 child: Text(
                                                   e,
-                                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w400, ColorsManager.textColor),
+                                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w400, ColorsManager.textColor),
                                                 ),
                                               ))
                                           .toList(),
@@ -176,7 +176,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                   ),
                   Text(
                     'Ngày bắt đầu',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -187,7 +187,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                   ),
                   Text(
                     'Ngày kết thúc',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -222,7 +222,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                                 "Tạo đơn",
                                 style: GetTextStyle.getTextStyle(
                                   14,
-                                  'Roboto',
+                                  'Nunito',
                                   FontWeight.w800,
                                   ColorsManager.backgroundWhite,
                                 ),
@@ -263,7 +263,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -303,7 +303,7 @@ class CreateRequestView extends BaseView<CreateRequestController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -387,12 +387,12 @@ class CreateRequestView extends BaseView<CreateRequestController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Thay đổi thông tin đơn thành công',
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -429,13 +429,13 @@ class CreateRequestView extends BaseView<CreateRequestController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorCreateRequestText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

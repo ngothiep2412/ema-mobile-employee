@@ -29,8 +29,7 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SubtaskDetailViewController extends BaseController {
-  SubtaskDetailViewController(
-      {required this.taskID, required this.isNavigateDetail, required this.endDateTaskParent, required this.startDateTaskParent});
+  SubtaskDetailViewController({required this.taskID, required this.isNavigateDetail});
   String taskID = '';
   Rx<TaskModel> taskModel = TaskModel().obs;
   bool isNavigateDetail = false;
@@ -71,10 +70,8 @@ class SubtaskDetailViewController extends BaseController {
 
   Rx<DateTime> startDate = DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
   Rx<DateTime> endDate = DateTime.now().toUtc().add(const Duration(hours: 7)).obs;
-  DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'vi');
-
-  DateTime endDateTaskParent;
-  DateTime startDateTaskParent;
+  DateFormat dateFormat = DateFormat('dd-MM-yyyy', 'vi');
+  DateFormat dateFormatv2 = DateFormat('yyyy-MM-dd', 'vi');
 
   List<DateTime?> listChange = [DateTime.now().toUtc().add(const Duration(hours: 7)), DateTime.now().toUtc().add(const Duration(hours: 7))];
 
@@ -96,6 +93,9 @@ class SubtaskDetailViewController extends BaseController {
 
   RxBool isCheckin = false.obs;
 
+  RxDouble progress = 0.0.obs;
+  RxDouble progressView = 0.0.obs;
+
   // RxBool isEditComment = false.obs;
 
   Future<void> getTaskDetail() async {
@@ -104,6 +104,7 @@ class SubtaskDetailViewController extends BaseController {
       checkToken();
       List<DateTime> listDateTime = [];
       taskModel.value = await SubTaskDetailApi.getTaskDetail(jwt, taskID);
+      print('taskModel ${taskModel.value.id}');
       titleSubTaskController.text = taskModel.value.title!;
       if (taskModel.value.startDate != null) {
         startDate.value = taskModel.value.startDate!;
@@ -116,6 +117,8 @@ class SubtaskDetailViewController extends BaseController {
 
       listChange = listDateTime;
 
+      taskModel.value.assignTasks = taskModel.value.assignTasks!.where((task) => task.status == "active").toList();
+
       if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.isNotEmpty) {
         // for (int index = 0;
         //     index < taskModel.value.assignTasks!.length;
@@ -125,11 +128,11 @@ class SubtaskDetailViewController extends BaseController {
       } else {
         employeeLeader.value = EmployeeModel();
       }
-      UserModel assigner = await SubTaskDetailApi.getAssignerDetail(jwt, taskModel.value.createdBy!);
-      if (assigner.statusCode == 200 || assigner.statusCode == 201) {
-        taskModel.value.nameAssigner = assigner.result!.fullName;
-        taskModel.value.avatarAssigner = assigner.result!.avatar;
-      }
+      // UserModel assigner = await SubTaskDetailApi.getAssignerDetail(jwt, taskModel.value.createdBy!);
+      // if (assigner.statusCode == 200 || assigner.statusCode == 201) {
+      //   taskModel.value.nameAssigner = assigner.result!.fullName;
+      //   taskModel.value.avatarAssigner = assigner.result!.avatar;
+      // }
       if (taskModel.value.description == null || taskModel.value.description == '') {
         quillController.value = QuillController(
           document: Document(),
@@ -214,7 +217,9 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-      listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
+      listEmployee.value = await SubTaskDetailApi.getAllEmployee(
+          jwt, idUser, dateFormatv2.format(taskModel.value.startDate!), dateFormatv2.format(taskModel.value.endDate!));
+      listEmployee.value = listEmployee.sublist(1);
 
       if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.isNotEmpty) {
         // for (int index = 0;
@@ -270,13 +275,21 @@ class SubtaskDetailViewController extends BaseController {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
       // listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
       List<EmployeeModel> list = [];
-      for (var item in taskModel.value.assignTasks!) {
+      for (var item in taskModel.value.assignTasks!.sublist(1)) {
         if (taskModel.value.assignTasks![0].user!.profile!.profileId == decodedToken['id']) {
           if (item.user!.profile!.profileId != decodedToken['id']) {
-            list.add(EmployeeModel(fullName: item.user!.profile!.fullName, avatar: item.user!.profile!.avatar, id: item.user!.profile!.profileId));
+            list.add(EmployeeModel(
+                fullName: item.user!.profile!.fullName,
+                avatar: item.user!.profile!.avatar,
+                id: item.user!.profile!.profileId,
+                email: item.user!.email));
           }
         } else {
-          list.add(EmployeeModel(fullName: item.user!.profile!.fullName, avatar: item.user!.profile!.avatar, id: item.user!.profile!.profileId));
+          list.add(EmployeeModel(
+              fullName: item.user!.profile!.fullName,
+              avatar: item.user!.profile!.avatar,
+              id: item.user!.profile!.profileId,
+              email: item.user!.email));
         }
       }
       listEmployeeSupportView.value = list;
@@ -308,13 +321,40 @@ class SubtaskDetailViewController extends BaseController {
     }
   }
 
+  Future<void> updateProgress(double value) async {
+    try {
+      checkToken();
+
+      ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, value);
+      if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        progress.value = value;
+        if (value == 100) {
+          await updateStatusTask('DONE', taskID);
+        }
+        //  else {
+        //   if (taskModel.value.startDate!.day == taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.startDate!)) {
+        //     await updateStatusTask('OVERDUE', taskID);
+        //   } else if (taskModel.value.startDate!.day != taskModel.value.endDate!.day && DateTime.now().toLocal().isAfter(taskModel.value.endDate!)) {
+        //     await updateStatusTask('OVERDUE', taskID);
+        //   } else {
+        //     await updateStatusTask('PROCESSING', taskID);
+        //   }
+        // }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> getEmployeeSupport() async {
     isLoadingFetchUser.value = true;
     listEmployeeChoose.value = [];
     try {
       checkToken();
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-      listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
+      listEmployee.value = await SubTaskDetailApi.getAllEmployee(
+          jwt, idUser, dateFormatv2.format(taskModel.value.startDate!), dateFormatv2.format(taskModel.value.endDate!));
+      listEmployee.value = listEmployee.sublist(1);
       List<EmployeeModel> list = [];
       if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.length > 1) {
         listEmployee.removeWhere((employee) => employee.id == taskModel.value.assignTasks![0].user!.id!);
@@ -423,10 +463,14 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-      listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
+      listEmployee.value = await SubTaskDetailApi.getAllEmployee(
+          jwt, idUser, dateFormatv2.format(taskModel.value.startDate!), dateFormatv2.format(taskModel.value.endDate!));
+      listEmployee.value = listEmployee.sublist(1);
       originalList = listEmployee;
       if (value.isEmpty) {
-        listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
+        listEmployee.value = await SubTaskDetailApi.getAllEmployee(
+            jwt, idUser, dateFormatv2.format(taskModel.value.startDate!), dateFormatv2.format(taskModel.value.endDate!));
+        listEmployee.value = listEmployee.sublist(1);
       } else {
         listEmployee.value = originalList
             .where((employee) => removeVietnameseAccent(employee.fullName!.toLowerCase()).contains(removeVietnameseAccent(value.toLowerCase())))
@@ -460,7 +504,9 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-      listEmployee.value = await SubTaskDetailApi.getAllEmployee(jwt, decodedToken['divisionID']);
+      listEmployee.value = await SubTaskDetailApi.getAllEmployee(
+          jwt, idUser, dateFormatv2.format(taskModel.value.startDate!), dateFormatv2.format(taskModel.value.endDate!));
+      listEmployee.value = listEmployee.sublist(1);
       originalList = listEmployee;
       if (value.isEmpty) {
         if (taskModel.value.assignTasks != null && taskModel.value.assignTasks!.length > 1) {
@@ -654,7 +700,7 @@ class SubtaskDetailViewController extends BaseController {
 
       checkToken();
 
-      ResponseApi responseApi = await SubTaskDetailApi.updatePriority(jwt, taskID, taskModel.value.eventId!, priority);
+      ResponseApi responseApi = await SubTaskDetailApi.updatePriority(jwt, taskID, taskModel.value.eventDivision!.event!.id!, priority);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
         // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -689,7 +735,7 @@ class SubtaskDetailViewController extends BaseController {
 
       checkToken();
 
-      ResponseApi responseApi = await SubTaskDetailApi.updateTitleTask(jwt, taskID, taskModel.value.eventId!, title);
+      ResponseApi responseApi = await SubTaskDetailApi.updateTitleTask(jwt, taskID, taskModel.value.eventDivision!.event!.id!, title);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
         // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -744,9 +790,10 @@ class SubtaskDetailViewController extends BaseController {
         checkToken();
         // SharedPreferences prefs = await SharedPreferences.getInstance();
         if (endDate.difference(startDate).inMinutes / 60.0 < est.value) {
-          await SubTaskDetailApi.updateEstimationTime(jwt, taskID, taskModel.value.eventId!, est.value);
+          await SubTaskDetailApi.updateEstimationTime(jwt, taskID, taskModel.value.eventDivision!.event!.id!, est.value);
         }
-        ResponseApi responseApi = await SubTaskDetailApi.updateDateTimeTask(jwt, taskID, startDate, endDate, taskModel.value.eventId!);
+        ResponseApi responseApi =
+            await SubTaskDetailApi.updateDateTimeTask(jwt, taskID, startDate, endDate, taskModel.value.eventDivision!.event!.id!);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
           // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -784,7 +831,7 @@ class SubtaskDetailViewController extends BaseController {
       try {
         checkToken();
 
-        ResponseApi responseApi = await SubTaskDetailApi.updateEstimationTime(jwt, taskID, taskModel.value.eventId!, estimateTime);
+        ResponseApi responseApi = await SubTaskDetailApi.updateEstimationTime(jwt, taskID, taskModel.value.eventDivision!.event!.id!, estimateTime);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           est.value = estimateTime;
           estController.text = estimateTime.toString();
@@ -799,7 +846,7 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
 
-      ResponseApi responseApi = await SubTaskDetailApi.updateEffort(jwt, taskID, taskModel.value.eventId!, effortInput);
+      ResponseApi responseApi = await SubTaskDetailApi.updateEffort(jwt, taskID, taskModel.value.eventDivision!.event!.id!, effortInput);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         effort.value = effortInput;
         effortController.text = effortInput.toString();

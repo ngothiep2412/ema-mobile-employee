@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_employee/app/base/base_view.dart';
+import 'package:hrea_mobile_employee/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_employee/app/resources/style_manager.dart';
@@ -36,17 +37,19 @@ class LoginView extends BaseView<LoginController> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'HREA',
-                        style: GetTextStyle.getTextStyle(46, 'Roboto', FontWeight.w800, Colors.white),
+                      Center(
+                        child: Image.asset(
+                          ImageAssets.logo,
+                          height: 170,
+                        ),
                       ),
-                      SizedBox(
-                        height: UtilsReponsive.height(10, context),
-                      ),
-                      Text(
-                        'Đăng nhập dành cho nhân viên',
-                        style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w400, Colors.white),
-                      ),
+                      // SizedBox(
+                      //   height: UtilsReponsive.height(10, context),
+                      // ),
+                      // Text(
+                      //   'Đăng nhập dành cho nhân viên',
+                      //   style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w400, Colors.white),
+                      // ),
                     ],
                   ),
                 ),
@@ -62,8 +65,12 @@ class LoginView extends BaseView<LoginController> {
                     child: Obx(
                       () => Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            'Đăng nhập',
+                            style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                          ),
                           TextFormField(
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
@@ -120,7 +127,7 @@ class LoginView extends BaseView<LoginController> {
                                 },
                                 child: Text(
                                   "Quên mật khẩu?",
-                                  style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w400, ColorsManager.primary),
+                                  style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w400, ColorsManager.primary),
                                 ),
                               )
                             ],
@@ -148,7 +155,7 @@ class LoginView extends BaseView<LoginController> {
                                     )
                                   : Text(
                                       "Đăng nhập",
-                                      style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w400, Colors.white),
+                                      style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w400, Colors.white),
                                     ),
                             ),
                           ),
@@ -191,13 +198,13 @@ class LoginView extends BaseView<LoginController> {
   //               Text(
   //                 'Thành công',
   //                 style: GetTextStyle.getTextStyle(
-  //                     18, 'Roboto', FontWeight.w800, Colors.white),
+  //                     18, 'Nunito', FontWeight.w800, Colors.white),
   //               ),
   //               Spacer(),
   //               Text(
   //                 'Đăng nhập thành công',
   //                 style: GetTextStyle.getTextStyle(
-  //                     12, 'Roboto', FontWeight.w500, Colors.white),
+  //                     12, 'Nunito', FontWeight.w500, Colors.white),
   //                 maxLines: 2,
   //                 overflow: TextOverflow.ellipsis,
   //               )
@@ -234,13 +241,13 @@ class LoginView extends BaseView<LoginController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorLoginText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

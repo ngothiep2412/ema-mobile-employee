@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hrea_mobile_employee/app/base/base_bindings.dart';
+import 'package:hrea_mobile_employee/app/modules/tab_view/controllers/tab_chat_controller/tab_chat_controller.dart';
 import 'package:hrea_mobile_employee/app/modules/tab_view/controllers/tab_home_controller/tab_home_controller.dart';
 import 'package:hrea_mobile_employee/app/modules/tab_view/controllers/tab_notification_controller/tab_notification_controller.dart';
 import 'package:hrea_mobile_employee/app/modules/tab_view/controllers/tab_request_controller/tab_request_controller.dart';
@@ -23,6 +24,9 @@ class TabViewBinding extends BaseBindings {
     );
     Get.lazyPut<TabRequestController>(
       () => TabRequestController(),
+    );
+    Get.lazyPut<TabChatController>(
+      () => TabChatController(),
     );
     Get.lazyPut<TabNotificationController>(
       () => TabNotificationController(),

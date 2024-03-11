@@ -141,14 +141,21 @@ class CreateRequestController extends BaseController {
             isPM.value = true;
           }
         }
-        List<String> startDateparts = startDateController!.text.split('/');
+        List<String> startDateparts = startDateController.text.split('/');
         String formattedStartDate = '${startDateparts[2]}-${startDateparts[1]}-${startDateparts[0]}';
-        List<String> endDateparts = endDateController!.text.split('/');
+        List<String> endDateparts = endDateController.text.split('/');
         String formattedEndDate = '${endDateparts[2]}-${endDateparts[1]}-${endDateparts[0]}';
         ResponseApi responseApi = await CreateRequestApi.createLeaveRequest(titleController.text, contentController.text,
             DateTime.parse(formattedStartDate), DateTime.parse(formattedEndDate), isFull.value, isPM.value, selectedLeaveTypeVal.value[0], jwt);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           errorCreateRequest.value = false;
+          contentController.text = '';
+          titleController.text = '';
+          startDateController.text = '';
+          endDateController.text = '';
+          selectedLeaveTypeVal.value = 'A: Nghỉ có lương';
+          selectedDayTypeVal.value = 'Nữa ngày';
+          selectedTimeTypeVal.value = 'Buổi sáng';
           await Get.find<TabRequestController>().getAllLeaveRequest(1);
         } else {
           errorCreateRequest.value = true;

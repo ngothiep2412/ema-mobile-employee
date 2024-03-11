@@ -37,7 +37,7 @@ class ResetPasswordSuccessfullyView extends BaseView<ResetPasswordSuccessfullyCo
               },
               child: Text(
                 "Trở về đăng nhập",
-                style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, Colors.white),
+                style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, Colors.white),
               ),
             ),
           ),

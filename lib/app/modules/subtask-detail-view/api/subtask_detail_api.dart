@@ -164,9 +164,9 @@ class SubTaskDetailApi {
     }
   }
 
-  static Future<List<EmployeeModel>> getAllEmployee(String jwtToken, String divisionId) async {
+  static Future<List<EmployeeModel>> getAllEmployee(String jwtToken, String idStaff, String startDate, String endDate) async {
     var response = await http.get(
-      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllEmployee}?divisionId=$divisionId&role=EMPLOYEE&sizePage=100&currentPage=1'),
+      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllEmployeeV2}?fieldName=id&conValue=$idStaff&startDate=$startDate&endDate=$endDate'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
@@ -176,9 +176,9 @@ class SubTaskDetailApi {
 
     print('abc event' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body)["result"]["data"];
+      var jsonData = jsonDecode(response.body)['result']['users'];
       List<EmployeeModel> listEmployee = [];
-      listEmployee.addAll(jsonData.map((events) => EmployeeModel.fromJson(events)).cast<EmployeeModel>());
+      listEmployee.addAll(jsonData.map((employee) => EmployeeModel.fromJson(employee)).cast<EmployeeModel>());
       return listEmployee;
     } else {
       throw Exception('Exception');
@@ -524,6 +524,33 @@ class SubTaskDetailApi {
       List<CommentModel> listComment = [];
       listComment.addAll(jsonData.map((events) => CommentModel.fromJson(events)).cast<CommentModel>());
       return listComment;
+    } else {
+      throw Exception('Exception');
+    }
+  }
+
+  static Future<ResponseApi> updateProgressTask(String jwtToken, String taskID, double progress) async {
+    Map<String, dynamic> body = {
+      "progress": progress,
+    };
+    print(taskID);
+
+    var response = await http.put(Uri.parse('${BaseLink.localBaseLink}${BaseLink.updateTask}?taskID=$taskID'),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          'Authorization': 'Bearer $jwtToken',
+        },
+        body: jsonEncode(body));
+
+    print('abc updateStatusTask' + response.statusCode.toString());
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      // TaskModel.fromJson(jsonDecode(jsonData));
+
+      return Future<ResponseApi>.value(ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
+      return Future<ResponseApi>.value(ResponseApi.fromJson(jsonDecode(response.body)));
     } else {
       throw Exception('Exception');
     }

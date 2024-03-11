@@ -68,7 +68,7 @@ class TabNotificationApi {
 
   static Future<ResponseApi> deleteNotification(String jwtToken, String notificationID) async {
     var response = await http.delete(
-      Uri.parse('${BaseLink.localBaseLink}${BaseLink.deleteNotification}$notificationID'),
+      Uri.parse('${BaseLink.localBaseLink}${BaseLink.deleteNotification}?notificationId=$notificationID'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

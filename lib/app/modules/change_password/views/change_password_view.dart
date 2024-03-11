@@ -30,7 +30,7 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Text(
                     'Thay đổi mật khẩu',
-                    style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w700, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w700, ColorsManager.primary),
                   ),
                 ),
               ),
@@ -42,7 +42,7 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
               //   child: Text(
               //     'H',
               //     style: GetTextStyle.getTextStyle(
-              //         16, 'Roboto', FontWeight.w500, ColorsManager.colorIcon),
+              //         16, 'Nunito', FontWeight.w500, ColorsManager.colorIcon),
               //   ),
               // ),
               Container(
@@ -171,7 +171,7 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
                                   )
                                 : Text(
                                     "Lưu",
-                                    style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w400, Colors.white),
+                                    style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w400, Colors.white),
                                   ),
                           ),
                         ),
@@ -224,12 +224,12 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Thay đổi mật khẩu thành công',
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -266,13 +266,13 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorChangePasswordText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

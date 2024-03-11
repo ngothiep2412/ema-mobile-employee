@@ -29,6 +29,9 @@ abstract class Routes {
   static const POLICY = _Paths.POLICY;
   static const CHECK_IN = _Paths.CHECK_IN;
   static const CHECK_IN_DETAIL = _Paths.CHECK_IN_DETAIL;
+  static const CHAT_DETAIL = _Paths.CHAT_DETAIL;
+  static const TASK_SCHEDULE = _Paths.TASK_SCHEDULE;
+  static const PROFILE_CHAT = _Paths.PROFILE_CHAT;
 }
 
 abstract class _Paths {
@@ -59,4 +62,7 @@ abstract class _Paths {
   static const POLICY = '/policy';
   static const CHECK_IN = '/check-in';
   static const CHECK_IN_DETAIL = '/check-in-detail';
+  static const CHAT_DETAIL = '/chat-detail';
+  static const TASK_SCHEDULE = '/task-schedule';
+  static const PROFILE_CHAT = '/profile-chat';
 }

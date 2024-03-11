@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 String calculateTimeDifference(String createdAt) {
-  DateTime now = DateTime.now().toLocal().add(const Duration(hours: 7));
+  DateTime now = DateTime.now();
   print('now ${now}');
   DateTime createdAtDateTime = DateTime.parse(createdAt).toLocal().add(const Duration(hours: 7));
   print('createdAtDateTime ${createdAtDateTime}');
@@ -20,6 +20,28 @@ String calculateTimeDifference(String createdAt) {
     final formattedDate = DateFormat.yMMMd().format(createdAtDateTime);
     return "vào $formattedDate";
   }
+}
+
+String calculateTimeDifferenceMessenger(String createdAt) {
+  DateTime now = DateTime.now().toLocal();
+  DateTime createdAtDateTime = DateTime.parse(createdAt).toLocal().add(const Duration(hours: 7));
+
+  if (isSameDate(now, createdAtDateTime)) {
+    return DateFormat('HH:mm').format(createdAtDateTime);
+  } else if (createdAtDateTime.difference(now).inDays > 30) {
+    return DateFormat('EEEE, dd MMM yy', 'vi_VN').format(createdAtDateTime);
+  } else {
+    Intl.defaultLocale = 'vi_VN'; // Thiết lập locale sang tiếng Việt
+    return DateFormat('EEEE, dd MMM', 'vi_VN').format(createdAtDateTime);
+  }
+}
+
+bool isSameDate(DateTime date1, DateTime date2) {
+  return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+}
+
+void main() {
+  print(calculateTimeDifference("2024-12-12T12:20:00")); // Example usage
 }
 
 String getCurrentTime(DateTime endDate) {

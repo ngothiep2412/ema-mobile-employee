@@ -69,7 +69,7 @@ class LoginController extends BaseController {
         }
         if (loginReponseApi!.accessToken != null) {
           Map<String, dynamic> decodedToken = JwtDecoder.decode(loginReponseApi!.accessToken!);
-          if (decodedToken["role"] == "EMPLOYEE" && loginReponseApi != null) {
+          if (decodedToken["role"] == "Nhân Viên" && loginReponseApi != null) {
             prefs.setString('JWT', loginReponseApi!.accessToken!);
             GetStorage().write('JWT', loginReponseApi!.accessToken!);
             print('JWT: ${loginReponseApi!.accessToken!}');

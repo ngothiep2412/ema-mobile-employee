@@ -111,16 +111,29 @@ class EventDetailView extends BaseView<EventDetailController> {
                     ),
                   ),
                   Text(
-                    controller.eventDetail.value.eventName!,
+                    controller.eventDetail.value.eventName!.length > 30
+                        ? '${controller.eventDetail.value.eventName!.substring(0, 30)}...'
+                        : controller.eventDetail.value.eventName!,
                     style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         wordSpacing: 1.2,
                         color: ColorsManager.primary,
                         fontSize: UtilsReponsive.height(24, context),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w800),
                   ),
                   const SizedBox(
                     height: 10,
+                  ),
+                  Text(
+                    'Thời gian sự kiện',
+                    style: TextStyle(
+                        fontFamily: 'Nunito',
+                        color: ColorsManager.primary,
+                        fontSize: UtilsReponsive.height(20, context),
+                        fontWeight: FontWeight.w800),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.height(10, context),
                   ),
                   Row(
                     children: [
@@ -147,14 +160,65 @@ class EventDetailView extends BaseView<EventDetailController> {
                           '${controller.dateFormat.format(controller.eventDetail.value.startDate!)}- ${controller.dateFormat.format(controller.eventDetail.value.endDate!)}',
                           style: TextStyle(
                               letterSpacing: 1.5,
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               color: controller.eventDetail.value.status == "PENDING"
                                   ? Colors.grey.withOpacity(0.8)
                                   : controller.eventDetail.value.status! == "PROCESSING"
                                       ? ColorsManager.primary
                                       : ColorsManager.green,
                               fontSize: UtilsReponsive.height(17, context),
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w800),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.height(10, context),
+                  ),
+                  Text(
+                    'Thời gian diễn ra',
+                    style: TextStyle(
+                        fontFamily: 'Nunito',
+                        color: ColorsManager.primary,
+                        fontSize: UtilsReponsive.height(20, context),
+                        fontWeight: FontWeight.w800),
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.height(10, context),
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_month,
+                        size: 25,
+                        color: controller.eventDetail.value.status == "PENDING"
+                            ? Colors.grey.withOpacity(0.8)
+                            : controller.eventDetail.value.status! == "PROCESSING"
+                                ? ColorsManager.primary
+                                : ColorsManager.green,
+                      ),
+                      Container(
+                        // padding: EdgeInsets.symmetric(
+                        //     horizontal: UtilsReponsive.width(5, context),
+                        //     vertical: UtilsReponsive.height(10, context)),
+                        // decoration: BoxDecoration(
+                        //   color: Colors.white,
+                        //   borderRadius:
+                        //       BorderRadius.circular(UtilsReponsive.height(5, context)),
+                        // ),
+                        margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
+                        child: Text(
+                          controller.dateFormat.format(controller.eventDetail.value.processingDate!),
+                          style: TextStyle(
+                              letterSpacing: 1.5,
+                              fontFamily: 'Nunito',
+                              color: controller.eventDetail.value.status == "PENDING"
+                                  ? Colors.grey.withOpacity(0.8)
+                                  : controller.eventDetail.value.status! == "PROCESSING"
+                                      ? ColorsManager.primary
+                                      : ColorsManager.green,
+                              fontSize: UtilsReponsive.height(17, context),
+                              fontWeight: FontWeight.w800),
                         ),
                       )
                     ],
@@ -176,16 +240,18 @@ class EventDetailView extends BaseView<EventDetailController> {
                           ? Text(
                               '---',
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.primary,
                                   fontSize: UtilsReponsive.height(20, context),
                                   fontWeight: FontWeight.bold),
                             )
                           : Text(
-                              controller.eventDetail.value.location!,
+                              controller.eventDetail.value.location!.length > 30
+                                  ? '${controller.eventDetail.value.location!.substring(0, 30)}...'
+                                  : controller.eventDetail.value.location!,
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.primary,
                                   fontSize: UtilsReponsive.height(20, context),
@@ -210,7 +276,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                           ? Text(
                               '---',
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.primary,
                                   fontSize: UtilsReponsive.height(20, context),
@@ -219,7 +285,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                           : Text(
                               controller.formatCurrency(controller.eventDetail.value.estBudget!),
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.primary,
                                   fontSize: UtilsReponsive.height(20, context),
@@ -245,7 +311,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                           Text(
                             'Mô tả',
                             style: TextStyle(
-                                fontFamily: 'Roboto',
+                                fontFamily: 'Nunito',
                                 wordSpacing: 1.2,
                                 color: ColorsManager.textColor2,
                                 fontSize: UtilsReponsive.height(20, context),

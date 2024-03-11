@@ -56,7 +56,7 @@ class EditDescriptionController extends BaseController {
         jwt = prefs.getString('JWT')!;
       }
       ResponseApi responseApi = await TaskDetailApi.updateDescriptionTask(
-          jwt, taskModel.value.id!, taskModel.value.eventId!, '${jsonEncode(quillController.value.document.toDelta())}');
+          jwt, taskModel.value.id!, taskModel.value.eventDivision!.event!.id!, '${jsonEncode(quillController.value.document.toDelta())}');
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         if (isSubTask == true) {
           Get.find<SubtaskDetailViewController>().getTaskDetail();

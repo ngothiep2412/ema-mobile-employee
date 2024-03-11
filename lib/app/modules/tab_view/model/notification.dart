@@ -5,11 +5,9 @@
 import 'dart:convert';
 
 List<NotificationModel> notificationModelFromJson(String str) =>
-    List<NotificationModel>.from(
-        json.decode(str).map((x) => NotificationModel.fromJson(x)));
+    List<NotificationModel>.from(json.decode(str).map((x) => NotificationModel.fromJson(x)));
 
-String notificationModelToJson(List<NotificationModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String notificationModelToJson(List<NotificationModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class NotificationModel {
   String? id;
@@ -17,7 +15,7 @@ class NotificationModel {
   String? content;
   String? type;
   String? sender;
-  int? readFlag;
+  int? isRead;
   DateTime? createdAt;
   dynamic commonId;
   dynamic eventId;
@@ -29,24 +27,21 @@ class NotificationModel {
     this.content,
     this.type,
     this.sender,
-    this.readFlag,
+    this.isRead,
     this.createdAt,
     this.commonId,
     this.eventId,
     this.avatarSender,
   });
 
-  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
-      NotificationModel(
+  factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
         id: json["id"],
         title: json["title"],
         content: json["content"],
         type: json["type"],
         sender: json["sender"],
-        readFlag: json["readFlag"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
+        isRead: json["isRead"],
+        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         commonId: json["commonId"],
         eventId: json["eventId"],
         avatarSender: json["avatarSender"],
@@ -58,7 +53,7 @@ class NotificationModel {
         "content": content,
         "type": type,
         "sender": sender,
-        "readFlag": readFlag,
+        "isRead": isRead,
         "createdAt": createdAt?.toIso8601String(),
         "commonId": commonId,
         "eventId": eventId,

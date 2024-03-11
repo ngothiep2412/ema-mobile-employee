@@ -14,20 +14,41 @@ class TabHomeController extends BaseController {
 
   final count = 0.obs;
   RxList<EventModel> listEvent = <EventModel>[].obs;
+  RxList<EventModel> listEventUpComing = <EventModel>[].obs;
+  RxList<EventModel> listEventToday = <EventModel>[].obs;
+
   RxBool isLoading = false.obs;
   String jwt = '';
+  String idUser = '';
 
   Future<void> refreshpage() async {
     listEvent.clear();
+    listEventToday.clear();
+
     print('1: ${isLoading.value}');
     isLoading.value = true;
+    listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
     listEvent.value = await TabHomeApi.getEvent(jwt);
+
+    listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
+
+    for (var todayEvent in listEventToday) {
+      // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
+      var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
+      print('$index');
+      if (index != -1) {
+        listEventUpComing.removeAt(index);
+      }
+    }
+
     isLoading.value = false;
   }
 
   void checkToken() {
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      idUser = decodedToken['id'];
       if (JwtDecoder.isExpired(jwt)) {
         Get.offAllNamed(Routes.LOGIN);
         return;
@@ -46,6 +67,18 @@ class TabHomeController extends BaseController {
     isLoading.value = true;
 
     listEvent.value = await TabHomeApi.getEvent(jwt);
+    listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
+    listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
+
+    for (var todayEvent in listEventToday) {
+      // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
+      var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
+      print('$index');
+      if (index != -1) {
+        listEventUpComing.removeAt(index);
+      }
+    }
+
     isLoading.value = false;
     print('2: ${isLoading.value}');
   }

@@ -30,7 +30,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                     children: [
                       Text(
                         'Đơn yêu cầu',
-                        style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                        style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w600, ColorsManager.primary),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +81,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                             children: [
                               Text(
                                 'Bộ lọc',
-                                style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w700, ColorsManager.calendar),
+                                style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.calendar),
                               ),
                               InkWell(
                                 onTap: () async {
@@ -89,7 +89,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                                 },
                                 child: Text(
                                   'Đặt lại',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w700, ColorsManager.calendar),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.calendar),
                                 ),
                               ),
                             ],
@@ -106,7 +106,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                                     children: [
                                       Text(
                                         'Năm',
-                                        style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor),
+                                        style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor),
                                       ),
                                       SizedBox(
                                         height: UtilsReponsive.height(10, context),
@@ -117,7 +117,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                                                   value: e,
                                                   child: Text(
                                                     e,
-                                                    style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                                    style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                                   ),
                                                 ))
                                             .toList(),
@@ -155,7 +155,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                                       children: [
                                         Text(
                                           'Trạng thái',
-                                          style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor),
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor),
                                         ),
                                         SizedBox(
                                           height: UtilsReponsive.height(10, context),
@@ -230,7 +230,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                                       children: [
                                         Text(
                                           'Loại nghỉ',
-                                          style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor),
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor),
                                         ),
                                         SizedBox(
                                           height: UtilsReponsive.height(10, context),
@@ -318,7 +318,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                                     ),
                                     Text(
                                       'Bạn chưa có đơn yêu cầu nào',
-                                      style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                      style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary),
                                     ),
                                   ])
                             ])
@@ -355,13 +355,13 @@ class TabRequestView extends BaseView<TabRequestController> {
                                             children: [
                                               Text(
                                                 controller.listRequest[index].isFull! ? "Nghỉ nguyên ngày" : "Nghỉ nữa ngày",
-                                                style: GetTextStyle.getTextStyle(13, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
+                                                style: GetTextStyle.getTextStyle(13, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                               ),
                                               SizedBox(
                                                 height: UtilsReponsive.height(10, context),
                                               ),
                                               Text(controller.vietnameseDateFormat.format(controller.listRequest[index].createdAt!),
-                                                  style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                                                  style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.bold, ColorsManager.textColor)),
                                               SizedBox(
                                                 height: UtilsReponsive.height(10, context),
                                               ),
@@ -384,7 +384,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                                                       controller.listRequest[index].title!,
                                                       style: GetTextStyle.getTextStyle(
                                                           13,
-                                                          'Roboto',
+                                                          'Nunito',
                                                           FontWeight.bold,
                                                           controller.listRequest[index].type == 'A'
                                                               ? ColorsManager.purple
@@ -555,7 +555,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                     title: Text(
                       e,
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1.5,
                           color: e == "Đang xử lí"
                               ? Colors.yellow[900]
@@ -634,7 +634,7 @@ class TabRequestView extends BaseView<TabRequestController> {
                     title: Text(
                       e,
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1.5,
                           color: e == "Nghỉ có lương"
                               ? Colors.purple[900]

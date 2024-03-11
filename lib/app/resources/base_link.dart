@@ -1,5 +1,5 @@
 class BaseLink {
-  static const localBaseLink = 'http://api.hreaevent.live';
+  static const localBaseLink = 'http://14.225.204.176:6969';
   static const socketIO = 'http://14.225.204.176:3006';
 
   static const login = '/api/v1/auth/login';
@@ -12,6 +12,7 @@ class BaseLink {
   static const updateProfile = '/api/v1/user/profile';
   static const uploadFile = '/api/v1/file/upload';
   static const getEvent = '/api/v1/event/division';
+  static const getEventFilter = '/api/v1/event/user/doing';
   static const getTask = '/api/v1/task';
   static const getTaskBySelf = '/api/v1/task/filterByAssignee';
   static const getAssignerInformation = '/api/v1/user/';
@@ -43,6 +44,10 @@ class BaseLink {
   static const seenAllNotification = '/api/v1/notification/seen-all';
   static const checkIn = '/api/v1/timesheet/check-in';
   static const getDetailTimesheet = '/api/v1/timesheet';
-  static const deleteNotification = '/api/v1/notification/delete/';
+  static const deleteNotification = '/api/v1/notification/delete';
   static const deleteAllNotification = '/api/v1/notification/delete-all';
+  static const getTaskByDate = '/api/v1/task/filterByDate';
+  static const getAllEmployeeV2 = '/api/v1/division/list/assignee/employee';
+  static const getConversation = '/api/v1/conversations';
+  static const getMessages = '/api/v1/conversations/';
 }

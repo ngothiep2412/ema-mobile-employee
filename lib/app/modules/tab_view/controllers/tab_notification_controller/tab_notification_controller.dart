@@ -4,9 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_employee/app/base/base_controller.dart';
+import 'package:hrea_mobile_employee/app/modules/subtask-detail-view/api/subtask_detail_api.dart';
 import 'package:hrea_mobile_employee/app/modules/tab_view/api/tab_notification_api/tab_notification_api.dart';
 import 'package:hrea_mobile_employee/app/modules/tab_view/controllers/tab_view_controller.dart';
 import 'package:hrea_mobile_employee/app/modules/tab_view/model/notification.dart';
+import 'package:hrea_mobile_employee/app/modules/tab_view/model/task.dart';
 import 'package:hrea_mobile_employee/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
@@ -31,6 +33,9 @@ class TabNotificationController extends BaseController {
 
   RxList<NotificationModel> listNotifications = <NotificationModel>[].obs;
   final count = 0.obs;
+
+  DateTime startDateParentTask = DateTime.now();
+  DateTime endDateParentTask = DateTime.now();
 
   @override
   Future<void> onInit() async {
@@ -86,7 +91,12 @@ class TabNotificationController extends BaseController {
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
         listNotifications.value = list;
-      } else {}
+        print('aaa123');
+      } else {
+        errorGetNotification.value = true;
+
+        errorGetNotificationText.value = "Có lỗi xảy ra";
+      }
     } catch (e) {
       log(e.toString());
       errorGetNotification.value = true;
@@ -106,6 +116,7 @@ class TabNotificationController extends BaseController {
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
         listNotifications.value = list;
+        Get.find<TabViewController>().checkAllNotiSeen.value = true;
       } else {}
     } catch (e) {
       log(e.toString());
@@ -120,15 +131,36 @@ class TabNotificationController extends BaseController {
       checkToken();
 
       ResponseApi responseApi = await TabNotificationApi.seenANotification(jwt, notificationID);
+      print('aa ${responseApi.statusCode}');
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, page);
 
         list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
         listNotifications.value = list;
-      } else {}
+        bool allRead = true;
+        for (var item in list) {
+          if (item.isRead == 0) {
+            allRead = false;
+            break;
+          }
+        }
+        if (allRead) {
+          Get.find<TabViewController>().checkAllNotiSeen.value = true;
+        } else {
+          Get.find<TabViewController>().checkAllNotiSeen.value = false;
+        }
+      } else {
+        errorGetNotification.value = true;
+
+        errorGetNotificationText.value = "Có lỗi xảy ra";
+      }
     } catch (e) {
       log(e.toString());
+
+      errorGetNotification.value = true;
+
+      errorGetNotificationText.value = "Có lỗi xảy ra";
     }
   }
 
@@ -147,9 +179,9 @@ class TabNotificationController extends BaseController {
     isMoreDataAvailable.value = false;
     try {
       checkToken();
-      listNotifications.clear();
       List<NotificationModel> list = await TabNotificationApi.getAllNotification(jwt, page);
 
+      listNotifications.clear();
       list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
       listNotifications.value = list;
@@ -161,7 +193,7 @@ class TabNotificationController extends BaseController {
         Get.find<TabViewController>().checkAllNotiSeen.value = true;
 
         for (var item in listNotifications) {
-          if (item.readFlag == 0) {
+          if (item.isRead == 0) {
             // At least one notification is not seen
             Get.find<TabViewController>().checkAllNotiSeen.value = false;
             break; // No need to continue checking, we found one not seen
@@ -226,5 +258,16 @@ class TabNotificationController extends BaseController {
     listNotifications.clear();
     page = 1;
     await getAllNotification(page);
+  }
+
+  void getTaskDetail(String taskID, int index) {
+    try {
+      Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
+        "taskID": listNotifications[index].commonId,
+        "isNavigateDetail": false,
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }

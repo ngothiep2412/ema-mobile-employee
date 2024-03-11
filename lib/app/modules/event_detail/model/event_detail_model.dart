@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-EventDetailModel eventDetailModelFromJson(String str) =>
-    EventDetailModel.fromJson(json.decode(str));
+EventDetailModel eventDetailModelFromJson(String str) => EventDetailModel.fromJson(json.decode(str));
 
-String eventDetailModelToJson(EventDetailModel data) =>
-    json.encode(data.toJson());
+String eventDetailModelToJson(EventDetailModel data) => json.encode(data.toJson());
 
 class EventDetailModel {
   String? id;
@@ -17,6 +15,7 @@ class EventDetailModel {
   String? eventName;
   DateTime? startDate;
   DateTime? endDate;
+  DateTime? processingDate;
   String? location;
   String? description;
   String? coverUrl;
@@ -37,32 +36,23 @@ class EventDetailModel {
     this.estBudget,
     this.status,
     this.listDivision,
+    this.processingDate,
   });
 
-  factory EventDetailModel.fromJson(Map<String, dynamic> json) =>
-      EventDetailModel(
+  factory EventDetailModel.fromJson(Map<String, dynamic> json) => EventDetailModel(
         id: json["id"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
+        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
         eventName: json["eventName"],
-        startDate: json["startDate"] == null
-            ? null
-            : DateTime.parse(json["startDate"]),
-        endDate:
-            json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+        startDate: json["startDate"] == null ? null : DateTime.parse(json["startDate"]),
+        endDate: json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+        processingDate: json["processingDate"] == null ? null : DateTime.parse(json["processingDate"]),
         location: json["location"],
         description: json["description"],
         coverUrl: json["coverUrl"],
         estBudget: json["estBudget"],
         status: json["status"],
-        listDivision: json["listDivision"] == null
-            ? []
-            : List<ListDivision>.from(
-                json["listDivision"]!.map((x) => ListDivision.fromJson(x))),
+        listDivision: json["listDivision"] == null ? [] : List<ListDivision>.from(json["listDivision"]!.map((x) => ListDivision.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -70,6 +60,8 @@ class EventDetailModel {
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "eventName": eventName,
+        "processingDate":
+            "${processingDate!.year.toString().padLeft(4, '0')}-${processingDate!.month.toString().padLeft(2, '0')}-${processingDate!.day.toString().padLeft(2, '0')}",
         "startDate":
             "${startDate!.year.toString().padLeft(4, '0')}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}",
         "endDate":
@@ -79,9 +71,7 @@ class EventDetailModel {
         "coverUrl": coverUrl,
         "estBudget": estBudget,
         "status": status,
-        "listDivision": listDivision == null
-            ? []
-            : List<dynamic>.from(listDivision!.map((x) => x.toJson())),
+        "listDivision": listDivision == null ? [] : List<dynamic>.from(listDivision!.map((x) => x.toJson())),
       };
 }
 

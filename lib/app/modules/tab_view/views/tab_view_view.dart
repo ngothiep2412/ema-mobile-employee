@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -14,14 +15,16 @@ class TabViewView extends BaseView<TabViewController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorsManager.backgroundContainer,
+        backgroundColor: ColorsManager.backgroundWhite,
         bottomNavigationBar: _bottomNav(context),
         body: Obx(() => controller.body.elementAt(controller.selectedIndex.value)));
   }
 
   Container _bottomNav(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white70, borderRadius: BorderRadius.circular(20)),
+      // color: Colors.grey[200],
+      decoration: BoxDecoration(
+          color: ColorsManager.backgroundContainer, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       padding: EdgeInsets.symmetric(vertical: UtilsReponsive.height(10, context), horizontal: UtilsReponsive.height(10, context)),
       child: Obx(
         () => GNav(
@@ -32,32 +35,39 @@ class TabViewView extends BaseView<TabViewController> {
             tabBackgroundColor: ColorsManager.colorBottomNav, // selected tab background color
             tabs: [
               GButton(
-                  icon: Icons.event,
-                  text: 'Sự kiện',
+                  icon: Icons.home,
+                  text: 'Trang chủ',
                   iconColor: ColorsManager.primary,
                   onPressed: () {
                     controller.onTapped(0);
                   }),
+              // GButton(
+              //     icon: Icons.check_circle_outline,
+              //     text: 'Chấm công',
+              //     iconColor: ColorsManager.primary,
+              //     onPressed: () {
+              //       controller.onTapped(1);
+              //     }),
+              // GButton(
+              //     icon: Icons.note_add_rounded,
+              //     text: 'Đơn',
+              //     iconColor: ColorsManager.primary,
+              //     onPressed: () {
+              //       controller.onTapped(1);
+              //     }),
               GButton(
-                  icon: Icons.check_circle_outline,
-                  text: 'Chấm công',
+                  icon: CupertinoIcons.bubble_left_bubble_right_fill,
+                  text: 'Chat',
                   iconColor: ColorsManager.primary,
                   onPressed: () {
                     controller.onTapped(1);
                   }),
               GButton(
-                  icon: Icons.note_add_outlined,
-                  text: 'Đơn',
-                  iconColor: ColorsManager.primary,
-                  onPressed: () {
-                    controller.onTapped(2);
-                  }),
-              GButton(
-                  icon: controller.checkAllNotiSeen.value == false ? Icons.notification_add_rounded : LineIcons.bell,
+                  icon: controller.checkAllNotiSeen.value == false ? Icons.notification_add_rounded : Icons.notifications,
                   text: 'Thông báo',
                   iconColor: controller.checkAllNotiSeen.value == false ? ColorsManager.red : ColorsManager.primary,
                   onPressed: () {
-                    controller.onTapped(3);
+                    controller.onTapped(2);
                     // controller.checkNoti.value = false;
                   }),
               GButton(
@@ -65,7 +75,7 @@ class TabViewView extends BaseView<TabViewController> {
                   text: 'Khác',
                   iconColor: ColorsManager.primary,
                   onPressed: () {
-                    controller.onTapped(4);
+                    controller.onTapped(3);
                   })
             ]),
       ),

@@ -7,4 +7,5 @@ class ImageAssets {
   static const String noNoti = "$IMAGE_PATH/no_notification.png";
   static const String noCheckIn = "$IMAGE_PATH/not_check_in.jpg";
   static const String noRequest = "$IMAGE_PATH/no_request.png";
+  static const String logo = "$IMAGE_PATH/logo.png";
 }

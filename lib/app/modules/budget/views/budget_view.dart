@@ -30,7 +30,7 @@ class BudgetView extends BaseView<BudgetController> {
                     Center(
                       child: Text(
                         'Danh sách đơn khoản chi',
-                        style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w700, ColorsManager.primary),
+                        style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w700, ColorsManager.primary),
                       ),
                     ),
                     SizedBox(
@@ -43,7 +43,7 @@ class BudgetView extends BaseView<BudgetController> {
                             ? Center(
                                 child: Text(
                                   'Hiện không có danh sách yêu cầu khoản chi',
-                                  style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor),
                                 ),
                               )
                             : ListView.separated(
@@ -78,7 +78,7 @@ class BudgetView extends BaseView<BudgetController> {
                                           children: [
                                             Text(
                                               controller.listBudget[index].budgetName!,
-                                              style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor),
+                                              style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor),
                                             ),
                                             SizedBox(
                                               height: UtilsReponsive.height(10, context),
@@ -87,10 +87,10 @@ class BudgetView extends BaseView<BudgetController> {
                                               children: [
                                                 Text(
                                                   'Ngày nộp đơn: ',
-                                                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w600, ColorsManager.textColor2),
+                                                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
                                                 ),
                                                 Text(controller.dateFormat.format(controller.listBudget[index].createdAt!).toString(),
-                                                    style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                                                    style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.bold, ColorsManager.textColor)),
                                               ],
                                             ),
                                             SizedBox(
@@ -99,7 +99,7 @@ class BudgetView extends BaseView<BudgetController> {
                                             Row(
                                               children: [
                                                 Text('Trạng thái: ',
-                                                    style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w600, ColorsManager.textColor2)),
+                                                    style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, ColorsManager.textColor2)),
                                                 Text(
                                                     controller.listBudget[index].status! == "REJECT"
                                                         ? "Từ chối"
@@ -108,7 +108,7 @@ class BudgetView extends BaseView<BudgetController> {
                                                             : "Đang xử lí",
                                                     style: GetTextStyle.getTextStyle(
                                                         12,
-                                                        'Roboto',
+                                                        'Nunito',
                                                         FontWeight.bold,
                                                         controller.listBudget[index].status == 'REJECT'
                                                             ? ColorsManager.red

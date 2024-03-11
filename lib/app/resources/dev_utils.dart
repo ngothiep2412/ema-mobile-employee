@@ -3,12 +3,11 @@ import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:intl/intl.dart';
 
 class DevUtils {
   static void printLog(String nameClass, String funcOrLine, String content) {
-    dev.log(nameClass + "-" + funcOrLine + "-" + content);
+    dev.log("$nameClass-$funcOrLine-$content");
   }
 
   static void showSnackbarMessage(String title, String content, Color color) {

@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-List<EventModel> eventModelFromJson(String str) =>
-    List<EventModel>.from(json.decode(str).map((x) => EventModel.fromJson(x)));
+List<EventModel> eventModelFromJson(String str) => List<EventModel>.from(json.decode(str).map((x) => EventModel.fromJson(x)));
 
-String eventModelToJson(List<EventModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String eventModelToJson(List<EventModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class EventModel {
   String? id;
@@ -17,6 +15,7 @@ class EventModel {
   String? coverUrl;
   DateTime? startDate;
   DateTime? endDate;
+  DateTime? processingDate;
   String? location;
   int? estBudget;
   DateTime? createdAt;
@@ -30,6 +29,7 @@ class EventModel {
     this.coverUrl,
     this.startDate,
     this.endDate,
+    this.processingDate,
     this.location,
     this.estBudget,
     this.createdAt,
@@ -42,19 +42,13 @@ class EventModel {
         eventName: json["eventName"],
         description: json["description"],
         coverUrl: json["coverUrl"],
-        startDate: json["startDate"] == null
-            ? null
-            : DateTime.parse(json["startDate"]),
-        endDate:
-            json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+        startDate: json["startDate"] == null ? null : DateTime.parse(json["startDate"]),
+        endDate: json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+        processingDate: json["processingDate"] == null ? null : DateTime.parse(json["processingDate"]),
         location: json["location"],
         estBudget: json["estBudget"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
+        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
         status: json["status"],
       );
 
@@ -65,6 +59,7 @@ class EventModel {
         "coverUrl": coverUrl,
         "startDate": startDate?.toIso8601String(),
         "endDate": endDate?.toIso8601String(),
+        "processingDate": processingDate?.toIso8601String(),
         "location": location,
         "estBudget": estBudget,
         "createdAt": createdAt?.toIso8601String(),

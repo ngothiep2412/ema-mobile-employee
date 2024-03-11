@@ -36,7 +36,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                   Center(
                     child: Text(
                       "Chỉnh sửa thông tin khoản chi",
-                      style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                     ),
                   ),
                   SizedBox(
@@ -44,7 +44,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                   ),
                   Text(
                     'Tên khoản chi',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -52,7 +52,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                   buildTextField(context, "Tên khoản chi", "Ví dụ: Tiền thuê mic", controller.budgetNameController),
                   Text(
                     'Chi phí ước tính (VNĐ)',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -64,7 +64,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                   controller.budget.value.status == "ACCEPT"
                       ? Text(
                           'Chi phí thực tế (VNĐ)',
-                          style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                         )
                       : SizedBox(),
                   controller.budget.value.status == "ACCEPT"
@@ -72,7 +72,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                       : SizedBox(),
                   Text(
                     'Mô tả',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -80,7 +80,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                   buildTextarea(context, "Mô tả", "Ví dụ: Loại nhỏ", controller.descriptionController),
                   Text(
                     'Nhà cung cấp',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -89,7 +89,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                   controller.budget.value.status == "ACCEPT"
                       ? Text(
                           'Hình ảnh hóa đơn',
-                          style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                         )
                       : SizedBox(),
                   SizedBox(
@@ -176,7 +176,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                         return AlertDialog(
                                                           title: Text('Xác nhận xóa',
                                                               style: TextStyle(
-                                                                  fontFamily: 'Roboto',
+                                                                  fontFamily: 'Nunito',
                                                                   wordSpacing: 1.2,
                                                                   color: ColorsManager.primary,
                                                                   fontSize: UtilsReponsive.height(20, context),
@@ -184,7 +184,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                           content: Text(
                                                             'Bạn có muốn xóa hình ảnh này?',
                                                             style: TextStyle(
-                                                                fontFamily: 'Roboto',
+                                                                fontFamily: 'Nunito',
                                                                 wordSpacing: 1.2,
                                                                 color: ColorsManager.textColor2,
                                                                 fontSize: UtilsReponsive.height(18, context),
@@ -199,7 +199,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                               },
                                                               child: Text('Xóa',
                                                                   style: TextStyle(
-                                                                      fontFamily: 'Roboto',
+                                                                      fontFamily: 'Nunito',
                                                                       wordSpacing: 1.2,
                                                                       color: ColorsManager.red,
                                                                       fontSize: UtilsReponsive.height(18, context),
@@ -211,7 +211,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                               },
                                                               child: Text('Hủy',
                                                                   style: TextStyle(
-                                                                      fontFamily: 'Roboto',
+                                                                      fontFamily: 'Nunito',
                                                                       wordSpacing: 1.2,
                                                                       color: ColorsManager.primary,
                                                                       fontSize: UtilsReponsive.height(18, context),
@@ -274,7 +274,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                       return AlertDialog(
                                                         title: Text('Xác nhận xóa',
                                                             style: TextStyle(
-                                                                fontFamily: 'Roboto',
+                                                                fontFamily: 'Nunito',
                                                                 wordSpacing: 1.2,
                                                                 color: ColorsManager.primary,
                                                                 fontSize: UtilsReponsive.height(20, context),
@@ -282,7 +282,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                         content: Text(
                                                           'Bạn có muốn xóa hình ảnh này?',
                                                           style: TextStyle(
-                                                              fontFamily: 'Roboto',
+                                                              fontFamily: 'Nunito',
                                                               wordSpacing: 1.2,
                                                               color: ColorsManager.textColor2,
                                                               fontSize: UtilsReponsive.height(18, context),
@@ -296,7 +296,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                             },
                                                             child: Text('Xóa',
                                                                 style: TextStyle(
-                                                                    fontFamily: 'Roboto',
+                                                                    fontFamily: 'Nunito',
                                                                     wordSpacing: 1.2,
                                                                     color: ColorsManager.red,
                                                                     fontSize: UtilsReponsive.height(18, context),
@@ -308,7 +308,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                                             },
                                                             child: Text('Hủy',
                                                                 style: TextStyle(
-                                                                    fontFamily: 'Roboto',
+                                                                    fontFamily: 'Nunito',
                                                                     wordSpacing: 1.2,
                                                                     color: ColorsManager.primary,
                                                                     fontSize: UtilsReponsive.height(18, context),
@@ -367,7 +367,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                                 "Lưu",
                                 style: GetTextStyle.getTextStyle(
                                   14,
-                                  'Roboto',
+                                  'Nunito',
                                   FontWeight.w800,
                                   ColorsManager.backgroundWhite,
                                 ),
@@ -408,7 +408,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -440,7 +440,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -468,7 +468,7 @@ class EditBudgetView extends BaseView<EditBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -542,12 +542,12 @@ class EditBudgetView extends BaseView<EditBudgetController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Thay đổi thông tin khoản chi thành công',
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -584,13 +584,13 @@ class EditBudgetView extends BaseView<EditBudgetController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateBudgetText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -17,11 +17,10 @@ class TabHomeView extends BaseView<TabHomeController> {
   const TabHomeView({Key? key}) : super(key: key);
   @override
   Widget buildView(BuildContext context) {
-    return SafeArea(
-        child: Obx(
-      () => Padding(
-        padding: EdgeInsets.all(UtilsReponsive.height(20, context)),
-        child: controller.isLoading.value == true
+    return Scaffold(
+      backgroundColor: ColorsManager.backgroundWhite,
+      body: Obx(
+        () => controller.isLoading.value == true
             ? Center(
                 child: SpinKitFadingCircle(
                   color: ColorsManager.primary,
@@ -30,75 +29,285 @@ class TabHomeView extends BaseView<TabHomeController> {
               )
             : Column(
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: UtilsReponsive.width(40, context),
-                        height: UtilsReponsive.width(40, context),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: ColorsManager.primary,
-                        ),
-                        child: IconButton(
-                          onPressed: () {
-                            showSearch(
+                  Expanded(
+                      child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(UtilsReponsive.height(30, context)),
+                        bottomRight: Radius.circular(UtilsReponsive.height(30, context)),
+                      ),
+                      color: Colors.blue.withOpacity(0.9),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: UtilsReponsive.height(10, context)),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: UtilsReponsive.height(40, context),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Trang chủ',
+                                style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w800, ColorsManager.backgroundWhite),
+                              ),
+                              Container(
+                                width: UtilsReponsive.width(50, context),
+                                height: UtilsReponsive.width(50, context),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: ColorsManager.backgroundWhite,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.white.withOpacity(0.5), // Màu của shadow
+                                      spreadRadius: 2, // Bán kính lan rộng của shadow
+                                      blurRadius: 5, // Độ mờ của shadow
+                                      offset: Offset(0, 3), // Độ lệch của shadow theo trục x và y
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    // showSearch(
+                                    //   context: context,
+                                    //   delegate: CustomSearch(
+                                    //     listEvent: controller.listEvent,
+                                    //   ),
+                                    // );
+                                    Get.toNamed(
+                                      '/task-schedule',
+                                    );
+                                  },
+                                  icon: const Icon(Icons.calendar_month_rounded),
+                                  color: ColorsManager.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: UtilsReponsive.height(30, context),
+                          ),
+                          GestureDetector(
+                            onTap: () => showSearch(
                               context: context,
                               delegate: CustomSearch(
                                 listEvent: controller.listEvent,
                               ),
-                            );
-                          },
-                          icon: const Icon(Icons.search),
-                          color: ColorsManager.backgroundWhite,
-                        ),
-                      ),
-                      SizedBox(
-                        width: UtilsReponsive.width(20, context),
-                      ),
-                      Text(
-                        'Sự kiện',
-                        style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.primary),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: UtilsReponsive.height(10, context),
-                  ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     const SizedBox(),
-                  //     Text(
-                  //       'Xem báo cáo',
-                  //       style: GetTextStyle.getTextStyle(
-                  //           15, 'Roboto', FontWeight.w500, Colors.blue),
-                  //     )
-                  //   ],
-                  // ),
-                  SizedBox(
-                    height: UtilsReponsive.height(10, context),
-                  ),
-                  Obx(
-                    () => Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: controller.refreshpage,
-                        child: Container(
-                          // height: MediaQuery.of(context).size.height / 1.38,
-                          padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
-                          child: GridView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: controller.listEvent.length,
-                            itemBuilder: (context, index) {
-                              return _itemEvent(context: context, eventModel: controller.listEvent[index]);
-                            },
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 20,
-                              crossAxisSpacing: 10,
-                              childAspectRatio: 1,
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color: Colors.grey.withOpacity(0.5),
+                                //     blurRadius: 5,
+                                //     spreadRadius: 2,
+                                //     offset: Offset(0, 3),
+                                //   )
+                                // ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.search,
+                                    color: Color(0xFF113953),
+                                  ),
+                                  Container(
+                                    width: UtilsReponsive.width(200, context),
+                                    height: UtilsReponsive.height(50, context),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 10),
+
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Tìm kiếm',
+                                            style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, Color(0xffA7A7A7)),
+                                          ),
+                                        ],
+                                      ),
+
+                                      // TextFormField(
+                                      //   decoration: const InputDecoration(
+                                      //     hintText: "Tìm kiếm",
+                                      //     border: InputBorder.none,
+                                      //   ),
+                                      //   onTap: () => showSearch(
+                                      //     context: context,
+                                      //     delegate: CustomSearch(
+                                      //       listEvent: controller.listEvent,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+                          SizedBox(
+                            height: UtilsReponsive.height(30, context),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: EdgeInsets.all(UtilsReponsive.height(20, context)),
+                      child: RefreshIndicator(
+                        onRefresh: controller.refreshpage,
+                        child: ListView(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Thống kê',
+                                    style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w800, Colors.blueAccent),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: UtilsReponsive.width(5, context),
+                                ),
+                                Icon(
+                                  Icons.analytics,
+                                  color: Colors.blueGrey,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: UtilsReponsive.height(10, context),
+                            ),
+                            SizedBox(
+                              height: UtilsReponsive.height(10, context),
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Các sự kiện ngày hôm nay',
+                                style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w700, Color(0xffA7A7A7)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: UtilsReponsive.height(10, context),
+                            ),
+                            Obx(
+                              () => controller.listEventToday.isNotEmpty
+                                  ? Container(
+                                      height: MediaQuery.of(context).size.height / 2,
+                                      padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
+                                      child: GridView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        itemCount: controller.listEventToday.length,
+                                        itemBuilder: (context, index) {
+                                          return _itemEvent(context: context, eventModel: controller.listEventToday[index]);
+                                        },
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 1,
+                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 10,
+                                          childAspectRatio: 1,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: MediaQuery.of(context).size.height / 3,
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: UtilsReponsive.height(200, context),
+                                            width: UtilsReponsive.width(150, context),
+                                            child: CachedNetworkImage(
+                                              imageBuilder: (context, imageProvider) => Container(
+                                                  decoration: BoxDecoration(image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+                                              imageUrl: 'https://img.freepik.com/premium-vector/simple-calendar-icon-app-logo-design_301434-196.jpg',
+                                              placeholder: (context, url) => CircularProgressIndicator(),
+                                              errorWidget: (context, url, error) => Icon(Icons.error),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Text(
+                                              'Không có sự kiện cho hôm nay',
+                                              style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor2),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                            ),
+                            SizedBox(
+                              height: UtilsReponsive.height(10, context),
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Các sự kiện sắp tới',
+                                style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w700, Color(0xffA7A7A7)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: UtilsReponsive.height(10, context),
+                            ),
+                            Obx(
+                              () => controller.listEventUpComing.isNotEmpty
+                                  ? Container(
+                                      height: MediaQuery.of(context).size.height / 2,
+                                      // height: MediaQuery.of(context).size.height / 1.38,
+                                      padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
+                                      child: GridView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        itemCount: controller.listEventUpComing.length,
+                                        itemBuilder: (context, index) {
+                                          return _itemEvent(context: context, eventModel: controller.listEventUpComing[index]);
+                                        },
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 1,
+                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 10,
+                                          childAspectRatio: 1,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: MediaQuery.of(context).size.height / 3,
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: UtilsReponsive.height(200, context),
+                                            width: UtilsReponsive.width(150, context),
+                                            child: CachedNetworkImage(
+                                              imageBuilder: (context, imageProvider) => Container(
+                                                  decoration: BoxDecoration(image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+                                              imageUrl: 'https://img.freepik.com/premium-vector/simple-calendar-icon-app-logo-design_301434-196.jpg',
+                                              placeholder: (context, url) => CircularProgressIndicator(),
+                                              errorWidget: (context, url, error) => Icon(Icons.error),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Text(
+                                              'Không có sự kiện sắp tới',
+                                              style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor2),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -106,7 +315,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                 ],
               ),
       ),
-    ));
+    );
   }
 
   Widget _itemEvent({required BuildContext context, required EventModel eventModel}) {
@@ -115,15 +324,27 @@ class TabHomeView extends BaseView<TabHomeController> {
         controller.onTapEvent(eventID: eventModel.id!, eventName: eventModel.eventName!);
       },
       child: Container(
-        height: UtilsReponsive.height(50, context),
-        width: UtilsReponsive.width(150, context),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(UtilsReponsive.height(15, context))),
+        margin: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(
+            UtilsReponsive.height(15, context),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5), // Màu của shadow và độ mờ
+              spreadRadius: 2, // Độ lan rộng của shadow
+              blurRadius: 5, // Độ mờ của shadow
+              offset: const Offset(0, 1), // Độ dịch chuyển của shadow
+            ),
+          ],
+        ),
         child: Padding(
           padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
           child: Column(
             children: [
               Container(
-                height: UtilsReponsive.height(80, context),
+                height: UtilsReponsive.height(220, context),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -136,17 +357,15 @@ class TabHomeView extends BaseView<TabHomeController> {
                   ),
                 ),
                 child: CachedNetworkImage(
-                  // fit: BoxFit.contain,
+                  fit: BoxFit.fill,
                   imageUrl: eventModel.coverUrl!,
                   imageBuilder: (context, imageProvider) => Container(
-                      height: UtilsReponsive.height(50, context),
-                      width: UtilsReponsive.width(150, context),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
                             UtilsReponsive.height(15, context),
                           ),
                           border: Border.all(width: 1.5, color: Theme.of(context).scaffoldBackgroundColor),
-                          image: DecorationImage(fit: BoxFit.contain, image: imageProvider))),
+                          image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
                   progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                     padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
                     height: UtilsReponsive.height(20, context),
@@ -162,9 +381,14 @@ class TabHomeView extends BaseView<TabHomeController> {
                 height: UtilsReponsive.height(10, context),
               ),
               Expanded(
-                child: Text(
-                  eventModel.eventName!,
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      eventModel.eventName!.length > 30 ? '${eventModel.eventName!.substring(0, 30)}...' : eventModel.eventName!,
+                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w800, ColorsManager.textColor),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
@@ -172,11 +396,25 @@ class TabHomeView extends BaseView<TabHomeController> {
                   children: [
                     Text(
                       'Ngày bắt đầu: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.startDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.textColor),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Text(
+                      'Ngày diễn ra: ',
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
+                    ),
+                    Text(
+                      DateFormat('dd-MM-yyyy').format(eventModel.endDate!),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, Colors.blueAccent),
                     ),
                   ],
                 ),
@@ -186,11 +424,11 @@ class TabHomeView extends BaseView<TabHomeController> {
                   children: [
                     Text(
                       'Ngày Kết thúc: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.endDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -199,23 +437,30 @@ class TabHomeView extends BaseView<TabHomeController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      eventModel.status == "PENDING"
-                          ? "Đang chuẩn bị"
-                          : eventModel.status == "PROCESSING"
-                              ? "Đang diễn ra"
-                              : "Đã kết thúc",
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        fontSize: UtilsReponsive.height(16, context),
+                    Container(
+                      padding: const EdgeInsets.all(3.0), // Thêm padding cho khoảng cách giữa văn bản và viền của Container
+                      decoration: BoxDecoration(
                         color: eventModel.status == "PENDING"
-                            ? ColorsManager.primary
-                            : eventModel.status == "PROCESSING"
+                            ? Colors.blueGrey
+                            : eventModel.status == "PREPARING"
                                 ? Colors.orangeAccent
-                                : Colors.greenAccent,
+                                : eventModel.status == "PROCESSING"
+                                    ? Colors.blueAccent
+                                    : Colors.greenAccent, // Đặt màu nền của Container là màu trắng
+                        borderRadius: BorderRadius.circular(10.0), // Đặt bo tròn cho viền của Container
                       ),
-                    ),
+                      child: Text(
+                        eventModel.status == "PENDING"
+                            ? "Chưa bắt đầu"
+                            : eventModel.status == "PREPARING"
+                                ? "Đang chuẩn bị"
+                                : eventModel.status == "PROCESSING"
+                                    ? "Đang diễn ra"
+                                    : "Đã kết thúc",
+                        style: TextStyle(
+                            fontFamily: 'Nunito', fontWeight: FontWeight.w800, fontSize: UtilsReponsive.height(15, context), color: Colors.white),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -299,8 +544,8 @@ class CustomSearch extends SearchDelegate {
                 width: UtilsReponsive.width(15, context),
               ),
               Text(
-                result.eventName!,
-                style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                result.eventName!.length > 20 ? '${result.eventName!.substring(0, 20)}...' : result.eventName!,
+                style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.textColor),
               ),
             ],
           )),

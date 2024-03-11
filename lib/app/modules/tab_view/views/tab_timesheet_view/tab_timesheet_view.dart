@@ -5,9 +5,12 @@ import 'package:get/get.dart';
 import 'package:hrea_mobile_employee/app/base/base_view.dart';
 import 'package:hrea_mobile_employee/app/modules/tab_view/controllers/tab_timekeeping_controller/tab_timekeeping_controller.dart';
 import 'package:hrea_mobile_employee/app/modules/tab_view/model/event.dart';
+import 'package:hrea_mobile_employee/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_employee/app/resources/style_manager.dart';
+import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
+import 'package:hrea_mobile_employee/app/utils/check_vietnamese.dart';
 import 'package:intl/intl.dart';
 
 class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
@@ -29,14 +32,38 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                 children: [
                   Row(
                     children: [
+                      Container(
+                        width: UtilsReponsive.width(40, context),
+                        height: UtilsReponsive.width(40, context),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: ColorsManager.primary,
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            showSearch(
+                              context: context,
+                              delegate: CustomSearch(
+                                yearVal: controller.selectedTimeTypeVal,
+                                listEvent: controller.listEvent,
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.search),
+                          color: ColorsManager.backgroundWhite,
+                        ),
+                      ),
                       SizedBox(
                         width: UtilsReponsive.width(20, context),
                       ),
                       Text(
-                        'Danh sách sự kiện',
-                        style: GetTextStyle.getTextStyle(22, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                        'Chấm công',
+                        style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w600, ColorsManager.primary),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: UtilsReponsive.height(30, context),
                   ),
                   SizedBox(
                     height: UtilsReponsive.height(30, context),
@@ -50,7 +77,7 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                             children: [
                               Text(
                                 'Năm',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor),
                               ),
                               SizedBox(
                                 height: UtilsReponsive.height(10, context),
@@ -61,7 +88,7 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                                           value: e,
                                           child: Text(
                                             e,
-                                            style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                            style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                           ),
                                         ))
                                     .toList(),
@@ -130,7 +157,7 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
         controller.onTapEvent(eventID: eventModel.id!, eventName: eventModel.eventName!);
       },
       child: Container(
-        height: UtilsReponsive.height(50, context),
+        height: UtilsReponsive.height(100, context),
         width: UtilsReponsive.width(150, context),
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(UtilsReponsive.height(15, context))),
         child: Padding(
@@ -179,7 +206,7 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
               Expanded(
                 child: Text(
                   eventModel.eventName!,
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                 ),
               ),
               Expanded(
@@ -187,11 +214,11 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                   children: [
                     Text(
                       'Ngày bắt đầu: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(11, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.startDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(11, 'Nunito', FontWeight.w500, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -201,11 +228,11 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                   children: [
                     Text(
                       'Ngày Kết thúc: ',
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(11, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
                     ),
                     Text(
                       DateFormat('dd-MM-yyyy').format(eventModel.endDate!),
-                      style: GetTextStyle.getTextStyle(11, 'Roboto', FontWeight.w500, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(11, 'Nunito', FontWeight.w500, ColorsManager.textColor),
                     ),
                   ],
                 ),
@@ -221,9 +248,9 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
                               ? "Đang diễn ra"
                               : "Đã kết thúc",
                       style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         fontWeight: FontWeight.w500,
-                        fontSize: UtilsReponsive.height(16, context),
+                        fontSize: UtilsReponsive.height(12, context),
                         color: eventModel.status == "PENDING"
                             ? ColorsManager.primary
                             : eventModel.status == "PROCESSING"
@@ -238,6 +265,98 @@ class TabTimeKeepingView extends BaseView<TabTimeKeepingController> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomSearch extends SearchDelegate {
+  RxList<EventModel> listEvent = <EventModel>[].obs;
+  RxString yearVal = ''.obs;
+  CustomSearch({required this.listEvent, required this.yearVal});
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: const Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    RxList<EventModel> matchQuery = <EventModel>[].obs;
+    for (var item in listEvent) {
+      final normalizedEventName = removeVietnameseAccent(item.eventName!.toLowerCase());
+      final normalizedQuery = removeVietnameseAccent(query.toLowerCase());
+      if (yearVal.value == 'Tất cả') {
+        if (normalizedEventName.contains(normalizedQuery)) {
+          matchQuery.add(item);
+        }
+      } else {
+        if (item.startDate!.year.toString() == yearVal.value || item.endDate!.year.toString() == yearVal.value) {
+          if (normalizedEventName.contains(normalizedQuery)) {
+            matchQuery.add(item);
+          }
+        }
+      }
+    }
+
+    return ListView.separated(
+      separatorBuilder: (context, index) => SizedBox(
+        height: UtilsReponsive.height(20, context),
+      ),
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return GestureDetector(
+          onTap: () {
+            Get.toNamed(Routes.CHECK_IN_DETAIL, arguments: {"eventID": result.id, "eventName": result.eventName});
+          },
+          child: ListTile(
+              title: Row(
+            children: [
+              result.coverUrl!.isEmpty
+                  ? Image.asset(
+                      ImageAssets.errorImage,
+                      fit: BoxFit.cover,
+                      width: UtilsReponsive.widthv2(context, 45), // Kích thước của hình ảnh
+                      height: UtilsReponsive.heightv2(context, 50),
+                    )
+                  : Image.network(
+                      result.coverUrl!,
+                      fit: BoxFit.cover,
+                      width: UtilsReponsive.widthv2(context, 45), // Kích thước của hình ảnh
+                      height: UtilsReponsive.heightv2(context, 50),
+                    ),
+              SizedBox(
+                width: UtilsReponsive.width(15, context),
+              ),
+              Text(
+                result.eventName!,
+                style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.textColor),
+              ),
+            ],
+          )),
+        );
+      },
     );
   }
 }

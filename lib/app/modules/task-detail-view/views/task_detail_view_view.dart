@@ -126,7 +126,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       children: [
                                         Row(children: [
                                           Text('Ước tính (giờ):',
-                                              style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                                              style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w800, ColorsManager.textColor)),
                                           SizedBox(
                                             width: UtilsReponsive.width(5, context),
                                           ),
@@ -136,7 +136,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                 side: const BorderSide(color: ColorsManager.backgroundGrey, width: 1)),
                                             onPressed: () {},
                                             child: Text(controller.est.toString(),
-                                                style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary)),
+                                                style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, ColorsManager.primary)),
                                           )
                                         ]),
                                         SizedBox(
@@ -145,7 +145,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                         Row(
                                           children: [
                                             Text('Công sức (giờ):',
-                                                style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.bold, ColorsManager.textColor)),
+                                                style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w800, ColorsManager.textColor)),
                                             SizedBox(
                                               width: UtilsReponsive.width(5, context),
                                             ),
@@ -160,7 +160,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                       builder: (BuildContext context) {
                                                         return AlertDialog(
                                                           title: Text('Nhập con số công sức',
-                                                              style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                                                              style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                                                           content: TextField(
                                                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                                             inputFormatters: <TextInputFormatter>[
@@ -173,7 +173,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                             TextButton(
                                                               child: Text('Hủy',
                                                                   style: GetTextStyle.getTextStyle(
-                                                                      16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
+                                                                      16, 'Nunito', FontWeight.w500, ColorsManager.textColor2)),
                                                               onPressed: () {
                                                                 Navigator.of(context).pop();
                                                               },
@@ -181,7 +181,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                             TextButton(
                                                               child: Text('Lưu',
                                                                   style: GetTextStyle.getTextStyle(
-                                                                      16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                                                                      16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                                                               onPressed: () async {
                                                                 await controller.updateEffort(
                                                                     controller.taskModel.value.id!, double.parse(controller.effortController.text));
@@ -193,7 +193,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                       });
                                                 },
                                                 child: Text(controller.effort.toString(),
-                                                    style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w700, ColorsManager.primary))),
+                                                    style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, ColorsManager.primary))),
                                           ],
                                         ),
                                       ],
@@ -243,7 +243,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                   letterSpacing: 1.5,
                                                   color: ColorsManager.textColor,
                                                   fontSize: UtilsReponsive.height(17, context),
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.w800),
                                             ),
                                           ),
                                         ),
@@ -257,15 +257,15 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                             Text(
                                               controller.taskModel.value.parent!.assignTasks![0].user!.profile!.fullName!,
                                               style: TextStyle(
-                                                  fontFamily: 'Roboto',
+                                                  fontFamily: 'Nunito',
                                                   color: ColorsManager.textColor,
                                                   fontSize: UtilsReponsive.height(17, context),
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.w800),
                                             ),
                                             Text(
                                               "Người giao việc",
                                               style: TextStyle(
-                                                  fontFamily: 'Roboto',
+                                                  fontFamily: 'Nunito',
                                                   color: ColorsManager.primary,
                                                   fontSize: UtilsReponsive.height(16, context),
                                                   fontWeight: FontWeight.w600),
@@ -319,7 +319,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                     letterSpacing: 1.5,
                                                     color: ColorsManager.primary,
                                                     fontSize: UtilsReponsive.height(17, context),
-                                                    fontWeight: FontWeight.bold),
+                                                    fontWeight: FontWeight.w800),
                                               ),
                                             ),
                                           ),
@@ -333,15 +333,15 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                               Text(
                                                 controller.taskModel.value.assignTasks![0].user!.profile!.fullName!,
                                                 style: TextStyle(
-                                                    fontFamily: 'Roboto',
+                                                    fontFamily: 'Nunito',
                                                     color: ColorsManager.textColor,
                                                     fontSize: UtilsReponsive.height(18, context),
-                                                    fontWeight: FontWeight.bold),
+                                                    fontWeight: FontWeight.w800),
                                               ),
                                               Text(
                                                 'Người chịu trách nhiệm',
                                                 style: TextStyle(
-                                                    fontFamily: 'Roboto',
+                                                    fontFamily: 'Nunito',
                                                     color: ColorsManager.primary,
                                                     fontSize: UtilsReponsive.height(17, context),
                                                     fontWeight: FontWeight.w600),
@@ -528,7 +528,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             '$startTime ${getCurrentTime(controller.taskModel.value.startDate!)} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!)}',
             style: TextStyle(
                 letterSpacing: 1.5,
-                fontFamily: 'Roboto',
+                fontFamily: 'Nunito',
                 color: controller.taskModel.value.status == Status.PENDING
                     ? ColorsManager.grey
                     : controller.taskModel.value.status! == Status.PROCESSING
@@ -539,7 +539,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 ? ColorsManager.purple
                                 : ColorsManager.red,
                 // fontSize: UtilsReponsive.height(17, context),
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.w800),
           ),
         )
       ],
@@ -599,12 +599,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       : ColorsManager.red,
                       child: Text(e[0],
                           style: TextStyle(
-                              letterSpacing: 1.5, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
+                              letterSpacing: 1.5, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.w800)),
                     ),
                     title: Text(
                       e,
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1.5,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(16, context),
@@ -666,12 +666,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   : ColorsManager.red,
                       child: Text(e[0],
                           style: TextStyle(
-                              letterSpacing: 1.5, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.bold)),
+                              letterSpacing: 1.5, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.w800)),
                     ),
                     title: Text(
                       e,
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1.5,
                           color: ColorsManager.textColor2,
                           fontSize: UtilsReponsive.height(16, context),
@@ -712,7 +712,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
           children: [
             Text(
               objectStatusTask,
-              style: TextStyle(letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(14, context), fontWeight: FontWeight.bold),
+              style: TextStyle(letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(14, context), fontWeight: FontWeight.w800),
             ),
             const Icon(
               Icons.arrow_drop_down_rounded,
@@ -734,23 +734,23 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 objectStatusTask,
                 style: TextStyle(
                     letterSpacing: 1,
-                    fontFamily: 'Roboto',
+                    fontFamily: 'Nunito',
                     color: controller.taskModel.value.priority! == Priority.LOW
                         ? ColorsManager.green
                         : controller.taskModel.value.priority! == Priority.MEDIUM
                             ? ColorsManager.yellow
                             : ColorsManager.red,
                     fontSize: UtilsReponsive.height(16, context),
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.w800),
               )
             : Text(
                 '--',
                 style: TextStyle(
                     letterSpacing: 1,
-                    fontFamily: 'Roboto',
+                    fontFamily: 'Nunito',
                     color: Colors.white,
                     fontSize: UtilsReponsive.height(16, context),
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.w800),
               ),
       ),
     );
@@ -766,10 +766,10 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               objectTask,
               style: TextStyle(
                   letterSpacing: 1,
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Nunito',
                   color: ColorsManager.textColor,
                   fontSize: UtilsReponsive.height(22, context),
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w800),
             ),
           ),
         ],
@@ -808,19 +808,19 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             return AlertDialog(
                               title: Text('Thông báo',
                                   style: TextStyle(
-                                      fontFamily: 'Roboto',
+                                      fontFamily: 'Nunito',
                                       wordSpacing: 1.2,
                                       color: ColorsManager.primary,
                                       fontSize: UtilsReponsive.height(20, context),
-                                      fontWeight: FontWeight.bold)),
+                                      fontWeight: FontWeight.w800)),
                               content: Text(
                                 'Bạn đã bị quá giờ để check in',
                                 style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     wordSpacing: 1.2,
                                     color: ColorsManager.red,
                                     fontSize: UtilsReponsive.height(18, context),
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w800),
                               ),
                               actions: [
                                 TextButton(
@@ -829,11 +829,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   },
                                   child: Text('Đồng ý',
                                       style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                          fontFamily: 'Nunito',
                                           wordSpacing: 1.2,
                                           color: ColorsManager.primary,
                                           fontSize: UtilsReponsive.height(18, context),
-                                          fontWeight: FontWeight.bold)),
+                                          fontWeight: FontWeight.w800)),
                                 ),
                               ],
                             );
@@ -846,19 +846,19 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             return AlertDialog(
                               title: Text('Thông báo',
                                   style: TextStyle(
-                                      fontFamily: 'Roboto',
+                                      fontFamily: 'Nunito',
                                       wordSpacing: 1.2,
                                       color: ColorsManager.primary,
                                       fontSize: UtilsReponsive.height(20, context),
-                                      fontWeight: FontWeight.bold)),
+                                      fontWeight: FontWeight.w800)),
                               content: Text(
                                 'Bạn chưa thể check in tại thời điểm lúc này',
                                 style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     wordSpacing: 1.2,
                                     color: ColorsManager.textColor2,
                                     fontSize: UtilsReponsive.height(18, context),
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w800),
                               ),
                               actions: [
                                 TextButton(
@@ -867,11 +867,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   },
                                   child: Text('Đồng ý',
                                       style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                          fontFamily: 'Nunito',
                                           wordSpacing: 1.2,
                                           color: ColorsManager.primary,
                                           fontSize: UtilsReponsive.height(18, context),
-                                          fontWeight: FontWeight.bold)),
+                                          fontWeight: FontWeight.w800)),
                                 ),
                               ],
                             );
@@ -892,19 +892,19 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             return AlertDialog(
                               title: Text('Thông báo',
                                   style: TextStyle(
-                                      fontFamily: 'Roboto',
+                                      fontFamily: 'Nunito',
                                       wordSpacing: 1.2,
                                       color: ColorsManager.primary,
                                       fontSize: UtilsReponsive.height(20, context),
-                                      fontWeight: FontWeight.bold)),
+                                      fontWeight: FontWeight.w800)),
                               content: Text(
                                 'Bạn chưa thể check in tại thời điểm lúc này',
                                 style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     wordSpacing: 1.2,
                                     color: ColorsManager.textColor2,
                                     fontSize: UtilsReponsive.height(18, context),
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w800),
                               ),
                               actions: [
                                 TextButton(
@@ -913,11 +913,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   },
                                   child: Text('Đồng ý',
                                       style: TextStyle(
-                                          fontFamily: 'Roboto',
+                                          fontFamily: 'Nunito',
                                           wordSpacing: 1.2,
                                           color: ColorsManager.primary,
                                           fontSize: UtilsReponsive.height(18, context),
-                                          fontWeight: FontWeight.bold)),
+                                          fontWeight: FontWeight.w800)),
                                 ),
                               ],
                             );
@@ -943,11 +943,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                     Text(
                       'Bạn đã Check In',
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           wordSpacing: 1.2,
                           color: ColorsManager.green,
                           fontSize: UtilsReponsive.height(18, context),
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.w800),
                     ),
                     SizedBox(
                       width: UtilsReponsive.width(10, context),
@@ -970,11 +970,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             padding: EdgeInsets.only(left: UtilsReponsive.height(10, context)),
             child: Text('Bình luận',
                 style: TextStyle(
-                    fontFamily: 'Roboto',
+                    fontFamily: 'Nunito',
                     wordSpacing: 1.2,
                     color: Colors.black,
                     fontSize: UtilsReponsive.height(18, context),
-                    fontWeight: FontWeight.bold)),
+                    fontWeight: FontWeight.w800)),
           ),
           SizedBox(
             height: UtilsReponsive.height(10, context),
@@ -1013,7 +1013,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             ),
                             Text(
                               'Để lại bình luận đầu tiên',
-                              style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                              style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.primary),
                             ),
                           ],
                         ),
@@ -1064,17 +1064,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                     Text(
                       commentModel.user!.profile!.fullName!,
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1.5,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(17, context),
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.w800),
                     ),
                     SizedBox(height: UtilsReponsive.width(5, context)),
                     Text(
                       calculateTimeDifference(commentModel.createdAt.toString()),
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           letterSpacing: 1,
                           color: ColorsManager.textColor,
                           fontSize: UtilsReponsive.height(14, context),
@@ -1120,7 +1120,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                       Text(
                         'Tệp đã thêm',
                         style: TextStyle(
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Nunito',
                             letterSpacing: 1,
                             color: ColorsManager.textColor2,
                             fontSize: UtilsReponsive.height(14, context),
@@ -1157,7 +1157,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 : Text(
                     commentModel.text!,
                     style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         letterSpacing: 1,
                         color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(18, context),
@@ -1179,7 +1179,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Chỉnh sửa',
-                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.primary),
                                   ))
                               : const SizedBox()),
                       SizedBox(
@@ -1194,17 +1194,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       return AlertDialog(
                                         title: Text(
                                           'Xác nhận xóa bình luận',
-                                          style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                          style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary),
                                         ),
                                         content: Text(
                                           'Bạn có chắc chắn muốn xóa bình luận này không?',
-                                          style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
                                         ),
                                         actions: [
                                           TextButton(
                                             child: Text(
                                               'Không',
-                                              style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary),
                                             ),
                                             onPressed: () {
                                               Navigator.of(context).pop();
@@ -1213,7 +1213,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                           TextButton(
                                             child: Text(
                                               'Có',
-                                              style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.red),
+                                              style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.red),
                                             ),
                                             onPressed: () {
                                               controller.deleteComment(commentModel);
@@ -1231,7 +1231,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Xóa',
-                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.red),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.red),
                                   )))
                           : const SizedBox(),
                     ],
@@ -1262,7 +1262,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Lưu',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.primary),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1280,7 +1280,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Hủy',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.red),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.red),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1311,7 +1311,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Thêm tệp',
-                                style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
+                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
                               ))),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1345,11 +1345,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         Text(
                           'Công việc',
                           style: TextStyle(
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               wordSpacing: 1.2,
                               color: Colors.black,
                               fontSize: UtilsReponsive.height(18, context),
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w800),
                         ),
                         SizedBox(
                           width: UtilsReponsive.width(5, context),
@@ -1363,7 +1363,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                       letterSpacing: 1.5,
                                       color: ColorsManager.backgroundWhite,
                                       fontSize: UtilsReponsive.height(15, context),
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.w800),
                                 ),
                               )
                             : const SizedBox(),
@@ -1422,7 +1422,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text('Thêm công việc con',
-                                        style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                                        style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                                     content: TextField(
                                       onChanged: (value) => {controller.titleSubTaskController.text = value},
                                       controller: controller.titleSubTaskController,
@@ -1430,14 +1430,14 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                     actions: [
                                       TextButton(
                                         child:
-                                            Text('Hủy', style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.textColor2)),
+                                            Text('Hủy', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.textColor2)),
                                         onPressed: () {
                                           controller.titleSubTaskController.text = '';
                                           Navigator.of(context).pop();
                                         },
                                       ),
                                       TextButton(
-                                        child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.primary)),
+                                        child: Text('Lưu', style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.primary)),
                                         onPressed: () {
                                           controller.createSubTask();
                                           controller.errorUpdateTask.value == true ? _errorMessage(context) : _successMessage(context);
@@ -1452,7 +1452,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                             },
                             child: Text(
                               '+  Thêm công việc con',
-                              style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w500, ColorsManager.primary),
+                              style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w500, ColorsManager.primary),
                             ),
                           ),
                         ],
@@ -1470,8 +1470,6 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                           Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
                                             "taskID": e.id,
                                             "isNavigateDetail": true,
-                                            "endDate": controller.taskModel.value.endDate,
-                                            "startDate": controller.taskModel.value.startDate,
                                           });
                                         },
                                         child: Card(
@@ -1490,24 +1488,24 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                     flex: 6,
                                                     child: e.status == Status.DONE || e.status == Status.CONFIRM
                                                         ? Text(
-                                                            e.title!.length > 20 ? '${e.title!.substring(0, 20)}...' : e.title!,
+                                                            e.title!.length > 20 ? '${e.title!.substring(0, 10)}...' : e.title!,
                                                             style: TextStyle(
-                                                              fontFamily: 'Roboto',
+                                                              fontFamily: 'Nunito',
                                                               letterSpacing: 1.5,
                                                               color: ColorsManager.textColor,
                                                               fontSize: UtilsReponsive.height(16, context),
-                                                              fontWeight: FontWeight.bold,
+                                                              fontWeight: FontWeight.w800,
                                                               decoration: TextDecoration.lineThrough,
                                                             ),
                                                           )
                                                         : Text(
-                                                            e.title!.length > 20 ? '${e.title!.substring(0, 20)}...' : e.title!,
+                                                            e.title!.length > 20 ? '${e.title!.substring(0, 10)}...' : e.title!,
                                                             style: TextStyle(
-                                                                fontFamily: 'Roboto',
+                                                                fontFamily: 'Nunito',
                                                                 letterSpacing: 1.5,
                                                                 color: ColorsManager.textColor,
                                                                 fontSize: UtilsReponsive.height(16, context),
-                                                                fontWeight: FontWeight.bold),
+                                                                fontWeight: FontWeight.w800),
                                                           )),
                                                 SizedBox(
                                                   width: UtilsReponsive.width(10, context),
@@ -1549,11 +1547,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                                                               ? "Đã xác thực"
                                                                               : "Quá hạn",
                                                               style: TextStyle(
-                                                                  fontFamily: 'Roboto',
+                                                                  fontFamily: 'Nunito',
                                                                   letterSpacing: 1.5,
                                                                   color: Colors.white,
                                                                   fontSize: UtilsReponsive.height(14, context),
-                                                                  fontWeight: FontWeight.bold),
+                                                                  fontWeight: FontWeight.w800),
                                                             ),
                                                           ),
                                                           const Expanded(
@@ -1595,24 +1593,28 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 children: [
                   Text('Tài liệu',
                       style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Nunito',
                           wordSpacing: 1.2,
                           color: Colors.black,
                           fontSize: UtilsReponsive.height(18, context),
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.w800)),
                   SizedBox(
                     width: UtilsReponsive.width(5, context),
                   ),
                   controller.listAttachment.isNotEmpty
                       ? CircleAvatar(
-                          radius: UtilsReponsive.height(10, context),
+                          radius: controller.listAttachment.length >= 100
+                              ? 15
+                              : controller.listAttachment.length >= 10
+                                  ? 15
+                                  : 10,
                           child: Text(
                             controller.listAttachment.length.toString(),
                             style: TextStyle(
                                 letterSpacing: 1.5,
                                 color: ColorsManager.backgroundWhite,
                                 fontSize: UtilsReponsive.height(15, context),
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.w800),
                           ),
                         )
                       : const SizedBox(),
@@ -1651,7 +1653,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1659,7 +1661,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteFileCommentConfirmation(context, commentFile, popupContext);
@@ -1679,11 +1681,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -1692,7 +1694,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -1703,7 +1705,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -1720,7 +1722,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1728,7 +1730,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteAttachmentCommentConfirmation(context, index, popupContext);
@@ -1749,7 +1751,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Tùy chọn",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 18, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1757,7 +1759,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               ListTile(
                 title: Text(
                   'Xóa',
-                  style: TextStyle(fontFamily: 'Roboto', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 17, fontWeight: FontWeight.w500, color: ColorsManager.red),
                 ),
                 onTap: () {
                   _showDeleteAttachmentCommentConfirmationV2(context, index, popupContext, setStateX, filePickerEditCommentFile);
@@ -1777,11 +1779,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -1790,7 +1792,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -1801,7 +1803,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -1818,11 +1820,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
         return AlertDialog(
           title: const Text(
             "Xóa tệp này?",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           content: const Text(
             "Một khi nó đã mất, thì nó đã mất.",
-            style: TextStyle(fontFamily: 'Roboto', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
+            style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w600, color: ColorsManager.textColor2),
           ),
           actions: <Widget>[
             TextButton(
@@ -1831,7 +1833,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Hủy",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.primary),
               ),
             ),
             TextButton(
@@ -1842,7 +1844,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               },
               child: Text(
                 "Xóa",
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
+                style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w600, color: ColorsManager.red),
               ),
             ),
           ],
@@ -1892,17 +1894,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                   child: fileName.length > 35
                       ? Text(
                           fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
-                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                         )
                       : Text(
                           fileName,
-                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                         ),
                 ),
                 Expanded(
                     child: Text(
                   fileSize,
-                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                  style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                 )),
               ]),
             ),
@@ -1953,17 +1955,17 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                   child: fileName.length > 35
                       ? Text(
                           fileName.length > 35 ? '${fileName.substring(0, 35)}...' : fileName,
-                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                         )
                       : Text(
                           fileName,
-                          style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                          style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                         ),
                 ),
                 Expanded(
                     child: Text(
                   fileSize,
-                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                  style: const TextStyle(fontFamily: 'Nunito', fontSize: 12, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                 )),
               ]),
             ),
@@ -2009,11 +2011,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               child: commentFile.fileName!.length > 35
                   ? Text(
                       commentFile.fileName!.length > 35 ? '${commentFile.fileName!.substring(0, 35)}...' : commentFile.fileName!,
-                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     )
                   : Text(
                       commentFile.fileName!,
-                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     ),
             ),
             const Expanded(
@@ -2022,7 +2024,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 children: [
                   Text(
                     'Kích thước',
-                    style: TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                   ),
                 ],
               ),
@@ -2068,11 +2070,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               child: attachmentModel.fileName!.length > 35
                   ? Text(
                       attachmentModel.fileName!.length > 35 ? '${attachmentModel.fileName!.substring(0, 35)}...' : attachmentModel.fileName!,
-                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     )
                   : Text(
                       attachmentModel.fileName!,
-                      style: const TextStyle(fontFamily: 'Roboto', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
+                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w500, color: ColorsManager.textColor),
                     ),
             ),
             const Expanded(
@@ -2081,7 +2083,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 children: [
                   Text(
                     'Kích thước',
-                    style: TextStyle(fontFamily: 'Roboto', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w500, color: ColorsManager.textColor2),
                   ),
                 ],
               ),
@@ -2108,11 +2110,11 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
             title: Text(
               'Mô tả',
               style: TextStyle(
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Nunito',
                   wordSpacing: 1.2,
                   color: ColorsManager.textColor,
                   fontSize: UtilsReponsive.height(18, context),
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w800),
             ),
             children: [
               controller.taskModel.value.description != null &&
@@ -2136,7 +2138,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                         children: [
                           Text(
                             'Thêm mô tả...',
-                            style: GetTextStyle.getTextStyle(15, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
+                            style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
                           ),
                         ],
                       ),
@@ -2171,12 +2173,12 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 const Spacer(),
                 Text(
                   'Thay đổi thông tin công việc thành công',
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -2213,13 +2215,13 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateTaskText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

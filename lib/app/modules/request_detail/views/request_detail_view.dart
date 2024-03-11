@@ -30,7 +30,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                       Center(
                         child: Text(
                           'Thông tin đơn chi tiết',
-                          style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                          style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.primary),
                         ),
                       ),
                       Expanded(
@@ -45,7 +45,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Trạng thái',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
@@ -66,7 +66,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                             : "Đang xử lí",
                                     style: GetTextStyle.getTextStyle(
                                         14,
-                                        'Roboto',
+                                        'Nunito',
                                         FontWeight.w700,
                                         controller.requestModelView.value.status! == "REJECT"
                                             ? ColorsManager.red
@@ -80,7 +80,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Tiêu đề',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
@@ -95,7 +95,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                   ),
                                   child: Text(
                                     controller.requestModelView.value.title!,
-                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -103,7 +103,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Loại kiểu nghỉ',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
@@ -125,7 +125,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                     // 'hi',
                                     style: GetTextStyle.getTextStyle(
                                         14,
-                                        'Roboto',
+                                        'Nunito',
                                         FontWeight.w700,
                                         controller.requestModelView.value.type! == "A"
                                             ? ColorsManager.purple
@@ -145,7 +145,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                         children: [
                                           Text(
                                             'Kiểu ngày nghỉ',
-                                            style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                            style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                           ),
                                           SizedBox(
                                             height: UtilsReponsive.heightv2(context, 10),
@@ -162,7 +162,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                             child: Text(
                                               controller.requestModelView.value.isFull! ? "Nguyên ngày" : "Nữa ngày",
                                               // 'hi',
-                                              style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
+                                              style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                             ),
                                           ),
                                         ],
@@ -177,7 +177,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                         children: [
                                           Text(
                                             'kiểu buổi nghỉ',
-                                            style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                            style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                           ),
                                           SizedBox(
                                             height: UtilsReponsive.heightv2(context, 10),
@@ -195,7 +195,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                                     ),
                                                     child: Text(
                                                       controller.requestModelView.value.isPm! ? "Buổi chiều" : "Buổi sáng",
-                                                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
+                                                      style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                                     ),
                                                   )
                                                 : Container(
@@ -209,7 +209,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                                     ),
                                                     child: Text(
                                                       "--",
-                                                      style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
+                                                      style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                                     ),
                                                   ),
                                           ),
@@ -223,7 +223,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Ngày bắt đầu',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
@@ -239,7 +239,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                   child: Text(
                                     controller.dateFormat.format(controller.requestModelView.value.startDate!),
                                     // 'hi',
-                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -247,7 +247,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Ngày kết thúc',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
@@ -262,7 +262,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                   ),
                                   child: Text(
                                     controller.dateFormat.format(controller.requestModelView.value.endDate!),
-                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -270,7 +270,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 ),
                                 Text(
                                   'Nội dung',
-                                  style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                                  style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                                 ),
                                 SizedBox(
                                   height: UtilsReponsive.heightv2(context, 10),
@@ -286,7 +286,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                   ),
                                   child: Text(
                                     controller.requestModelView.value.content!,
-                                    style: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
+                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                   ),
                                 ),
                                 SizedBox(
@@ -332,7 +332,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                           return AlertDialog(
                             title: Text('Xác nhận xóa',
                                 style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     wordSpacing: 1.2,
                                     color: ColorsManager.primary,
                                     fontSize: UtilsReponsive.height(20, context),
@@ -340,7 +340,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                             content: Text(
                               'Bạn có muốn xóa đơn này?',
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.textColor2,
                                   fontSize: UtilsReponsive.height(18, context),
@@ -355,7 +355,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 },
                                 child: Text('Xóa',
                                     style: TextStyle(
-                                        fontFamily: 'Roboto',
+                                        fontFamily: 'Nunito',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.red,
                                         fontSize: UtilsReponsive.height(18, context),
@@ -367,7 +367,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 },
                                 child: Text('Hủy',
                                     style: TextStyle(
-                                        fontFamily: 'Roboto',
+                                        fontFamily: 'Nunito',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.primary,
                                         fontSize: UtilsReponsive.height(18, context),
@@ -386,7 +386,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                         child: Text(
                           'Xóa đơn này',
                           style: TextStyle(
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               wordSpacing: 1.2,
                               color: ColorsManager.textColor2,
                               fontSize: UtilsReponsive.height(18, context),
@@ -409,7 +409,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                           return AlertDialog(
                             title: Text('Xác nhận xóa',
                                 style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Nunito',
                                     wordSpacing: 1.2,
                                     color: ColorsManager.primary,
                                     fontSize: UtilsReponsive.height(20, context),
@@ -417,7 +417,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                             content: Text(
                               'Bạn có muốn xóa đơn này?',
                               style: TextStyle(
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'Nunito',
                                   wordSpacing: 1.2,
                                   color: ColorsManager.textColor2,
                                   fontSize: UtilsReponsive.height(18, context),
@@ -432,7 +432,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 },
                                 child: Text('Xóa',
                                     style: TextStyle(
-                                        fontFamily: 'Roboto',
+                                        fontFamily: 'Nunito',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.red,
                                         fontSize: UtilsReponsive.height(18, context),
@@ -444,7 +444,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                                 },
                                 child: Text('Hủy',
                                     style: TextStyle(
-                                        fontFamily: 'Roboto',
+                                        fontFamily: 'Nunito',
                                         wordSpacing: 1.2,
                                         color: ColorsManager.primary,
                                         fontSize: UtilsReponsive.height(18, context),
@@ -466,7 +466,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                         child: Text(
                           'Xóa đơn này',
                           style: TextStyle(
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               wordSpacing: 1.2,
                               color: ColorsManager.textColor2,
                               fontSize: UtilsReponsive.height(18, context),
@@ -478,7 +478,7 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                         child: Text(
                           'Chỉnh sửa thông tin đơn',
                           style: TextStyle(
-                              fontFamily: 'Roboto',
+                              fontFamily: 'Nunito',
                               wordSpacing: 1.2,
                               color: ColorsManager.textColor2,
                               fontSize: UtilsReponsive.height(18, context),
@@ -516,12 +516,12 @@ class RequestDetailView extends BaseView<RequestDetailController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Xóa đơn thành công',
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -558,13 +558,13 @@ class RequestDetailView extends BaseView<RequestDetailController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorUpdateBudgetText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -41,8 +41,7 @@ class TaskOverallViewController extends BaseController {
   }
 
   Future<void> getTaskDetail(TaskModel taskModel) async {
-    Get.toNamed(Routes.SUBTASK_DETAIL_VIEW,
-        arguments: {"taskID": taskModel.id, "isNavigateDetail": false, "endDate": taskModel.endDate, "startDate": taskModel.startDate});
+    Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {"taskID": taskModel.id, "isNavigateDetail": false});
   }
 
   Future<void> getListTask() async {
@@ -75,8 +74,8 @@ class TaskOverallViewController extends BaseController {
         }
         // listTask.add(item);
       }
-      listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
-      filterChoose.value = '';
+      // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+      // filterChoose.value = '';
     }
     isLoading.value = false;
   }

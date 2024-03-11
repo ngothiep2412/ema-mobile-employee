@@ -28,7 +28,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                   Center(
                     child: Text(
                       'Tạo khoản chi',
-                      style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                     ),
                   ),
                   SizedBox(
@@ -36,7 +36,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                   ),
                   Text(
                     'Tên khoản chi',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -45,7 +45,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
 
                   Text(
                     'Chi phí ước tính (VNĐ)',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -53,7 +53,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                   buildWidgetmoney(context, "Chi phí ước tính", "Ví dụ: 100.000", controller.estExpenseController),
                   Text(
                     'Mô tả',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -61,7 +61,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                   buildTextarea(context, "Mô tả", "Ví dụ: Loại nhỏ", controller.descriptionController),
                   Text(
                     'Nhà cung cấp',
-                    style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
@@ -118,7 +118,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                                 "Tạo đơn",
                                 style: GetTextStyle.getTextStyle(
                                   14,
-                                  'Roboto',
+                                  'Nunito',
                                   FontWeight.w800,
                                   ColorsManager.backgroundWhite,
                                 ),
@@ -159,7 +159,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -191,7 +191,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -219,7 +219,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
           // labelStyle: TextStyle(color: ColorsManager.primary, fontSize: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
-          hintStyle: GetTextStyle.getTextStyle(14, 'Roboto', FontWeight.w400, ColorsManager.textColor2),
+          hintStyle: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w400, ColorsManager.textColor2),
         ),
       ),
     );
@@ -248,12 +248,12 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
               children: [
                 Text(
                   'Thành công',
-                  style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                  style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                 ),
                 Spacer(),
                 Text(
                   'Tạo đơn thành công',
-                  style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                  style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -290,13 +290,13 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                 children: [
                   Text(
                     'Thất bại',
-                    style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w800, Colors.white),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, Colors.white),
                   ),
                   const Spacer(),
                   Obx(
                     () => Text(
                       controller.errorCreateBudgetText.value,
-                      style: GetTextStyle.getTextStyle(12, 'Roboto', FontWeight.w500, Colors.white),
+                      style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w500, Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -29,7 +29,7 @@ class TabSettingView extends BaseView<TabSettingController> {
                 Center(
                   child: Text(
                     'Khác',
-                    style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(22, 'Nunito', FontWeight.w800, ColorsManager.primary),
                   ),
                 ),
                 SizedBox(
@@ -91,7 +91,7 @@ class TabSettingView extends BaseView<TabSettingController> {
                   () => Center(
                     child: Text(
                       controller.userModel.value.result!.fullName!,
-                      style: GetTextStyle.getTextStyle(17, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                      style: GetTextStyle.getTextStyle(17, 'Nunito', FontWeight.w600, ColorsManager.primary),
                     ),
                   ),
                 ),
@@ -102,7 +102,7 @@ class TabSettingView extends BaseView<TabSettingController> {
                   () => Center(
                     child: Text(
                       controller.userModel.value.result!.email!,
-                      style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
+                      style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
                     ),
                   ),
                 ),
@@ -115,14 +115,14 @@ class TabSettingView extends BaseView<TabSettingController> {
                     children: [
                       Text(
                         'Đơn vị công tác:',
-                        style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w500, ColorsManager.textColor2),
+                        style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w500, ColorsManager.textColor2),
                       ),
                       SizedBox(
                         width: UtilsReponsive.heightv2(context, 10),
                       ),
                       Text(
                         controller.userModel.value.result!.divisionName!,
-                        style: GetTextStyle.getTextStyle(16, 'Roboto', FontWeight.w700, ColorsManager.textColor2),
+                        style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                       ),
                     ],
                   ),
@@ -141,7 +141,7 @@ class TabSettingView extends BaseView<TabSettingController> {
                     ),
                     Text(
                       "Tài khoản",
-                      style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w700, ColorsManager.primary),
+                      style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w700, ColorsManager.primary),
                     ),
                   ],
                 ),
@@ -194,7 +194,7 @@ class TabSettingView extends BaseView<TabSettingController> {
                             "Đăng xuất",
                             style: GetTextStyle.getTextStyle(
                               20,
-                              'Roboto',
+                              'Nunito',
                               FontWeight.w700,
                               ColorsManager.primary,
                             ),
@@ -223,7 +223,7 @@ class TabSettingView extends BaseView<TabSettingController> {
           children: [
             Text(
               title,
-              style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.primary),
+              style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.primary),
             ),
             const Icon(
               Icons.arrow_forward_ios,

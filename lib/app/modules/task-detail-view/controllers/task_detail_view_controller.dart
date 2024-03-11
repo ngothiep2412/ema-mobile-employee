@@ -118,7 +118,7 @@ class TaskDetailViewController extends BaseController {
             count.value++;
           }
         }
-        progressSubTaskDone.value = count / taskModel.value.subTask!.length;
+        progressSubTaskDone.value = count / taskModel.value.subTask!.where((item) => item.status != Status.CANCEL).length;
       }
       count.value = 0;
 
@@ -444,7 +444,8 @@ class TaskDetailViewController extends BaseController {
       isLoading.value = false;
     } else {
       try {
-        ResponseApi responseApi = await TaskDetailApi.createSubTask(jwt, titleSubTaskController.text, taskModel.value.eventId!, taskModel.value.id!);
+        ResponseApi responseApi =
+            await TaskDetailApi.createSubTask(jwt, titleSubTaskController.text, taskModel.value.eventDivision!.event!.id!, taskModel.value.id!);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           // taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
           // UserModel assigner = await TaskDetailApi.getAssignerDetail(
@@ -670,7 +671,7 @@ class TaskDetailViewController extends BaseController {
   Future<void> updateEffort(String taskID, double effortInput) async {
     try {
       checkToken();
-      ResponseApi responseApi = await TaskDetailApi.updateEffort(jwt, taskID, taskModel.value.eventId!, effortInput);
+      ResponseApi responseApi = await TaskDetailApi.updateEffort(jwt, taskID, taskModel.value.eventDivision!.event!.id!, effortInput);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         effort.value = effortInput;
         effortController.text = effortInput.toString();

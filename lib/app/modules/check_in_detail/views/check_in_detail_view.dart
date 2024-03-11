@@ -34,7 +34,7 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                     ),
                     Text(
                       'Lịch sử check in',
-                      style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                      style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.primary),
                     ),
                     SizedBox(
                       height: UtilsReponsive.height(20, context),
@@ -44,7 +44,7 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                       children: [
                         Text(
                           controller.eventName,
-                          style: GetTextStyle.getTextStyle(20, 'Roboto', FontWeight.w600, ColorsManager.textColor),
+                          style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w600, ColorsManager.textColor),
                         ),
                       ],
                     ),
@@ -65,7 +65,7 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                               ),
                               Text(
                                 'Bạn chưa check in ở sự kiện này này',
-                                style: GetTextStyle.getTextStyle(18, 'Roboto', FontWeight.w600, ColorsManager.primary),
+                                style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.primary),
                               ),
                             ])
                           : ListView.separated(
@@ -100,7 +100,7 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                     "Ngày check-in",
                     style: TextStyle(
                         letterSpacing: 1.5,
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(16, context),
                         fontWeight: FontWeight.bold),
@@ -112,7 +112,7 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                     timeSheetModel.date.toString(),
                     style: TextStyle(
                         letterSpacing: 1.5,
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         color: ColorsManager.primary,
                         fontSize: UtilsReponsive.height(16, context),
                         fontWeight: FontWeight.bold),
@@ -126,7 +126,7 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                     "Giờ check-in",
                     style: TextStyle(
                         letterSpacing: 1.5,
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         color: ColorsManager.textColor,
                         fontSize: UtilsReponsive.height(16, context),
                         fontWeight: FontWeight.bold),
@@ -138,7 +138,7 @@ class CheckInDetailView extends BaseView<CheckInDetailController> {
                     timeSheetModel.checkinTime!,
                     style: TextStyle(
                         letterSpacing: 1.5,
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Nunito',
                         color: ColorsManager.primary,
                         fontSize: UtilsReponsive.height(16, context),
                         fontWeight: FontWeight.bold),
