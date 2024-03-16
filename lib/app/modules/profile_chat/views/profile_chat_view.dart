@@ -5,8 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 import 'package:hrea_mobile_employee/app/base/base_view.dart';
+import 'package:hrea_mobile_employee/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/reponsive_utils.dart';
+import 'package:hrea_mobile_employee/app/resources/style_manager.dart';
 
 import '../controllers/profile_chat_controller.dart';
 
@@ -56,54 +58,80 @@ class ProfileChatView extends BaseView<ProfileChatController> {
                           // size: 30.0,
                         ),
                       )
-                    : SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 0, bottom: 20, left: 20, right: 20),
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 20),
-                              CachedNetworkImage(
-                                // fit: BoxFit.contain,
-                                imageUrl: controller.userChatView.value.result!.avatar!,
-                                // imageUrl:
-                                //     'https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg',
-                                imageBuilder: (context, imageProvider) => Container(
-                                    width: UtilsReponsive.width(150, context),
-                                    height: UtilsReponsive.height(150, context),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(width: 2, color: ColorsManager.backgroundWhite),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              spreadRadius: 2, blurRadius: 10, color: Colors.black.withOpacity(0.1), offset: const Offset(0, 10))
-                                        ],
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
-                                progressIndicatorBuilder: (context, url, downloadProgress) => Container(
-                                  padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-                                  height: UtilsReponsive.height(5, context),
-                                  width: UtilsReponsive.height(5, context),
-                                  child: CircularProgressIndicator(
-                                    color: ColorsManager.primary,
+                    : controller.checkInView.value == false
+                        ? Container(
+                            color: Colors.white,
+                            child: (Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    ImageAssets.noInternet,
+                                    fit: BoxFit.cover,
+                                    width: UtilsReponsive.widthv2(context, 200),
+                                    height: UtilsReponsive.heightv2(context, 200),
                                   ),
-                                ),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  SizedBox(
+                                    height: UtilsReponsive.height(20, context),
+                                  ),
+                                  Text(
+                                    'Đang có lỗi xảy ra',
+                                    style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(height: 20),
-                              itemProfile('Họ và tên', '${controller.userChatView.value.result!.fullName}', CupertinoIcons.person, context),
-                              const SizedBox(height: 10),
-                              itemProfile('Chức vụ', '${controller.userChatView.value.result!.role}', Icons.build_outlined, context),
-                              const SizedBox(height: 10),
-                              itemProfile('Nhóm', controller.userChatView.value.result!.divisionName ?? "Không có", Icons.ballot_outlined, context),
-                              const SizedBox(height: 10),
-                              itemProfile('Số điện thoại', '${controller.userChatView.value.result!.phoneNumber}', CupertinoIcons.phone, context),
-                              const SizedBox(height: 10),
-                              itemProfile('Địa chỉ', '${controller.userChatView.value.result!.address}', CupertinoIcons.location, context),
-                              const SizedBox(height: 10),
-                              itemProfile('Email', '${controller.userChatView.value.result!.email}', CupertinoIcons.mail, context),
-                            ],
+                            )),
+                          )
+                        : SingleChildScrollView(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 0, bottom: 20, left: 20, right: 20),
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 20),
+                                  CachedNetworkImage(
+                                    // fit: BoxFit.contain,
+                                    imageUrl: controller.userChatView.value.result!.avatar!,
+                                    // imageUrl:
+                                    //     'https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg',
+                                    imageBuilder: (context, imageProvider) => Container(
+                                        width: UtilsReponsive.width(150, context),
+                                        height: UtilsReponsive.height(150, context),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(width: 2, color: ColorsManager.backgroundWhite),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  spreadRadius: 2, blurRadius: 10, color: Colors.black.withOpacity(0.1), offset: const Offset(0, 10))
+                                            ],
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+                                    progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                                      padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                      height: UtilsReponsive.height(5, context),
+                                      width: UtilsReponsive.height(5, context),
+                                      child: CircularProgressIndicator(
+                                        color: ColorsManager.primary,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  itemProfile('Họ và tên', '${controller.userChatView.value.result!.fullName}', CupertinoIcons.person, context),
+                                  const SizedBox(height: 10),
+                                  itemProfile('Chức vụ', '${controller.userChatView.value.result!.role}', Icons.build_outlined, context),
+                                  const SizedBox(height: 10),
+                                  itemProfile(
+                                      'Nhóm', controller.userChatView.value.result!.divisionName ?? "Không có", Icons.ballot_outlined, context),
+                                  const SizedBox(height: 10),
+                                  itemProfile(
+                                      'Số điện thoại', '${controller.userChatView.value.result!.phoneNumber}', CupertinoIcons.phone, context),
+                                  const SizedBox(height: 10),
+                                  itemProfile('Địa chỉ', '${controller.userChatView.value.result!.address}', CupertinoIcons.location, context),
+                                  const SizedBox(height: 10),
+                                  itemProfile('Email', '${controller.userChatView.value.result!.email}', CupertinoIcons.mail, context),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
               ),
             )
           ],

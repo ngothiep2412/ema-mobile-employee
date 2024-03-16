@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:hrea_mobile_employee/app/base/base_view.dart';
+import 'package:hrea_mobile_employee/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/reponsive_utils.dart';
+import 'package:hrea_mobile_employee/app/resources/style_manager.dart';
 import '../controllers/event_detail_controller.dart';
 
 class EventDetailView extends BaseView<EventDetailController> {
@@ -13,7 +15,7 @@ class EventDetailView extends BaseView<EventDetailController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorsManager.backgroundContainer,
+        backgroundColor: ColorsManager.backgroundGrey,
         appBar: _appBar(context),
         body: Obx(
           () => controller.isLoading.value
@@ -24,34 +26,55 @@ class EventDetailView extends BaseView<EventDetailController> {
                   ),
                 )
               : SafeArea(
-                  child: Stack(
-                    children: [
-                      CachedNetworkImage(
-                        // fit: BoxFit.contain,
-                        imageUrl: controller.eventDetail.value.coverUrl!,
-                        // imageUrl:
-                        //     'https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg',
-                        imageBuilder: (context, imageProvider) => Container(
-                            height: UtilsReponsive.height(400, context),
-                            decoration: BoxDecoration(
-                                border: Border.all(width: 4, color: Theme.of(context).scaffoldBackgroundColor),
-                                boxShadow: [
-                                  BoxShadow(spreadRadius: 2, blurRadius: 10, color: Colors.black.withOpacity(0.1), offset: const Offset(0, 10))
-                                ],
-                                image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
-                        progressIndicatorBuilder: (context, url, downloadProgress) => Container(
-                          padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-                          height: UtilsReponsive.height(5, context),
-                          width: UtilsReponsive.height(5, context),
-                          child: CircularProgressIndicator(
-                            color: ColorsManager.primary,
+                  child: controller.eventDetail.value.eventName == null || controller.checkInView.value == false
+                      ? Expanded(
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  ImageAssets.noInternet,
+                                  fit: BoxFit.cover,
+                                  width: UtilsReponsive.widthv2(context, 200),
+                                  height: UtilsReponsive.heightv2(context, 200),
+                                ),
+                                SizedBox(
+                                  height: UtilsReponsive.height(20, context),
+                                ),
+                                Text(
+                                  'Đang có lỗi xảy ra',
+                                  style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                                ),
+                              ],
+                            ),
                           ),
+                        )
+                      : Stack(
+                          children: [
+                            CachedNetworkImage(
+                              // fit: BoxFit.contain,
+                              imageUrl: controller.eventDetail.value.coverUrl!,
+                              imageBuilder: (context, imageProvider) => Container(
+                                  height: UtilsReponsive.height(200, context),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(width: 4, color: Theme.of(context).scaffoldBackgroundColor),
+                                      boxShadow: [
+                                        BoxShadow(spreadRadius: 2, blurRadius: 10, color: Colors.black.withOpacity(0.1), offset: const Offset(0, 10))
+                                      ],
+                                      image: DecorationImage(fit: BoxFit.fill, image: imageProvider))),
+                              progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                                padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                height: UtilsReponsive.height(5, context),
+                                width: UtilsReponsive.height(5, context),
+                                child: CircularProgressIndicator(
+                                  color: ColorsManager.primary,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                            ),
+                            scroll(),
+                          ],
                         ),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                      ),
-                      scroll(),
-                    ],
-                  ),
                 ),
         ));
   }
@@ -74,9 +97,9 @@ class EventDetailView extends BaseView<EventDetailController> {
 
   scroll() {
     return DraggableScrollableSheet(
-        initialChildSize: 0.5,
+        initialChildSize: 0.7,
         maxChildSize: 1.0,
-        minChildSize: 0.5,
+        minChildSize: 0.7,
         builder: (context, scrollController) {
           return Obx(
             () => Container(
@@ -87,7 +110,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                   BoxShadow(
                     spreadRadius: 2,
                     blurRadius: 10,
-                    offset: const Offset(0, 10),
+                    offset: Offset(0, 10),
                   ),
                 ],
                 color: ColorsManager.backgroundWhite,
@@ -104,22 +127,27 @@ class EventDetailView extends BaseView<EventDetailController> {
                       children: [
                         Container(
                           height: 5,
-                          width: 35,
+                          width: UtilsReponsive.width(50, context),
                           color: Colors.black12,
                         ),
                       ],
                     ),
                   ),
-                  Text(
-                    controller.eventDetail.value.eventName!.length > 30
-                        ? '${controller.eventDetail.value.eventName!.substring(0, 30)}...'
-                        : controller.eventDetail.value.eventName!,
-                    style: TextStyle(
-                        fontFamily: 'Nunito',
-                        wordSpacing: 1.2,
-                        color: ColorsManager.primary,
-                        fontSize: UtilsReponsive.height(24, context),
-                        fontWeight: FontWeight.w800),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          controller.eventDetail.value.eventName!,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                              fontFamily: 'Nunito',
+                              wordSpacing: 1.2,
+                              color: ColorsManager.primary,
+                              fontSize: UtilsReponsive.height(24, context),
+                              fontWeight: FontWeight.w800),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 10,
@@ -241,58 +269,58 @@ class EventDetailView extends BaseView<EventDetailController> {
                               '---',
                               style: TextStyle(
                                   fontFamily: 'Nunito',
-                                  wordSpacing: 1.2,
                                   color: ColorsManager.primary,
-                                  fontSize: UtilsReponsive.height(20, context),
-                                  fontWeight: FontWeight.bold),
+                                  fontSize: UtilsReponsive.height(18, context),
+                                  fontWeight: FontWeight.w800),
                             )
-                          : Text(
-                              controller.eventDetail.value.location!.length > 30
-                                  ? '${controller.eventDetail.value.location!.substring(0, 30)}...'
-                                  : controller.eventDetail.value.location!,
-                              style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  wordSpacing: 1.2,
-                                  color: ColorsManager.primary,
-                                  fontSize: UtilsReponsive.height(20, context),
-                                  fontWeight: FontWeight.bold),
+                          : Expanded(
+                              child: Text(
+                                controller.eventDetail.value.location!,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    color: ColorsManager.primary,
+                                    fontSize: UtilsReponsive.height(18, context),
+                                    fontWeight: FontWeight.w800),
+                              ),
                             ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.monetization_on,
-                        size: 25,
-                        color: ColorsManager.green,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      controller.eventDetail.value.estBudget == null
-                          ? Text(
-                              '---',
-                              style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  wordSpacing: 1.2,
-                                  color: ColorsManager.primary,
-                                  fontSize: UtilsReponsive.height(20, context),
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Text(
-                              controller.formatCurrency(controller.eventDetail.value.estBudget!),
-                              style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  wordSpacing: 1.2,
-                                  color: ColorsManager.primary,
-                                  fontSize: UtilsReponsive.height(20, context),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                    ],
-                  ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Icon(
+                  //       Icons.monetization_on,
+                  //       size: 25,
+                  //       color: ColorsManager.green,
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     controller.eventDetail.value.estBudget == null
+                  //         ? Text(
+                  //             '---',
+                  //             style: TextStyle(
+                  //                 fontFamily: 'Nunito',
+                  //                 color: ColorsManager.primary,
+                  //                 fontSize: UtilsReponsive.height(18, context),
+                  //                 fontWeight: FontWeight.w800),
+                  //           )
+                  //         : Expanded(
+                  //             child: Text(
+                  //               controller.formatCurrency(controller.eventDetail.value.estBudget!),
+                  //               overflow: TextOverflow.clip,
+                  //               style: TextStyle(
+                  //                   fontFamily: 'Nunito',
+                  //                   color: ColorsManager.primary,
+                  //                   fontSize: UtilsReponsive.height(18, context),
+                  //                   fontWeight: FontWeight.w800),
+                  //             ),
+                  //           ),
+                  //   ],
+                  // ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -315,7 +343,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                                 wordSpacing: 1.2,
                                 color: ColorsManager.textColor2,
                                 fontSize: UtilsReponsive.height(20, context),
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.w800),
                           ),
                           const SizedBox(
                             height: 10,
@@ -336,6 +364,9 @@ class EventDetailView extends BaseView<EventDetailController> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: UtilsReponsive.height(30, context),
+                  )
                 ]),
               ),
             ),

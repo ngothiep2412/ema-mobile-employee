@@ -9,6 +9,9 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class TaskScheduleController extends BaseController {
   final count = 0.obs;
+
+  RxBool checkView = true.obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -57,6 +60,7 @@ class TaskScheduleController extends BaseController {
   // }
 
   Future<void> refreshPage() async {
+    checkView.value = true;
     listTask.clear();
     jwt = GetStorage().read('JWT');
     isLoading.value = true;
@@ -65,15 +69,19 @@ class TaskScheduleController extends BaseController {
   }
 
   Future<void> getListTask(String date) async {
-    String jwt = GetStorage().read('JWT');
-    dateString = date;
-    isLoading.value = true;
-    // Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-    listTask.clear();
-    List<TaskModel> list = [];
-    list = await TaskScheduleApi.getTaskByDate(jwt, dateString, idUser);
-    listTask.value = list;
-    isLoading.value = false;
+    try {
+      String jwt = GetStorage().read('JWT');
+      dateString = date;
+      isLoading.value = true;
+      // Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      listTask.clear();
+      List<TaskModel> list = [];
+      list = await TaskScheduleApi.getTaskByDate(jwt, dateString, idUser);
+      listTask.value = list;
+      isLoading.value = false;
+    } catch (e) {
+      checkView.value = false;
+    }
   }
 
   void checkToken() {

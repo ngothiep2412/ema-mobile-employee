@@ -40,7 +40,7 @@ class PolicyView extends BaseView<PolicyController> {
                     //   width: 280,
                     // ),
                     Text(
-                      'HREA',
+                      'EMA',
                       style: TextStyle(
                         fontSize: 20,
                         color: ColorsManager.primary,
@@ -241,7 +241,7 @@ class PolicyView extends BaseView<PolicyController> {
                       ),
                       ListTile(
                         leading: Icon(Icons.email),
-                        title: Text('hrea@gmail.com'),
+                        title: Text('ema@gmail.com'),
                       ),
                     ],
                   )),

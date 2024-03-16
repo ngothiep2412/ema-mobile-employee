@@ -15,8 +15,8 @@ class ProfileChatController extends BaseController {
 
   RxBool isLoading = false.obs;
   Rx<UserModel> userChatView = UserModel().obs;
+  RxBool checkInView = true.obs;
 
-  final count = 0.obs;
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -33,8 +33,6 @@ class ProfileChatController extends BaseController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 
   void checkToken() {
     if (GetStorage().read('JWT') != null) {
@@ -56,6 +54,7 @@ class ProfileChatController extends BaseController {
     } catch (e) {
       isLoading.value = false;
       print(e);
+      checkInView.value = false;
     }
   }
 }

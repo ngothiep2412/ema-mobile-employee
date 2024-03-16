@@ -6,16 +6,16 @@ import '../controllers/subtask_detail_view_controller.dart';
 class SubtaskDetailViewBinding extends BaseBindings {
   String taskID = '';
   bool isNavigateDetail = false;
+  bool isScheduleOverall = false;
 
   @override
   void injectService() {
     taskID = Get.arguments["taskID"] as String;
     isNavigateDetail = Get.arguments["isNavigateDetail"] as bool;
+    isScheduleOverall = Get.arguments["isScheduleOverall"] as bool;
+
     Get.put(
-      SubtaskDetailViewController(
-        taskID: taskID,
-        isNavigateDetail: isNavigateDetail,
-      ),
+      SubtaskDetailViewController(taskID: taskID, isNavigateDetail: isNavigateDetail, isScheduleOverall: isScheduleOverall),
     );
   }
 }

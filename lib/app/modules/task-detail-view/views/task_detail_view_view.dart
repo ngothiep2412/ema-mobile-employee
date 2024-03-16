@@ -1470,6 +1470,7 @@ class TaskDetailViewView extends BaseView<TaskDetailViewController> {
                                           Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {
                                             "taskID": e.id,
                                             "isNavigateDetail": true,
+                                            "isScheduleOverall": false,
                                           });
                                         },
                                         child: Card(

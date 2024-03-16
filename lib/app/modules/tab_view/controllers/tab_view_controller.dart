@@ -70,6 +70,8 @@ class TabViewController extends BaseController {
     socket!.onConnectError((data) => print('Connect Error: $data'));
     socket!.onDisconnect((data) => print('Socket.IO server disconnected'));
     socket!.emit("getOnlineUser", {});
+    socket!.emit('userJoin', {});
+    socket!.emit("getOnlineGroupUsers", {});
 
     List<ChatUserModel> list = await TabChatApi.getAllChatUser(jwt, 1);
     if (list.isNotEmpty) {
@@ -77,7 +79,6 @@ class TabViewController extends BaseController {
         socket!.emit("onConversationJoin", (chatUser.id));
       }
     }
-    socket!.emit("getOnlineGroupUsers", {});
     socket!.on(
         "onlineGroupUsersReceived",
         (data) async => {
@@ -129,7 +130,7 @@ class TabViewController extends BaseController {
 
     socket!.on('notification', (data) async {
       Get.find<TabNotificationController>().uploadNoti();
-      Get.find<TabViewController>().checkAllNotiSeen.value = false;
+      // Get.find<TabViewController>().checkAllNotiSeen.value = false;
       // listNotifications.value = list;
 
       // listNotifications.add(NotificationModel(

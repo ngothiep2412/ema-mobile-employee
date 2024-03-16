@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
 
 String calculateTimeDifference(String createdAt) {
-  DateTime now = DateTime.now();
+  DateTime now = DateTime.now().toLocal();
   print('now ${now}');
-  DateTime createdAtDateTime = DateTime.parse(createdAt).toLocal().add(const Duration(hours: 7));
+  DateTime createdAtDateTime = DateTime.parse(createdAt).toLocal();
   print('createdAtDateTime ${createdAtDateTime}');
 
   Duration difference = now.difference(createdAtDateTime);
@@ -24,7 +24,7 @@ String calculateTimeDifference(String createdAt) {
 
 String calculateTimeDifferenceMessenger(String createdAt) {
   DateTime now = DateTime.now().toLocal();
-  DateTime createdAtDateTime = DateTime.parse(createdAt).toLocal().add(const Duration(hours: 7));
+  DateTime createdAtDateTime = DateTime.parse(createdAt).toLocal();
 
   if (isSameDate(now, createdAtDateTime)) {
     return DateFormat('HH:mm').format(createdAtDateTime);

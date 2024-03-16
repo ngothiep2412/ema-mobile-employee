@@ -19,6 +19,8 @@ class TaskOverallViewController extends BaseController {
 
   RxBool isLoading = false.obs;
 
+  RxBool checkView = true.obs;
+
   RxList<String> filterList = <String>[
     "Không chọn",
     "Ngày tạo (Tăng dần)",
@@ -34,6 +36,7 @@ class TaskOverallViewController extends BaseController {
 
   Future<void> refreshPage() async {
     listTask.clear();
+    checkView.value = true;
     jwt = GetStorage().read('JWT');
     isLoading.value = true;
     await getListTask();
@@ -41,43 +44,57 @@ class TaskOverallViewController extends BaseController {
   }
 
   Future<void> getTaskDetail(TaskModel taskModel) async {
-    Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {"taskID": taskModel.id, "isNavigateDetail": false});
+    // Get.put(SubtaskDetailViewController(taskID: taskModel.id!, isNavigateDetail: false));
+
+    // bool check = await Get.find<SubtaskDetailViewController>().checkTaskForUser();
+    // if (check) {
+    // print('taskMOdel id ${taskModel.id}');
+    Get.toNamed(Routes.SUBTASK_DETAIL_VIEW, arguments: {"taskID": taskModel.id, "isNavigateDetail": true, "isScheduleOverall": false});
+    // } else {
+    // Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
+    // snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+    // }
   }
 
   Future<void> getListTask() async {
-    String jwt = GetStorage().read('JWT');
-    isLoading.value = true;
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
-    listTask.clear();
-    List<TaskModel> list = [];
-    list = await TaskOverallApi.getTask(jwt, eventID);
-    if (list.isNotEmpty) {
-      for (var item in list) {
-        // if (item.assignTasks!.isNotEmpty) {
-        //   if (item.parent == null && item.status != Status.CANCEL && item.assignTasks![0].user!.id == decodedToken['id']) {
-        //     listTask.add(item);
-        //   }
-        // }
+    try {
+      String jwt = GetStorage().read('JWT');
+      isLoading.value = true;
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      listTask.clear();
+      List<TaskModel> list = [];
+      list = await TaskOverallApi.getTask(jwt, eventID);
+      if (list.isNotEmpty) {
+        for (var item in list) {
+          // if (item.assignTasks!.isNotEmpty) {
+          //   if (item.parent == null && item.status != Status.CANCEL && item.assignTasks![0].user!.id == decodedToken['id']) {
+          //     listTask.add(item);
+          //   }
+          // }
 
-        if (item.assignTasks!.isNotEmpty) {
-          if (item.parent == null && item.status != Status.CANCEL) {
-            if (item.subTask!.isNotEmpty) {
-              for (var subTask in item.subTask!) {
-                for (var assignee in subTask.assignTasks!) {
-                  if (assignee.user!.id == decodedToken['id']) {
-                    listTask.add(subTask);
+          if (item.assignTasks!.isNotEmpty) {
+            if (item.parent == null && item.status != Status.CANCEL) {
+              if (item.subTask!.isNotEmpty) {
+                for (var subTask in item.subTask!) {
+                  for (var assignee in subTask.assignTasks!) {
+                    if (assignee.user!.id == decodedToken['id'] && assignee.status == 'active') {
+                      listTask.add(subTask);
+                    }
                   }
                 }
               }
             }
           }
+          // listTask.add(item);
         }
-        // listTask.add(item);
+        // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        // filterChoose.value = '';
       }
-      // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
-      // filterChoose.value = '';
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      checkView.value = false;
     }
-    isLoading.value = false;
   }
 
   filter(String value) {

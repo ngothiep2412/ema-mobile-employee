@@ -13,7 +13,6 @@ class EventDetailApi {
         'Authorization': 'Bearer $jwtToken',
       },
     );
-    print('abc task' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       // TaskModel.fromJson(jsonDecode(jsonData));
 

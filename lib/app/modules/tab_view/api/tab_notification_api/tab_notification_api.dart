@@ -8,7 +8,7 @@ import 'package:hrea_mobile_employee/app/resources/base_link.dart';
 class TabNotificationApi {
   static Future<List<NotificationModel>> getAllNotification(String jwtToken, int page) async {
     var response = await http.get(
-      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllNotification}?sizePage=10&currentPage=$page'),
+      Uri.parse('${BaseLink.localBaseLink}${BaseLink.getAllNotification}?sizePage=20&currentPage=$page'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

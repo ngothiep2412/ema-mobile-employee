@@ -6,7 +6,6 @@ import 'package:hrea_mobile_employee/app/modules/tab_view/api/tab_home_api/tab_h
 import 'package:hrea_mobile_employee/app/modules/tab_view/model/event.dart';
 import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TabHomeController extends BaseController {
   ScrollController scrollController = ScrollController();
@@ -21,27 +20,35 @@ class TabHomeController extends BaseController {
   String jwt = '';
   String idUser = '';
 
+  RxBool checkInView = true.obs;
+
   Future<void> refreshpage() async {
-    listEvent.clear();
-    listEventToday.clear();
+    checkInView.value = true;
+    try {
+      listEvent.clear();
+      listEventToday.clear();
 
-    print('1: ${isLoading.value}');
-    isLoading.value = true;
-    listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
-    listEvent.value = await TabHomeApi.getEvent(jwt);
+      print('1: ${isLoading.value}');
+      isLoading.value = true;
+      listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
+      listEvent.value = await TabHomeApi.getEvent(jwt);
 
-    listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
+      listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
 
-    for (var todayEvent in listEventToday) {
-      // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
-      var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
-      print('$index');
-      if (index != -1) {
-        listEventUpComing.removeAt(index);
+      for (var todayEvent in listEventToday) {
+        // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
+        var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
+        print('$index');
+        if (index != -1) {
+          listEventUpComing.removeAt(index);
+        }
       }
-    }
 
-    isLoading.value = false;
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      checkInView.value = false;
+    }
   }
 
   void checkToken() {
@@ -60,27 +67,28 @@ class TabHomeController extends BaseController {
   }
 
   Future<void> getEvent() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      checkToken();
+      isLoading.value = true;
 
-    checkToken();
-    print('JWT 123: $jwt');
-    isLoading.value = true;
+      listEvent.value = await TabHomeApi.getEvent(jwt);
+      listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
+      listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
 
-    listEvent.value = await TabHomeApi.getEvent(jwt);
-    listEventUpComing.value = await TabHomeApi.getEventUpComing(jwt, idUser);
-    listEventToday.value = await TabHomeApi.getEventToday(jwt, idUser);
-
-    for (var todayEvent in listEventToday) {
-      // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
-      var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
-      print('$index');
-      if (index != -1) {
-        listEventUpComing.removeAt(index);
+      for (var todayEvent in listEventToday) {
+        // Tìm sự kiện trong ngày trong danh sách sự kiện sắp diễn ra
+        var index = listEventUpComing.indexWhere((upcomingEvent) => upcomingEvent.id == todayEvent.id);
+        print('$index');
+        if (index != -1) {
+          listEventUpComing.removeAt(index);
+        }
       }
-    }
 
-    isLoading.value = false;
-    print('2: ${isLoading.value}');
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      checkInView.value = false;
+    }
   }
 
   @override

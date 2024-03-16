@@ -10,8 +10,8 @@ class TaskOverallViewBinding extends BaseBindings {
   void injectService() {
     eventID = Get.arguments["eventID"] as String;
     eventName = Get.arguments["eventName"] as String;
-    Get.put(
-      TaskOverallViewController(eventID: eventID, eventName: eventName),
+    Get.lazyPut<TaskOverallViewController>(
+      () => TaskOverallViewController(eventID: eventID, eventName: eventName),
     );
   }
 }

@@ -65,6 +65,8 @@ class ChatDetailController extends BaseController {
 
   ScrollController scrollController = ScrollController();
 
+  RxBool checkInView = true.obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -200,6 +202,7 @@ class ChatDetailController extends BaseController {
       errorGetChatUser.value = true;
       isLoading.value = false;
       errorGetChatUserText.value = "Có lỗi xảy ra";
+      checkInView.value = false;
     }
   }
 
@@ -238,6 +241,7 @@ class ChatDetailController extends BaseController {
       errorGetChatUser.value = true;
       isLoading.value = false;
       errorGetChatUserText.value = "Có lỗi xảy ra";
+      checkInView.value = false;
     }
   }
 
@@ -259,30 +263,40 @@ class ChatDetailController extends BaseController {
 // Thêm ChatMessage mới vào đầu danh sách
           chatMessages.insert(0, newChatMessage);
 
-          socket!.emit("onConversationJoin", (conversationID));
+          // socket!.emit("onConversationJoin", (conversationID));
+          Get.find<TabChatController>().refreshpage();
           textEditingController.value.clear();
+        } else {
+          checkInView.value = false;
         }
       } else {
         await ChatDetailApi.createConversation(email, message, jwt);
+
+        // ResponseApi responseApi = await ChatDetailApi.createMessage(jwt, email, message, conversationID);
+
+        // if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         ChatMessage newChatMessage = ChatMessage(
           message: message,
           type: MessageType.Sender,
           time: DateTime.now().toLocal().toString(),
         );
 
-// Thêm ChatMessage mới vào đầu danh sách
+        // Thêm ChatMessage mới vào đầu danh sách
         chatMessages.insert(0, newChatMessage);
 
-        socket!.emit("onConversationJoin", (conversationID));
-
-        textEditingController.value.clear();
+        // socket!.emit("onConversationJoin", (conversationID));
         checkConversation = true;
+        textEditingController.value.clear();
+        Get.find<TabChatController>().refreshpage();
+        // } else {
+        //   checkInView.value = false;
+        // }
       }
       // Get.find<TabChatController>().uploadChatUser();
     } catch (e) {
       log(e.toString());
       errorGetChatUser.value = true;
-
+      checkInView.value = false;
       errorGetChatUserText.value = "Có lỗi xảy ra";
     }
   }
@@ -338,6 +352,7 @@ class ChatDetailController extends BaseController {
       isLoading.value = false;
     } catch (e) {
       isMoreDataAvailable(false);
+      checkInView.value = false;
       print(e);
       ;
     }
