@@ -180,6 +180,11 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                       "isNavigateDetail": false,
                                                       "isScheduleOverall": false,
                                                     });
+                                                  } else if (controller.listNotifications[index].type == "BUDGET") {
+                                                    Get.toNamed(Routes.BUDGET_DETAIL, arguments: {
+                                                      "transactionID": controller.listNotifications[index].commonId,
+                                                      "isNotiNavigate": true
+                                                    });
                                                   }
                                                 },
                                                 child: Container(

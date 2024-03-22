@@ -10,17 +10,15 @@ import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class BudgetController extends BaseController {
-  BudgetController({required this.eventID});
+  BudgetController({required this.taskID});
 
   RxBool isLoading = false.obs;
 
-  DateTime createdAt = DateTime(2023, 10, 17, 14, 30);
-
-  DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'vi');
+  DateFormat dateFormat = DateFormat('dd-MM-yyyy HH:mm', 'vi');
 
   RxBool isModalVisible = false.obs;
 
-  String eventID = '';
+  String taskID = '';
 
   String jwt = '';
   String idUser = '';
@@ -29,11 +27,19 @@ class BudgetController extends BaseController {
   RxString errorGetBudgetText = ''.obs;
 
   RxList<BudgetModel> listBudget = <BudgetModel>[].obs;
+  RxList<Transaction> listTransaction = <Transaction>[].obs;
 
   ScrollController scrollController = ScrollController();
+
   var isMoreDataAvailable = false.obs;
   var page = 1;
-  var isDataProcessing = false.obs;
+  RxBool checkView = false.obs;
+  RxBool isFilter = false.obs;
+
+  List<String> timeType = ["Tất cả"];
+  RxString selectedTimeTypeVal = 'Tất cả'.obs;
+
+  RxString status = 'Tất cả'.obs;
 
   @override
   Future<void> onInit() async {
@@ -41,7 +47,7 @@ class BudgetController extends BaseController {
 
     await getAllRequestBudget(page);
 
-    paginateBudget();
+    await paginateBudget();
   }
 
   @override
@@ -56,7 +62,7 @@ class BudgetController extends BaseController {
   }
 
   void createBudget() {
-    Get.toNamed(Routes.CREATE_BUDGET, arguments: {"eventID": eventID});
+    Get.toNamed(Routes.CREATE_BUDGET, arguments: {"taskID": taskID});
   }
 
   void checkToken() {
@@ -70,41 +76,82 @@ class BudgetController extends BaseController {
   }
 
   Future<void> refreshPage() async {
-    // listBudget.clear();
-    page = 1;
-    await getAllRequestBudget(page);
+    try {
+      isMoreDataAvailable.value = false;
+      page = 1;
+      List<Transaction> list = [];
+      if (status.value == 'Tất cả') {
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+        if (listBudget.isNotEmpty) {
+          for (var item in listBudget) {
+            if (item.taskId == taskID) {
+              listTransaction.value = item.transactions!;
+              break;
+            }
+          }
+        }
+      } else if (status.value != 'Tất cả') {
+        String statusRequest = '';
+        if (status.value == 'Chờ duyệt') {
+          statusRequest = 'PENDING';
+        } else if (status.value == 'Chấp nhận') {
+          statusRequest = 'ACCEPTED';
+        } else if (status.value == 'Từ chối') {
+          statusRequest = 'REJECTED';
+        } else if (status.value == 'Thành công') {
+          statusRequest = 'SUCCESS';
+        }
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest);
+        if (listBudget.isNotEmpty) {
+          for (var item in listBudget) {
+            if (item.taskId == taskID) {
+              list = item.transactions!;
+              break;
+            }
+          }
+        }
+      }
+
+      listTransaction.addAll(list);
+      if (selectedTimeTypeVal.value != 'Tất cả') {
+        listTransaction.value = listTransaction.where((e) => e.createdAt!.year.toString() == selectedTimeTypeVal.value).toList();
+      }
+    } catch (e) {
+      log(e.toString());
+      errorGetBudget.value = true;
+      isLoading.value = false;
+      errorGetBudgetText.value = "Có lỗi xảy ra";
+    }
   }
 
   Future<void> getAllRequestBudget(var page) async {
     isLoading.value = true;
     isMoreDataAvailable.value = false;
+    listBudget.clear();
+    listTransaction.clear();
     try {
       checkToken();
-      listBudget.clear();
-      List<BudgetModel> listProcessing = await BudgetApi.getAllBudget(jwt, eventID, page, idUser, 1);
-      List<BudgetModel> listNotProcessing = await BudgetApi.getAllBudget(jwt, eventID, page, idUser, 2);
-      List<BudgetModel> listTotal = [];
-      if (listProcessing.isNotEmpty) {
-        listTotal = listProcessing;
-      }
-      if (listNotProcessing.isNotEmpty) {
-        for (var item in listNotProcessing) {
-          listTotal.add(item);
+      List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+      if (listBudget.isNotEmpty) {
+        for (var item in listBudget) {
+          if (item.taskId == taskID) {
+            listTransaction.value = item.transactions!;
+            break;
+          }
         }
       }
-      listTotal.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+      List<DateTime?> createdAtList = listTransaction.map((e) => e.createdAt).toList();
 
-      listBudget.value = listTotal;
+      int smallestYear = createdAtList.fold(DateTime.now().year, (year, date) => date!.year < year ? date.year : year);
+      int largestYear = createdAtList.fold(0, (year, date) => date!.year > year ? date.year : year);
 
-      listBudget.value = listBudget.where((e) => e.status != "CANCEL").toList();
+      List<String> listYear = ['Tất cả'];
 
-      // if (list.isNotEmpty) {
-      //   for (var item in list) {
-      //     if (item.status != "CANCEL" && item.createBy == idUser) {
-      //       listBudget.add(item);
-      //     }
-      //   }
-      // }
+      for (int year = smallestYear; year <= largestYear; year++) {
+        listYear.add(year.toString());
+      }
+
+      timeType = listYear;
 
       isLoading.value = false;
     } catch (e) {
@@ -115,42 +162,238 @@ class BudgetController extends BaseController {
     }
   }
 
-  void paginateBudget() {
-    scrollController.addListener(() {
+  Future<void> paginateBudget() async {
+    scrollController.addListener(() async {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-        print('reached end');
         page++;
-        getMoreBudget(page);
+        await getMoreBudget(page);
       }
     });
   }
 
-  void getMoreBudget(var page) async {
+  Future<void> getMoreBudget(var page) async {
     try {
-      List<BudgetModel> listProcessing = await BudgetApi.getAllBudget(jwt, eventID, page, idUser, 1);
-      List<BudgetModel> listNotProcessing = await BudgetApi.getAllBudget(jwt, eventID, page, idUser, 2);
-      List<BudgetModel> listTotal = [];
-      if (listProcessing.isNotEmpty) {
-        listTotal = listProcessing;
-      }
-      if (listNotProcessing.isNotEmpty) {
-        for (var item in listNotProcessing) {
-          listTotal.add(item);
+      List<Transaction> list = [];
+      if (status.value == 'Tất cả') {
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+        if (listBudget.isNotEmpty) {
+          for (var item in listBudget) {
+            if (item.taskId == taskID) {
+              list = item.transactions!;
+              break;
+            }
+          }
+        }
+      } else if (status.value != 'Tất cả') {
+        String statusRequest = '';
+        if (status.value == 'Chờ duyệt') {
+          statusRequest = 'PENDING';
+        } else if (status.value == 'Chấp nhận') {
+          statusRequest = 'ACCEPTED';
+        } else if (status.value == 'Từ chối') {
+          statusRequest = 'REJECTED';
+        } else if (status.value == 'Thành công') {
+          statusRequest = 'SUCCESS';
+        }
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest);
+        if (listBudget.isNotEmpty) {
+          for (var item in listBudget) {
+            if (item.taskId == taskID) {
+              list = item.transactions!;
+              break;
+            }
+          }
         }
       }
-      if (listTotal.isNotEmpty) {
+
+      if (list.isNotEmpty) {
         isMoreDataAvailable(true);
       } else {
         isMoreDataAvailable(false);
       }
-      listTotal.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
-      listBudget.addAll(listTotal);
-      listBudget.value = listBudget.where((e) => e.status != "CANCEL").toList();
+      listTransaction.addAll(list);
+      if (selectedTimeTypeVal.value != 'Tất cả') {
+        listTransaction.value = listTransaction.where((e) => e.createdAt!.year.toString() == selectedTimeTypeVal.value).toList();
+      }
+      isLoading.value = false;
     } catch (e) {
       isMoreDataAvailable(false);
       print(e);
       ;
     }
+  }
+
+  Future<void> clearFilter() async {}
+
+  Future<void> setTimeType(String value) async {
+    selectedTimeTypeVal.value = value;
+    isLoading.value = true;
+    isMoreDataAvailable.value = false;
+    page = 1;
+    listTransaction.clear();
+    if (value == 'Tất cả') {
+      try {
+        checkToken();
+        List<Transaction> list = [];
+        if (status.value == 'Tất cả') {
+          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+          if (listBudget.isNotEmpty) {
+            for (var item in listBudget) {
+              if (item.taskId == taskID) {
+                list = item.transactions!;
+                break;
+              }
+            }
+          }
+        } else if (status.value != 'Tất cả') {
+          String statusRequest = '';
+          if (value == 'Chờ duyệt') {
+            statusRequest = 'PENDING';
+          } else if (value == 'Chấp nhận') {
+            statusRequest = 'ACCEPTED';
+          } else if (value == 'Từ chối') {
+            statusRequest = 'REJECTED';
+          } else if (value == 'Thành công') {
+            statusRequest = 'SUCCESS';
+          }
+          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest);
+          if (listBudget.isNotEmpty) {
+            for (var item in listBudget) {
+              if (item.taskId == taskID) {
+                list = item.transactions!;
+                break;
+              }
+            }
+          }
+        }
+
+        listTransaction.value = list;
+
+        isLoading.value = false;
+      } catch (e) {
+        log(e.toString());
+        errorGetBudget.value = true;
+        isLoading.value = false;
+        errorGetBudgetText.value = "Có lỗi xảy ra";
+      }
+    } else {
+      try {
+        checkToken();
+        List<Transaction> list = [];
+        if (status.value == 'Tất cả') {
+          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+          if (listBudget.isNotEmpty) {
+            for (var item in listBudget) {
+              if (item.taskId == taskID) {
+                list = item.transactions!;
+                break;
+              }
+            }
+          }
+        } else if (status.value != 'Tất cả') {
+          String statusRequest = '';
+          if (status.value == 'Chờ duyệt') {
+            statusRequest = 'PENDING';
+          } else if (status.value == 'Chấp nhận') {
+            statusRequest = 'ACCEPTED';
+          } else if (status.value == 'Từ chối') {
+            statusRequest = 'REJECTED';
+          } else if (status.value == 'Thành công') {
+            statusRequest = 'SUCCESS';
+          }
+          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest);
+          if (listBudget.isNotEmpty) {
+            for (var item in listBudget) {
+              if (item.taskId == taskID) {
+                list = item.transactions!;
+                break;
+              }
+            }
+          }
+        }
+
+        listTransaction.value = list;
+
+        listTransaction.value = listTransaction.where((e) => e.createdAt!.year.toString() == value).toList();
+
+        isLoading.value = false;
+      } catch (e) {
+        log(e.toString());
+        errorGetBudget.value = true;
+        isLoading.value = false;
+        errorGetBudgetText.value = "Có lỗi xảy ra";
+      }
+    }
+  }
+
+  Future<void> changeStatus(String value) async {
+    status.value = value;
+    isLoading.value = true;
+    isMoreDataAvailable.value = false;
+    page = 1;
+    checkToken();
+    listTransaction.clear();
+    List<Transaction> list = [];
+    try {
+      if (value == 'Tất cả') {
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+        if (listBudget.isNotEmpty) {
+          for (var item in listBudget) {
+            if (item.taskId == taskID) {
+              list = item.transactions!;
+              break;
+            }
+          }
+        }
+      } else {
+        String status = '';
+        checkToken();
+        listTransaction.clear();
+        if (value == 'Chờ duyệt') {
+          status = 'PENDING';
+        } else if (value == 'Chấp nhận') {
+          status = 'ACCEPTED';
+        } else if (value == 'Từ chối') {
+          status = 'REJECTED';
+        } else if (value == 'Thành công') {
+          status = 'SUCCESS';
+        }
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', status);
+        if (listBudget.isNotEmpty) {
+          for (var item in listBudget) {
+            if (item.taskId == taskID) {
+              list = item.transactions!;
+              break;
+            }
+          }
+        }
+      }
+
+      listTransaction.value = list;
+      if (selectedTimeTypeVal.value != 'Tất cả') {
+        listTransaction.value = listTransaction.where((e) => e.createdAt!.year.toString() == selectedTimeTypeVal.value).toList();
+      }
+
+      isLoading.value = false;
+    } catch (e) {
+      log(e.toString());
+      errorGetBudget.value = true;
+      isLoading.value = false;
+      errorGetBudgetText.value = "Có lỗi xảy ra";
+    }
+  }
+
+  String formatCurrency(int amount) {
+    String formattedAmount = amount.toString();
+    final length = formattedAmount.length;
+
+    if (length > 3) {
+      for (var i = length - 3; i > 0; i -= 3) {
+        formattedAmount = formattedAmount.replaceRange(i, i, ',');
+      }
+    }
+
+    return formattedAmount;
   }
 }

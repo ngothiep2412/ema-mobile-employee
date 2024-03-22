@@ -1,44 +1,41 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_employee/app/base/base_controller.dart';
 import 'package:hrea_mobile_employee/app/modules/budget/controllers/budget_controller.dart';
 import 'package:hrea_mobile_employee/app/modules/budget/model/budget_model.dart';
 import 'package:hrea_mobile_employee/app/modules/budget_detail/api/budget_detail_api.dart';
+import 'package:hrea_mobile_employee/app/modules/budget_detail/model/upload_evidence_model.dart';
 import 'package:hrea_mobile_employee/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:open_file/open_file.dart';
 
 class BudgetDetailController extends BaseController {
-  BudgetDetailController({required this.eventID, required this.budget});
-  String eventID = '';
-  BudgetModel budget = BudgetModel();
+  BudgetDetailController({required this.transactionID, required this.isNotiNavigate});
+  String transactionID = '';
 
-  Rx<BudgetModel> budgetView = BudgetModel().obs;
+  Rx<Transaction> transactionView = Transaction().obs;
+  RxList<Evidence> listAttachmentEvidence = <Evidence>[].obs;
 
   String jwt = '';
   String idUser = '';
+  bool isNotiNavigate = false;
   RxBool errorUpdateBudget = false.obs;
   RxString errorUpdateBudgetText = ''.obs;
 
   RxBool isLoading = false.obs;
+  RxBool checkView = true.obs;
 
-  Future<void> getBudgetDetail(String budgetID) async {
-    isLoading.value = true;
-    try {
-      checkToken();
-      BudgetModel budgetModel = await BudgetDetailApi.getBudgetDetail(budgetID, jwt);
-      budgetView.value = budgetModel;
-      isLoading.value = false;
-    } catch (e) {
-      isLoading.value = false;
-      print(e);
-    }
-  }
+  RxList<PlatformFile> filePicker = <PlatformFile>[].obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getBudgetDetail(budget.id!);
+    await getBudgetDetail(transactionID);
   }
 
   @override
@@ -78,10 +75,12 @@ class BudgetDetailController extends BaseController {
     isLoading.value = true;
     try {
       checkToken();
-      ResponseApi responseApi = await BudgetDetailApi.deleteBudget(budgetView.value.id!, jwt);
+      ResponseApi responseApi = await BudgetDetailApi.deleteBudget(transactionID, jwt);
       if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         errorUpdateBudget.value = false;
-        await Get.find<BudgetController>().getAllRequestBudget(1);
+        if (isNotiNavigate == false) {
+          await Get.find<BudgetController>().getAllRequestBudget(1);
+        }
 
         Get.back();
       } else {
@@ -98,6 +97,166 @@ class BudgetDetailController extends BaseController {
   }
 
   Future<void> refreshPage() async {
-    await getBudgetDetail(budgetView.value.id!);
+    checkView.value = true;
+    print('transactionID ${transactionID}');
+    await getBudgetDetail(transactionID);
+  }
+
+  Future<void> getBudgetDetail(String transactionID) async {
+    isLoading.value = true;
+    try {
+      checkToken();
+      Transaction transaction = await BudgetDetailApi.getBudgetDetail(transactionID, jwt);
+      transactionView.value = transaction;
+      if (transaction.evidences!.isNotEmpty) {
+        listAttachmentEvidence.value = transactionView.value.evidences!;
+      }
+      isLoading.value = false;
+    } catch (e) {
+      checkView.value = false;
+      isLoading.value = false;
+      print(e);
+    }
+  }
+
+  Future<void> selectFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'doc', 'xlsx', 'docx', 'png', 'jpeg'],
+    );
+    if (result == null) {
+      isLoading.value = false;
+      return;
+    }
+    final file = result.files.first;
+    double fileLength = File(result.files[0].path!).lengthSync() / 1024 / 1024;
+    if (fileLength > 10) {
+      Get.snackbar('Lỗi', 'Không thể lấy tài liệu lớn hơn 10mb',
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.transparent, colorText: Colors.white);
+      isLoading.value = false;
+      return;
+    }
+    filePicker.add(file);
+  }
+
+  Future<void> uploadFileEvidence() async {
+    isLoading.value = true;
+    try {
+      checkToken();
+      // List<FileModel> listFile = [];
+      if (filePicker.isNotEmpty) {
+        // for (var item in filePicker) {
+        //   File fileResult = File(item.path!);
+        //   UploadEvidenceModel responseApi = await BudgetDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', transactionID);
+        //   if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        //     listAttachmentEvidence.add(Evidence(
+        //         evidenceFileName: responseApi.result![0].fileName,
+        //         evidenceFileSize: responseApi.result![0].fileSize,
+        //         evidenceFileType: responseApi.result![0].fileType,
+        //         evidenceUrl: responseApi.result![0].downloadUrl));
+        //   } else {
+        //     checkView.value = false;
+        //   }
+        // }
+        // File fileResult = File(item.path!);
+        UploadEvidenceModel responseApi = await BudgetDetailApi.uploadFile(jwt, filePicker, transactionID);
+        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+          if (responseApi.result!.isNotEmpty) {
+            for (var item in responseApi.result!) {
+              listAttachmentEvidence.add(Evidence(
+                  evidenceFileName: item.fileName, evidenceFileSize: item.fileSize, evidenceFileType: item.fileType, evidenceUrl: item.downloadUrl));
+            }
+          } else {
+            checkView.value = false;
+          }
+        }
+      }
+      // ResponseApi responseApi = await SubTaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
+      // if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+      //   listComment.value = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      //   listComment.sort((comment1, comment2) {
+      //     return comment2.createdAt!.compareTo(comment1.createdAt!);
+      //   });
+      //   getAllAttachment();
+      // } else {
+      //   checkView.value = false;
+      // }
+      // } else {
+      // ResponseApi responseApi = await SubTaskDetailApi.createComment(jwt, taskID, commentController.text, listFile);
+      // if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+      //   listComment.value = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      //   listComment.sort((comment1, comment2) {
+      //     return comment2.createdAt!.compareTo(comment1.createdAt!);
+      //   });
+      //   getAllAttachment();
+      // } else {
+      //   checkView.value = false;
+      // }
+      // }
+      // filePicker.value = [];
+      // } else {
+      //   Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
+      //       snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+      // }
+      isLoading.value = false;
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+      checkView.value = false;
+    }
+  }
+
+  Future<void> editBudget(List<PlatformFile> filePickerFile) async {
+    try {
+      // List<Evidence> list = [];
+      if (filePickerFile.isNotEmpty) {
+        // for (var item in filePickerFile) {
+        //   File fileResult = File(item.path!);
+        //   UploadEvidenceModel responseApi = await BudgetDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', transactionID);
+        //   if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        //     listAttachmentEvidence.add(Evidence(
+        //         evidenceFileName: responseApi.result![0].fileName,
+        //         evidenceFileSize: responseApi.result![0].fileSize,
+        //         evidenceFileType: responseApi.result![0].fileType,
+        //         evidenceUrl: responseApi.result![0].downloadUrl));
+        //   } else {
+        //     checkView.value = false;
+        //   }
+        // }
+        UploadEvidenceModel responseApi = await BudgetDetailApi.uploadFile(jwt, filePickerFile, transactionID);
+        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+          if (responseApi.result!.isNotEmpty) {
+            for (var item in responseApi.result!) {
+              listAttachmentEvidence.add(Evidence(
+                  evidenceFileName: item.fileName, evidenceFileSize: item.fileSize, evidenceFileType: item.fileType, evidenceUrl: item.downloadUrl));
+            }
+          } else {
+            checkView.value = false;
+          }
+        }
+      }
+      // listAttachmentEvidence.value = listAttachmentEvidence + list;
+    } catch (e) {
+      print(e);
+      checkView.value = false;
+    }
+  }
+
+  void deleteAttachmentCommentFile(int index) {
+    isLoading.value = true;
+    try {
+      if (listAttachmentEvidence.isEmpty) {
+        filePicker.removeAt(index);
+      } else {
+        listAttachmentEvidence.removeAt(index);
+      }
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
+
+  void openFile(PlatformFile file) {
+    OpenFile.open(file.path!);
   }
 }

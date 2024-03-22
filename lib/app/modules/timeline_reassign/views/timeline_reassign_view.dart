@@ -8,8 +8,9 @@ import 'package:hrea_mobile_employee/app/resources/assets_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_employee/app/resources/style_manager.dart';
+import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter/gestures.dart';
 import '../controllers/timeline_reassign_controller.dart';
 
 class TimelineReassignView extends BaseView<TimelineReassignController> {
@@ -111,7 +112,8 @@ class TimelineReassignView extends BaseView<TimelineReassignController> {
 
   Widget timeLine(AssignTask assignTask, BuildContext context, int index, int length) {
     return TimeLineTileUI(
-      isFirst: index == 0 ? true : false,
+      // isFirst: index == 0 ? true : false,
+      isFirst: false,
       isLast: index == length - 1 ? true : false,
       isPast: true,
       isActive: assignTask.status == 'active' ? true : false,
@@ -144,8 +146,11 @@ class TimelineReassignView extends BaseView<TimelineReassignController> {
                           text: 'Nhân viên ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white, fontFamily: 'Nunito')),
                       TextSpan(
                         text: '${assignTask.user!.profile!.fullName}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w800, color: ColorsManager.textColor, fontFamily: 'Nunito'), // Ví dụ: Đặt in đậm cho tên
+                        style: const TextStyle(fontWeight: FontWeight.w800, color: ColorsManager.textColor, fontFamily: 'Nunito'),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.toNamed(Routes.PROFILE_CHAT, arguments: {"idUserChat": assignTask.user!.id});
+                          },
                       ),
                       const TextSpan(
                           text: ' được thêm vào công việc ',
@@ -166,8 +171,11 @@ class TimelineReassignView extends BaseView<TimelineReassignController> {
                           text: 'Nhân viên ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white, fontFamily: 'Nunito')),
                       TextSpan(
                         text: '${assignTask.user!.profile!.fullName}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w800, color: ColorsManager.textColor, fontFamily: 'Nunito'), // Ví dụ: Đặt in đậm cho tên
+                        style: const TextStyle(fontWeight: FontWeight.w800, color: ColorsManager.textColor, fontFamily: 'Nunito'),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.toNamed(Routes.PROFILE_CHAT, arguments: {"idUserChat": assignTask.user!.id});
+                          },
                       ),
                       const TextSpan(
                           text: ' không còn làm công việc ',

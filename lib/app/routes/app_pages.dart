@@ -18,8 +18,6 @@ import '../modules/create_request/bindings/create_request_binding.dart';
 import '../modules/create_request/views/create_request_view.dart';
 import '../modules/edit-description/bindings/edit_description_binding.dart';
 import '../modules/edit-description/views/edit_description_view.dart';
-import '../modules/edit_budget/bindings/edit_budget_binding.dart';
-import '../modules/edit_budget/views/edit_budget_view.dart';
 import '../modules/edit_request/bindings/edit_request_binding.dart';
 import '../modules/edit_request/views/edit_request_view.dart';
 import '../modules/event_detail/bindings/event_detail_binding.dart';
@@ -148,11 +146,6 @@ class AppPages {
       binding: CreateBudgetBinding(),
     ),
     GetPage(
-      name: _Paths.EDIT_BUDGET,
-      page: () => const EditBudgetView(),
-      binding: EditBudgetBinding(),
-    ),
-    GetPage(
       name: _Paths.EVENT_DETAIL,
       page: () => const EventDetailView(),
       binding: EventDetailBinding(),
@@ -184,7 +177,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CHECK_IN,
-      page: () => CheckInView(),
+      page: () => const CheckInView(),
       binding: CheckInBinding(),
     ),
     GetPage(

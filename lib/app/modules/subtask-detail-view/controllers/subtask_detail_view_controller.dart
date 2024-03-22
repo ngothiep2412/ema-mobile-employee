@@ -248,13 +248,17 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       bool checkTask = await checkTaskForUser();
+      String status = taskModel.value.status.toString();
+      if (value == 100) {
+        status = 'DONE';
+      }
       if (checkTask) {
-        ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, value);
+        ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, value, status);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
           progress.value = value;
-          if (value == 100) {
-            await updateStatusTask('DONE', taskID);
-          }
+          // if (value == 100) {
+          //   await updateStatusTask('DONE', taskID);
+          // }
         } else {
           checkView.value = false;
         }
@@ -400,19 +404,25 @@ class SubtaskDetailViewController extends BaseController {
       bool checkTask = await checkTaskForUser();
       if (checkTask) {
         isLoading.value = true;
-        ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
-        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-          if (status == 'DONE') {
-            ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100);
-            if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-              checkView.value = false;
-            }
+
+        // ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
+        // if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+        if (status == 'DONE') {
+          ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100, status);
+          if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+            checkView.value = false;
           }
-          await updatePageOverall();
-          errorUpdateSubTask.value = false;
         } else {
-          checkView.value = false;
+          ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
+          if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+            checkView.value = false;
+          }
         }
+        await updatePageOverall();
+        errorUpdateSubTask.value = false;
+        // } else {
+        // checkView.value = false;
+        // }
       } else {
         Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
             snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
@@ -581,6 +591,7 @@ class SubtaskDetailViewController extends BaseController {
               UploadFileModel responseApi = await SubTaskDetailApi.uploadFile(jwt, fileResult, item.extension ?? '', 'comment');
               if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
                 listFile.add(FileModel(fileName: responseApi.result!.fileName, fileUrl: responseApi.result!.downloadUrl));
+                print('responseApi.result!.downloadUrl ${responseApi.result!.downloadUrl}');
               } else {
                 checkView.value = false;
               }

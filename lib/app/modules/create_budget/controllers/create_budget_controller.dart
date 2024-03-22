@@ -10,11 +10,10 @@ import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class CreateBudgetController extends BaseController {
-  CreateBudgetController({required this.eventID});
-  TextEditingController budgetNameController = TextEditingController();
+  CreateBudgetController({required this.taskID});
+  TextEditingController transactionNameController = TextEditingController();
   TextEditingController estExpenseController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController supplierController = TextEditingController();
 
   RxBool errorCreateBudget = false.obs;
   RxString errorCreateBudgetText = ''.obs;
@@ -22,7 +21,8 @@ class CreateBudgetController extends BaseController {
   String jwt = '';
   String idUser = '';
 
-  String eventID = '';
+  String taskID = '';
+  RxBool checkView = false.obs;
 
   RxBool isLoading = false.obs;
   @override
@@ -54,37 +54,32 @@ class CreateBudgetController extends BaseController {
     isLoading.value = true;
     String inputText = estExpenseController.text;
     String cleanedText = inputText.replaceAll('.', '');
-    int amount = int.tryParse(cleanedText) ?? 0;
-    if (budgetNameController.text == '') {
-      print(budgetNameController.text);
+    double amount = double.tryParse(cleanedText) ?? 0;
+    if (transactionNameController.text == '') {
+      print(transactionNameController.text);
       errorCreateBudget.value = true;
       errorCreateBudgetText.value = "Vui lòng nhập tên khoản chi";
       isLoading.value = false;
     } else if (estExpenseController.text.isEmpty) {
       errorCreateBudget.value = true;
-      errorCreateBudgetText.value = "Vui lòng nhập số tiền chi phí ước tính";
+      errorCreateBudgetText.value = "Vui lòng nhập số tiền chi phí";
       isLoading.value = false;
     } else if (amount < 999 && estExpenseController.text.isNotEmpty) {
       errorCreateBudget.value = true;
-      errorCreateBudgetText.value = "Vui lòng nhập số tiền chi phí ước tính lớn hơn 999 đồng";
-      isLoading.value = false;
-    } else if (supplierController.text.isEmpty) {
-      errorCreateBudget.value = true;
-      errorCreateBudgetText.value = "Vui lòng nhập tên nhà cung cấp";
+      errorCreateBudgetText.value = "Vui lòng nhập số tiền chi phí lớn hơn 999 đồng";
       isLoading.value = false;
     } else {
       try {
         checkToken();
 
-        ResponseApi responseApiv = await CreateBudgetApi.createBudget(
-            eventID, budgetNameController.text, amount, descriptionController.text, supplierController.text, idUser, jwt);
+        ResponseApi responseApiv =
+            await CreateBudgetApi.createBudget(taskID, transactionNameController.text, amount, descriptionController.text, jwt);
         if (responseApiv.statusCode == 200 || responseApiv.statusCode == 201) {
-          errorCreateBudget.value = false;
-          await Get.find<BudgetController>().getAllRequestBudget(1);
-          budgetNameController.text = '';
+          transactionNameController.text = '';
           descriptionController.text = '';
           estExpenseController.text = '';
-          supplierController.text = '';
+          errorCreateBudget.value = false;
+          await Get.find<BudgetController>().getAllRequestBudget(1);
         } else {
           errorCreateBudget.value = true;
           errorCreateBudgetText.value = "Không thể tạo đơn";

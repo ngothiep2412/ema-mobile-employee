@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 String calculateTimeDifference(String createdAt) {
   DateTime now = DateTime.now().toLocal();
   print('now ${now}');
+  print('createdAt ${createdAt}');
+
   DateTime createdAtDateTime = DateTime.parse(createdAt).toLocal();
   print('createdAtDateTime ${createdAtDateTime}');
 

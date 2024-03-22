@@ -72,6 +72,11 @@ class TaskScheduleController extends BaseController {
     try {
       String jwt = GetStorage().read('JWT');
       dateString = date;
+      date = date.replaceAll("Z", ""); // Loại bỏ "Z" ở cuối
+
+      DateTime dateTime = DateTime.parse(date);
+      dateString = dateTime.toLocal().toString();
+      print(dateString);
       isLoading.value = true;
       // Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
       listTask.clear();

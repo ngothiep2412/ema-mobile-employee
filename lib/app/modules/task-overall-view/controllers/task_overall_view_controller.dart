@@ -76,6 +76,8 @@ class TaskOverallViewController extends BaseController {
             if (item.parent == null && item.status != Status.CANCEL) {
               if (item.subTask!.isNotEmpty) {
                 for (var subTask in item.subTask!) {
+                  subTask.parent = TaskModel();
+                  subTask.parent!.title = item.title;
                   for (var assignee in subTask.assignTasks!) {
                     if (assignee.user!.id == decodedToken['id'] && assignee.status == 'active') {
                       listTask.add(subTask);
@@ -89,6 +91,28 @@ class TaskOverallViewController extends BaseController {
         }
         // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
         // filterChoose.value = '';
+        listTask.sort((a, b) {
+          // Xử lý trường hợp startDate là null
+          if (a.startDate == null && b.startDate != null) {
+            return -1; // Đưa a lên đầu nếu a.startDate là null và b.startDate không phải là null.
+          } else if (a.startDate != null && b.startDate == null) {
+            return 1; // Đưa b lên đầu nếu b.startDate là null và a.startDate không phải là null.
+          } else if (a.startDate == null && b.startDate == null) {
+            return 0; // Nếu cả hai đều là null, không cần sắp xếp.
+          }
+
+          // So sánh ngày nếu cả hai đều không phải là null
+          int dateComparison = a.startDate!.compareTo(b.startDate!);
+          if (dateComparison != 0) {
+            return dateComparison; // Trả về kết quả nếu ngày không giống nhau.
+          } else {
+            // Sắp xếp theo độ ưu tiên nếu ngày giống nhau
+            final priorityOrder = {Priority.HIGH: 0, Priority.MEDIUM: 1, Priority.LOW: 2};
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+            return priorityA.compareTo(priorityB);
+          }
+        });
       }
       isLoading.value = false;
     } catch (e) {

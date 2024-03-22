@@ -148,8 +148,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                         child: controller.taskModel.value.endDate != null
                                             ? _timeBuilder(
                                                 context: context,
-                                                startTime: controller.dateFormat.format(controller.taskModel.value.startDate!),
-                                                endTime: controller.dateFormat.format(controller.taskModel.value.endDate!))
+                                                startTime: controller.dateFormat.format(controller.taskModel.value.startDate!.toLocal()),
+                                                endTime: controller.dateFormat.format(controller.taskModel.value.endDate!.toLocal()))
                                             : Row(children: [
                                                 Icon(size: 25, Icons.calendar_month, color: Colors.grey.withOpacity(0.8)),
                                                 SizedBox(
@@ -1273,207 +1273,72 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
 
   AppBar _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: ColorsManager.backgroundContainer,
-      leading: IconButton(
-        onPressed: () {
-          Get.back();
-          controller.onDelete();
-        },
-        icon: Icon(
-          Icons.arrow_back_ios_new,
-          color: ColorsManager.primary,
+        backgroundColor: ColorsManager.backgroundContainer,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+            controller.onDelete();
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: ColorsManager.primary,
+          ),
         ),
-      ),
-      actions: controller.checkView.value == false
-          ? []
-          : [
-              // Obx(
-              //   () => controller.isCheckin.value == false
-              //       ? IconButton(
-              //           onPressed: () {
-              //             if (controller.taskModel.value.startDate!.year == controller.taskModel.value.endDate!.year) {
-              //               DateTime startDate = controller.taskModel.value.startDate!;
-              //               DateTime adjustedTime = startDate.subtract(const Duration(minutes: 15));
-              //               if (DateTime.now().toLocal().add(const Duration(hours: 7)).isAfter(adjustedTime) &&
-              //                   DateTime.now().toLocal().add(const Duration(hours: 7)).isBefore(controller.taskModel.value.endDate!)) {
-              //                 Get.toNamed(Routes.CHECK_IN);
-              //               } else if (DateTime.now().toLocal().add(const Duration(hours: 7)).isAfter(controller.taskModel.value.endDate!)) {
-              //                 showDialog(
-              //                   context: context,
-              //                   builder: (BuildContext context) {
-              //                     return AlertDialog(
-              //                       title: Text('Thông báo',
-              //                           style: TextStyle(
-              //                               fontFamily: 'Nunito',
-              //                               wordSpacing: 1.2,
-              //                               color: ColorsManager.primary,
-              //                               fontSize: UtilsReponsive.height(20, context),
-              //                               fontWeight: FontWeight.w800)),
-              //                       content: Text(
-              //                         'Bạn đã bị quá giờ để check in',
-              //                         style: TextStyle(
-              //                             fontFamily: 'Nunito',
-              //                             wordSpacing: 1.2,
-              //                             color: ColorsManager.red,
-              //                             fontSize: UtilsReponsive.height(18, context),
-              //                             fontWeight: FontWeight.w800),
-              //                       ),
-              //                       actions: [
-              //                         TextButton(
-              //                           onPressed: () {
-              //                             Navigator.of(context).pop();
-              //                           },
-              //                           child: Text('Đồng ý',
-              //                               style: TextStyle(
-              //                                   fontFamily: 'Nunito',
-              //                                   wordSpacing: 1.2,
-              //                                   color: ColorsManager.primary,
-              //                                   fontSize: UtilsReponsive.height(18, context),
-              //                                   fontWeight: FontWeight.w800)),
-              //                         ),
-              //                       ],
-              //                     );
-              //                   },
-              //                 );
-              //               } else {
-              //                 showDialog(
-              //                   context: context,
-              //                   builder: (BuildContext context) {
-              //                     return AlertDialog(
-              //                       title: Text('Thông báo',
-              //                           style: TextStyle(
-              //                               fontFamily: 'Nunito',
-              //                               wordSpacing: 1.2,
-              //                               color: ColorsManager.primary,
-              //                               fontSize: UtilsReponsive.height(20, context),
-              //                               fontWeight: FontWeight.w800)),
-              //                       content: Text(
-              //                         'Bạn chưa thể check in tại thời điểm lúc này',
-              //                         style: TextStyle(
-              //                             fontFamily: 'Nunito',
-              //                             wordSpacing: 1.2,
-              //                             color: ColorsManager.textColor2,
-              //                             fontSize: UtilsReponsive.height(18, context),
-              //                             fontWeight: FontWeight.w800),
-              //                       ),
-              //                       actions: [
-              //                         TextButton(
-              //                           onPressed: () {
-              //                             Navigator.of(context).pop();
-              //                           },
-              //                           child: Text('Đồng ý',
-              //                               style: TextStyle(
-              //                                   fontFamily: 'Nunito',
-              //                                   wordSpacing: 1.2,
-              //                                   color: ColorsManager.primary,
-              //                                   fontSize: UtilsReponsive.height(18, context),
-              //                                   fontWeight: FontWeight.w800)),
-              //                         ),
-              //                       ],
-              //                     );
-              //                   },
-              //                 );
-              //               }
-              //             } else {
-              //               print('task Created At: ${controller.taskModel.value.startDate}');
-              //               print('task Created At: ${DateTime.now().toLocal().add(const Duration(hours: 7))}');
-              //               DateTime startDate = controller.taskModel.value.startDate!;
-              //               DateTime adjustedTime = startDate.subtract(const Duration(minutes: 15));
-              //               if (DateTime.now().toLocal().add(const Duration(hours: 7)).isAfter(adjustedTime)) {
-              //                 Get.toNamed(Routes.CHECK_IN);
-              //               } else {
-              //                 showDialog(
-              //                   context: context,
-              //                   builder: (BuildContext context) {
-              //                     return AlertDialog(
-              //                       title: Text('Thông báo',
-              //                           style: TextStyle(
-              //                               fontFamily: 'Nunito',
-              //                               wordSpacing: 1.2,
-              //                               color: ColorsManager.primary,
-              //                               fontSize: UtilsReponsive.height(20, context),
-              //                               fontWeight: FontWeight.w800)),
-              //                       content: Text(
-              //                         'Bạn chưa thể check in tại thời điểm lúc này',
-              //                         style: TextStyle(
-              //                             fontFamily: 'Nunito',
-              //                             wordSpacing: 1.2,
-              //                             color: ColorsManager.textColor2,
-              //                             fontSize: UtilsReponsive.height(18, context),
-              //                             fontWeight: FontWeight.w800),
-              //                       ),
-              //                       actions: [
-              //                         TextButton(
-              //                           onPressed: () {
-              //                             Navigator.of(context).pop();
-              //                           },
-              //                           child: Text('Đồng ý',
-              //                               style: TextStyle(
-              //                                   fontFamily: 'Nunito',
-              //                                   wordSpacing: 1.2,
-              //                                   color: ColorsManager.primary,
-              //                                   fontSize: UtilsReponsive.height(18, context),
-              //                                   fontWeight: FontWeight.w800)),
-              //                         ),
-              //                       ],
-              //                     );
-              //                   },
-              //                 );
-              //               }
-              //             }
-              //           },
-              //           icon: Icon(
-              //             Icons.qr_code_scanner,
-              //             color: ColorsManager.primary,
-              //           ),
-              //         )
-              //       : Row(
-              //           children: [
-              //             Icon(
-              //               Icons.check_circle,
-              //               color: ColorsManager.green,
-              //             ),
-              //             SizedBox(
-              //               width: UtilsReponsive.width(10, context),
-              //             ),
-              //             Text(
-              //               'Bạn đã Check In',
-              //               style: TextStyle(
-              //                   fontFamily: 'Nunito',
-              //                   wordSpacing: 1.2,
-              //                   color: ColorsManager.green,
-              //                   fontSize: UtilsReponsive.height(18, context),
-              //                   fontWeight: FontWeight.w800),
-              //             ),
-              //             SizedBox(
-              //               width: UtilsReponsive.width(10, context),
-              //             ),
-              //           ],
-              //         ),
-              // ),
-
-              PopupMenuButton<String>(
-                icon: Icon(
-                  Icons.more_vert,
-                  color: ColorsManager.primary,
-                ),
-                onSelected: (choice) {
-                  if (choice == 'progress') {
-                    // if (controller.taskModel.value.status! != Status.CONFIRM && controller.taskModel.value.assignTasks![0].user!.id == controller.idUser) {
-                    // controller.progressView.value = controller.progress.value;
-                    _showProgress(context: context);
-                    // }
-                  } else if (choice == 'viewReassign') {
-                    Get.toNamed(Routes.TIMELINE_REASSIGN, arguments: {"taskID": controller.taskModel.value.id});
-                  }
-                },
-                itemBuilder: (BuildContext context) {
-                  return <PopupMenuEntry<String>>[
-                    PopupMenuItem<String>(
-                      value: 'progress',
-                      child: Obx(
-                        () => Text(
-                          'Tiến độ ${controller.progress.value}',
+        actions: controller.checkView.value == false
+            ? []
+            : [
+                PopupMenuButton<String>(
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: ColorsManager.primary,
+                  ),
+                  onSelected: (choice) {
+                    if (choice == 'progress') {
+                      // if (controller.taskModel.value.status! != Status.CONFIRM && controller.taskModel.value.assignTasks![0].user!.id == controller.idUser) {
+                      // controller.progressView.value = controller.progress.value;
+                      _showProgress(context: context);
+                      // }
+                    } else if (choice == 'viewReassign') {
+                      Get.toNamed(Routes.TIMELINE_REASSIGN, arguments: {"taskID": controller.taskModel.value.id});
+                    } else if (choice == 'viewBudget') {
+                      if (controller.taskModel.value.assignTasks![0].user!.id == controller.idUser &&
+                          controller.taskModel.value.status! != Status.CONFIRM) {
+                        Get.toNamed(Routes.BUDGET, arguments: {
+                          "taskID": controller.taskModel.value.id,
+                        });
+                      } else if (controller.taskModel.value.assignTasks![0].user!.id != controller.idUser) {
+                        Get.snackbar(
+                          'Thông báo',
+                          'Bạn không phải là người chịu trách nhiệm',
+                          snackPosition: SnackPosition.TOP,
+                          margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+                          backgroundColor: ColorsManager.backgroundGrey,
+                          colorText: ColorsManager.textColor2,
+                          duration: const Duration(seconds: 4),
+                        );
+                      }
+                    }
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      PopupMenuItem<String>(
+                        value: 'progress',
+                        child: Obx(
+                          () => Text(
+                            'Tiến độ ${controller.progress.value}',
+                            style: TextStyle(
+                                fontFamily: 'Nunito',
+                                wordSpacing: 1.2,
+                                color: ColorsManager.textColor2,
+                                fontSize: UtilsReponsive.height(18, context),
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem<String>(
+                        value: 'viewReassign',
+                        child: Text(
+                          'Xem lịch sử giao việc',
                           style: TextStyle(
                               fontFamily: 'Nunito',
                               wordSpacing: 1.2,
@@ -1482,25 +1347,23 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               fontWeight: FontWeight.w700),
                         ),
                       ),
-                    ),
-                    PopupMenuItem<String>(
-                      value: 'viewReassign',
-                      child: Text(
-                        'Xem lịch sử giao việc',
-                        style: TextStyle(
-                            fontFamily: 'Nunito',
-                            wordSpacing: 1.2,
-                            color: ColorsManager.textColor2,
-                            fontSize: UtilsReponsive.height(18, context),
-                            fontWeight: FontWeight.w700),
+                      PopupMenuItem<String>(
+                        value: 'viewBudget',
+                        child: Text(
+                          'Xem danh sách khoản chi',
+                          style: TextStyle(
+                              fontFamily: 'Nunito',
+                              wordSpacing: 1.2,
+                              color: ColorsManager.textColor2,
+                              fontSize: UtilsReponsive.height(18, context),
+                              fontWeight: FontWeight.w700),
+                        ),
                       ),
-                    ),
-                    // Các mục menu khác nếu cần
-                  ];
-                },
-              ),
-            ],
-    );
+                      // Các mục menu khác nếu cần
+                    ];
+                  },
+                ),
+              ]);
   }
 
   _showProgress({required BuildContext context}) {
@@ -1767,6 +1630,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             itemCount: commentModel.commentFiles!.length,
                             separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(15, context)),
                             itemBuilder: (context, index) {
+                              print('commentModel.commentFiles![index] ${commentModel.commentFiles![index].fileUrl}');
                               return _filesComment(
                                 commentModel.commentFiles![index],
                                 context,

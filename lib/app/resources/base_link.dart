@@ -29,10 +29,10 @@ class BaseLink {
   static const updateCommentFile = '/api/v1/commentfile/';
   static const updateComment = '/api/v1/comment/';
   static const createBudget = '/api/v1/budget';
-  static const getAllBudget = '/api/v1/budget';
+  static const getAllBudget = '/api/v1/budget/own-transaction';
   static const updateBudget = '/api/v1/budget/';
-  static const deleteBudget = '/api/v1/budget/detail/';
-  static const getBudgetDetail = '/api/v1/budget/detail/';
+  static const deleteBudget = '/api/v1/budget/';
+  static const getBudgetDetail = '/api/v1/budget/transaction-detail/';
   static const getEventDetail = '/api/v1/event/';
   static const createLeaveRequest = '/api/v1/request';
   static const getAllLeaveRequest = '/api/v1/request/filterRequest/';
@@ -50,4 +50,5 @@ class BaseLink {
   static const getAllEmployeeV2 = '/api/v1/division/list/assignee/employee';
   static const getConversation = '/api/v1/conversations';
   static const getMessages = '/api/v1/conversations/';
+  static const updateEvidence = '/api/v1/budget/';
 }

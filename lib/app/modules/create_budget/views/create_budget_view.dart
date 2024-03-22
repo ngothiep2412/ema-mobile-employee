@@ -28,7 +28,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                   Center(
                     child: Text(
                       'Tạo khoản chi',
-                      style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.textColor),
+                      style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.textColor),
                     ),
                   ),
                   SizedBox(
@@ -36,67 +36,33 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                   ),
                   Text(
                     'Tên khoản chi',
-                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildTextField(context, "Tên khoản chi", "Ví dụ: Tiền thuê mic", controller.budgetNameController),
-
+                  buildTextField(context, "Tên khoản chi", "Ví dụ: Tiền thuê mic", controller.transactionNameController),
                   Text(
-                    'Chi phí ước tính (VNĐ)',
-                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
+                    'Chi phí (VNĐ)',
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
-                  buildWidgetmoney(context, "Chi phí ước tính", "Ví dụ: 100.000", controller.estExpenseController),
+                  buildWidgetmoney(context, "Chi phí", "Ví dụ: 100.000", controller.estExpenseController),
                   Text(
                     'Mô tả',
-                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
+                    style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w600, ColorsManager.primary),
                   ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 10),
                   ),
                   buildTextarea(context, "Mô tả", "Ví dụ: Loại nhỏ", controller.descriptionController),
-                  Text(
-                    'Nhà cung cấp',
-                    style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w600, ColorsManager.primary),
-                  ),
-                  SizedBox(
-                    height: UtilsReponsive.heightv2(context, 10),
-                  ),
-                  buildTextField(context, "Nhà cung cấp", "Ví dụ: Saigon LED", controller.supplierController),
-                  // DropdownButtonFormField(
-                  //   items: controller.genderList
-                  //       .map((e) => DropdownMenuItem(
-                  //             child: Text(e),
-                  //             value: e,
-                  //           ))
-                  //       .toList(),
-                  //   onChanged: (value) {
-                  //     controller.setGender(value as String);
-                  //   },
-                  //   value:
-                  //       controller.selectedGenderVal == "MALE" ? "Nam" : "Nữ",
-                  //   icon: Icon(
-                  //     Icons.arrow_drop_down_circle,
-                  //     color: ColorsManager.primary,
-                  //   ),
-                  //   decoration: const InputDecoration(
-                  //       // labelText: 'Giới tính',
-                  //       errorBorder: InputBorder.none,
-                  //       border: OutlineInputBorder(
-                  //         borderSide: BorderSide.none,
-                  //       ),
-                  //       fillColor: ColorsManager.textInput,
-                  //       filled: true),
-                  // ),
                   SizedBox(
                     height: UtilsReponsive.heightv2(context, 20),
                   ),
                   Obx(
-                    () => Container(
+                    () => SizedBox(
                       height: UtilsReponsive.heightv2(context, 60),
                       child: ElevatedButton(
                         onPressed: () async {
@@ -127,7 +93,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: UtilsReponsive.height(10, context),
                   )
                 ],
               ),
@@ -204,7 +170,7 @@ class CreateBudgetView extends BaseView<CreateBudgetController> {
     TextEditingController? textEditingController,
   ) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: TextField(
         controller: textEditingController,
         maxLines: null,

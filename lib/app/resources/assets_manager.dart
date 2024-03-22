@@ -10,7 +10,8 @@ class ImageAssets {
   static const String logo = "$IMAGE_PATH/logo.png";
   static const String noInternet = "$IMAGE_PATH/no_internet.png";
   static const String noTask = "$IMAGE_PATH/no_task.png";
-  static const String noUser = "$IMAGE_PATH/no_user.jpg";
+  // static const String noUser = "$IMAGE_PATH/no_user.jpg";
+  static const String noUser = "$IMAGE_PATH/no_user.png";
   static const String noChat = "$IMAGE_PATH/conversation.png";
   static const String noEvent = "$IMAGE_PATH/no_event.jpg";
   static const String noAssign = "$IMAGE_PATH/noAssign.png";

@@ -52,9 +52,9 @@ class ProfileChatView extends BaseView<ProfileChatController> {
               () => Expanded(
                 flex: 4,
                 child: controller.isLoading.value
-                    ? Center(
+                    ? const Center(
                         child: SpinKitFadingCircle(
-                          color: ColorsManager.primary,
+                          color: ColorsManager.backgroundWhite,
                           // size: 30.0,
                         ),
                       )

@@ -22,7 +22,7 @@ class TaskScheduleView extends BaseView<TaskScheduleController> {
       () => Scaffold(
         backgroundColor: Colors.blue.withOpacity(0.9),
         body: SafeArea(
-          child: controller.checkView.value != false
+          child: controller.checkView.value == false
               ? Column(
                   children: [
                     Expanded(

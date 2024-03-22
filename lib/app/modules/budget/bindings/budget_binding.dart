@@ -3,12 +3,12 @@ import 'package:hrea_mobile_employee/app/base/base_bindings.dart';
 import '../controllers/budget_controller.dart';
 
 class BudgetBinding extends BaseBindings {
-  String eventID = '';
+  String taskID = '';
   @override
   void injectService() {
-    eventID = Get.arguments["eventID"] as String;
-    Get.put(
-      BudgetController(eventID: eventID),
+    taskID = Get.arguments["taskID"] as String;
+    Get.lazyPut<BudgetController>(
+      () => BudgetController(taskID: taskID),
     );
   }
 }

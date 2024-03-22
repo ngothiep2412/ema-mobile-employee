@@ -47,7 +47,7 @@ class TabNotificationController extends BaseController {
     // connect();
     await getAllNotification(page);
 
-    paginateNotification();
+    await paginateNotification();
   }
 
   @override
@@ -70,8 +70,8 @@ class TabNotificationController extends BaseController {
     socket!.connect();
 
     socket!.on('notification', (data) async {
-      await uploadNoti();
       Get.find<TabViewController>().checkAllNotiSeen.value = false;
+      await uploadNoti();
       // listNotifications.value = list;
 
       // listNotifications.add(NotificationModel(
@@ -270,17 +270,17 @@ class TabNotificationController extends BaseController {
     }
   }
 
-  void paginateNotification() {
-    scrollController.value.addListener(() {
+  Future<void> paginateNotification() async {
+    scrollController.value.addListener(() async {
       if (scrollController.value.position.pixels == scrollController.value.position.maxScrollExtent) {
         print('reached end');
         page++;
-        getMoreNotification(page);
+        await getMoreNotification(page);
       }
     });
   }
 
-  void getMoreNotification(var page) async {
+  Future<void> getMoreNotification(var page) async {
     try {
       List<NotificationModel> list = [];
 
@@ -309,6 +309,7 @@ class TabNotificationController extends BaseController {
 
   Future<void> refreshPage() async {
     // listBudget.clear();
+    checkInView.value = true;
     page = 1;
     await getAllNotification(page);
   }

@@ -216,24 +216,24 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                 //       Icons.request_page_rounded,
                                 //       color: ColorsManager.green,
                                 //     )),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(Routes.BUDGET, arguments: {"eventID": controller.eventID});
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                        UtilsReponsive.height(10, context),
-                                      ),
-                                      color: Colors.green,
-                                    ),
-                                    child: Text(
-                                      'Quản lý ngân sách',
-                                      style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.backgroundWhite),
-                                    ),
-                                  ),
-                                ),
+                                // GestureDetector(
+                                //   onTap: () {
+                                //     Get.toNamed(Routes.BUDGET, arguments: {"eventID": controller.eventID});
+                                //   },
+                                //   child: Container(
+                                //     padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                //     decoration: BoxDecoration(
+                                //       borderRadius: BorderRadius.circular(
+                                //         UtilsReponsive.height(10, context),
+                                //       ),
+                                //       color: Colors.green,
+                                //     ),
+                                //     child: Text(
+                                //       'Quản lý ngân sách',
+                                //       style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, ColorsManager.backgroundWhite),
+                                //     ),
+                                //   ),
+                                // ),
                                 SizedBox(
                                   width: UtilsReponsive.width(10, context),
                                 ),
@@ -310,7 +310,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       Obx(
                         () => controller.isLoading.value == true
                             ? Expanded(
-                                flex: 4,
+                                flex: 5,
                                 child: Container(
                                   padding: EdgeInsets.only(top: controller.listTask.isNotEmpty ? UtilsReponsive.height(30, context) : 0),
                                   decoration: BoxDecoration(
@@ -328,7 +328,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                 ),
                               )
                             : Expanded(
-                                flex: 4,
+                                flex: 5,
                                 child: controller.listTask.isEmpty
                                     ? Container(
                                         padding: EdgeInsets.only(top: controller.listTask.isNotEmpty ? UtilsReponsive.height(30, context) : 0),
@@ -446,6 +446,24 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                       SizedBox(
                         height: UtilsReponsive.height(10, context),
                       ),
+                      Row(
+                        children: [
+                          Text(
+                            taskModel.parent!.title!,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              color: ColorsManager.primary,
+                              fontSize: UtilsReponsive.height(15, context),
+                              fontWeight: FontWeight.w800,
+                              // decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: UtilsReponsive.height(10, context),
+                      ),
                       Row(children: [
                         Row(
                           children: [
@@ -523,7 +541,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                           taskModel.endDate != null
                               ? Expanded(
                                   child: Text(
-                                      'Hạn: ${controller.dateFormat.format(taskModel.startDate!)} - ${controller.dateFormat.format(taskModel.endDate!)}',
+                                      'Hạn: ${controller.dateFormat.format(taskModel.startDate!.toLocal())} - ${controller.dateFormat.format(taskModel.endDate!.toLocal())}',
                                       overflow: TextOverflow.clip,
                                       style: GetTextStyle.getTextStyle(
                                         15,

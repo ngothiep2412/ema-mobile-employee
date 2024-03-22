@@ -185,7 +185,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                         // ),
                         margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
                         child: Text(
-                          '${controller.dateFormat.format(controller.eventDetail.value.startDate!)}- ${controller.dateFormat.format(controller.eventDetail.value.endDate!)}',
+                          '${controller.dateFormat.format(controller.eventDetail.value.startDate!.toLocal())}- ${controller.dateFormat.format(controller.eventDetail.value.endDate!.toLocal())}',
                           style: TextStyle(
                               letterSpacing: 1.5,
                               fontFamily: 'Nunito',
@@ -236,7 +236,7 @@ class EventDetailView extends BaseView<EventDetailController> {
                         // ),
                         margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
                         child: Text(
-                          controller.dateFormat.format(controller.eventDetail.value.processingDate!),
+                          controller.dateFormat.format(controller.eventDetail.value.processingDate!.toLocal()),
                           style: TextStyle(
                               letterSpacing: 1.5,
                               fontFamily: 'Nunito',

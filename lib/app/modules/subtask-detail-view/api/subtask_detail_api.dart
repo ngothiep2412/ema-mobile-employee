@@ -529,9 +529,10 @@ class SubTaskDetailApi {
     }
   }
 
-  static Future<ResponseApi> updateProgressTask(String jwtToken, String taskID, double progress) async {
+  static Future<ResponseApi> updateProgressTask(String jwtToken, String taskID, double progress, String status) async {
     Map<String, dynamic> body = {
       "progress": progress,
+      "status": status,
     };
     print(taskID);
 
