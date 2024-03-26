@@ -15,7 +15,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:open_file/open_file.dart';
 
 class BudgetDetailController extends BaseController {
-  BudgetDetailController({required this.transactionID, required this.isNotiNavigate});
+  BudgetDetailController({required this.transactionID, required this.isNotiNavigate, required this.statusTask});
   String transactionID = '';
 
   Rx<Transaction> transactionView = Transaction().obs;
@@ -27,6 +27,8 @@ class BudgetDetailController extends BaseController {
   RxBool errorUpdateBudget = false.obs;
   RxString errorUpdateBudgetText = ''.obs;
 
+  bool statusTask;
+
   RxBool isLoading = false.obs;
   RxBool checkView = true.obs;
 
@@ -36,6 +38,7 @@ class BudgetDetailController extends BaseController {
   Future<void> onInit() async {
     super.onInit();
     await getBudgetDetail(transactionID);
+    print(transactionID);
   }
 
   @override
@@ -223,18 +226,16 @@ class BudgetDetailController extends BaseController {
         //     checkView.value = false;
         //   }
         // }
-        UploadEvidenceModel responseApi = await BudgetDetailApi.uploadFile(jwt, filePickerFile, transactionID);
+        ResponseApi responseApi = await BudgetDetailApi.replaceEvidence(jwt, filePickerFile, transactionID);
         if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-          if (responseApi.result!.isNotEmpty) {
-            for (var item in responseApi.result!) {
-              listAttachmentEvidence.add(Evidence(
-                  evidenceFileName: item.fileName, evidenceFileSize: item.fileSize, evidenceFileType: item.fileType, evidenceUrl: item.downloadUrl));
-            }
-          } else {
-            checkView.value = false;
-          }
+          Get.snackbar('Cập nhật thành công', 'Cập nhật hóa đơn thành công',
+              snackPosition: SnackPosition.TOP, backgroundColor: Colors.white, colorText: Colors.green);
+          await refreshPage();
+        } else {
+          checkView.value = false;
         }
       }
+
       // listAttachmentEvidence.value = listAttachmentEvidence + list;
     } catch (e) {
       print(e);

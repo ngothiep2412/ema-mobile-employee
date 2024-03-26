@@ -44,6 +44,8 @@ import '../modules/reset_password_successfully/bindings/reset_password_successfu
 import '../modules/reset_password_successfully/views/reset_password_successfully_view.dart';
 import '../modules/splash-screen/bindings/splash_screen_binding.dart';
 import '../modules/splash-screen/views/splash_screen_view.dart';
+import '../modules/statistics/bindings/statistics_binding.dart';
+import '../modules/statistics/views/statistics_view.dart';
 import '../modules/subtask-detail-view/bindings/subtask_detail_view_binding.dart';
 import '../modules/subtask-detail-view/views/subtask_detail_view_view.dart';
 import '../modules/tab_view/bindings/tab_view_binding.dart';
@@ -62,7 +64,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.SPLASH_SCREEN;
 
   static final routes = [
     GetPage(
@@ -204,6 +206,11 @@ class AppPages {
       name: _Paths.TIMELINE_REASSIGN,
       page: () => const TimelineReassignView(),
       binding: TimelineReassignBinding(),
+    ),
+    GetPage(
+      name: _Paths.STATISTICS,
+      page: () => const StatisticsView(),
+      binding: StatisticsBinding(),
     ),
   ];
 }

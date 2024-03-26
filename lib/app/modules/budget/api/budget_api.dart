@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:hrea_mobile_employee/app/resources/base_link.dart';
 
 class BudgetApi {
-  static Future<List<BudgetModel>> getAllBudget(String jwtToken, currentPage, String sort, String status) async {
+  static Future<List<BudgetModel>> getAllBudget(String jwtToken, currentPage, String sort, String status, String taskID) async {
     var response = await http.get(
       Uri.parse(
-          '${BaseLink.localBaseLink}${BaseLink.getAllBudget}?sizePage=100&currentPage=$currentPage&sortProperty=createdAt&sort=$sort&status=$status'),
+          '${BaseLink.localBaseLink}${BaseLink.getAllBudget}?sizePage=10&currentPage=$currentPage&sortProperty=createdAt&sort=$sort&status=$status&taskId=$taskID'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

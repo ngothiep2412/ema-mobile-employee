@@ -897,12 +897,20 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                               await controller.selectFileComment();
                                                             },
                                                             icon: const Icon(Icons.attach_file_outlined)),
-                                                        suffixIcon: IconButton(
-                                                            onPressed: () async {
-                                                              print('aaaa');
-                                                              await controller.createComment();
-                                                            },
-                                                            icon: const Icon(Icons.double_arrow_sharp)),
+                                                        suffixIcon: controller.isLoadingComment.value != true
+                                                            ? IconButton(
+                                                                onPressed: () async {
+                                                                  await controller.createComment();
+                                                                },
+                                                                icon: const Icon(Icons.double_arrow_sharp))
+                                                            : Container(
+                                                                width: 10,
+                                                                height: 10,
+                                                                child: SpinKitFadingCircle(
+                                                                  color: ColorsManager.primary,
+                                                                  size: 20,
+                                                                ),
+                                                              ),
                                                         contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
                                                         hintText: 'Nhập bình luận',
                                                         focusedBorder: const UnderlineInputBorder(
@@ -936,11 +944,20 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                                             icon: const Icon(
                                                               Icons.attach_file_outlined,
                                                             )),
-                                                        suffixIcon: IconButton(
-                                                            onPressed: () async {
-                                                              await controller.createComment();
-                                                            },
-                                                            icon: const Icon(Icons.double_arrow_sharp)),
+                                                        suffixIcon: controller.isLoadingComment.value != true
+                                                            ? IconButton(
+                                                                onPressed: () async {
+                                                                  await controller.createComment();
+                                                                },
+                                                                icon: const Icon(Icons.double_arrow_sharp))
+                                                            : Container(
+                                                                width: 10,
+                                                                height: 10,
+                                                                child: SpinKitFadingCircle(
+                                                                  color: ColorsManager.primary,
+                                                                  size: 20,
+                                                                ),
+                                                              ),
                                                         contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
                                                         hintText: 'Nhập bình luận',
                                                         focusedBorder: const UnderlineInputBorder(
@@ -989,50 +1006,56 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
   }
 
   Widget _statusBuilder({required BuildContext context, required String objectStatusTask, required taskID}) {
-    return controller.taskModel.value.status! != Status.CONFIRM && controller.taskModel.value.assignTasks!.isNotEmpty
-        ? GestureDetector(
-            onTap: () {
-              if (controller.taskModel.value.status! != Status.CONFIRM && controller.taskModel.value.assignTasks![0].user!.id == controller.idUser) {
-                _showBottomSheetStatus(context, taskID);
-              }
-            },
-            child: Container(
-              margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
-              padding:
-                  controller.taskModel.value.status! != Status.CONFIRM && controller.taskModel.value.assignTasks![0].user!.id == controller.idUser
-                      ? EdgeInsets.symmetric(horizontal: UtilsReponsive.width(10, context), vertical: UtilsReponsive.width(5, context))
-                      : EdgeInsets.symmetric(horizontal: UtilsReponsive.width(20, context), vertical: UtilsReponsive.width(5, context)),
-              decoration: BoxDecoration(
-                color: controller.taskModel.value.status == Status.PENDING
-                    ? ColorsManager.grey
-                    : controller.taskModel.value.status! == Status.PROCESSING
-                        ? ColorsManager.blue
-                        : controller.taskModel.value.status! == Status.DONE
-                            ? ColorsManager.green
-                            : controller.taskModel.value.status! == Status.CONFIRM
-                                ? ColorsManager.purple
-                                : ColorsManager.red,
-                borderRadius: BorderRadius.circular(UtilsReponsive.height(8, context)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    objectStatusTask,
-                    style:
-                        TextStyle(letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(14, context), fontWeight: FontWeight.w800),
-                  ),
-                  controller.taskModel.value.status! != Status.CONFIRM && controller.taskModel.value.assignTasks![0].user!.id == controller.idUser
-                      ? Icon(
-                          Icons.arrow_drop_down_rounded,
-                          color: Colors.white,
-                        )
-                      : SizedBox()
-                ],
-              ),
+    return GestureDetector(
+      onTap: () {
+        if (controller.taskModel.value.status! != Status.CONFIRM && controller.taskModel.value.assignTasks![0].user!.id == controller.idUser) {
+          _showBottomSheetStatus(context, taskID);
+        } else if (controller.taskModel.value.assignTasks![0].user!.id != controller.idUser) {
+          Get.snackbar(
+            'Thông báo',
+            'Bạn không phải là người chịu trách nhiệm',
+            snackPosition: SnackPosition.TOP,
+            margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
+            backgroundColor: ColorsManager.backgroundGrey,
+            colorText: ColorsManager.textColor2,
+            duration: const Duration(seconds: 4),
+          );
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
+        padding: controller.taskModel.value.status! != Status.CONFIRM && controller.taskModel.value.assignTasks![0].user!.id == controller.idUser
+            ? EdgeInsets.symmetric(horizontal: UtilsReponsive.width(10, context), vertical: UtilsReponsive.width(5, context))
+            : EdgeInsets.symmetric(horizontal: UtilsReponsive.width(20, context), vertical: UtilsReponsive.width(5, context)),
+        decoration: BoxDecoration(
+          color: controller.taskModel.value.status == Status.PENDING
+              ? ColorsManager.grey
+              : controller.taskModel.value.status! == Status.PROCESSING
+                  ? ColorsManager.blue
+                  : controller.taskModel.value.status! == Status.DONE
+                      ? ColorsManager.green
+                      : controller.taskModel.value.status! == Status.CONFIRM
+                          ? ColorsManager.purple
+                          : ColorsManager.red,
+          borderRadius: BorderRadius.circular(UtilsReponsive.height(8, context)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              objectStatusTask,
+              style: TextStyle(letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(14, context), fontWeight: FontWeight.w800),
             ),
-          )
-        : SizedBox();
+            controller.taskModel.value.status! != Status.CONFIRM && controller.taskModel.value.assignTasks![0].user!.id == controller.idUser
+                ? Icon(
+                    Icons.arrow_drop_down_rounded,
+                    color: Colors.white,
+                  )
+                : SizedBox()
+          ],
+        ),
+      ),
+    );
   }
 
   void _showBottomSheetStatus(BuildContext context, String taskID) {
@@ -1301,22 +1324,10 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     } else if (choice == 'viewReassign') {
                       Get.toNamed(Routes.TIMELINE_REASSIGN, arguments: {"taskID": controller.taskModel.value.id});
                     } else if (choice == 'viewBudget') {
-                      if (controller.taskModel.value.assignTasks![0].user!.id == controller.idUser &&
-                          controller.taskModel.value.status! != Status.CONFIRM) {
-                        Get.toNamed(Routes.BUDGET, arguments: {
-                          "taskID": controller.taskModel.value.id,
-                        });
-                      } else if (controller.taskModel.value.assignTasks![0].user!.id != controller.idUser) {
-                        Get.snackbar(
-                          'Thông báo',
-                          'Bạn không phải là người chịu trách nhiệm',
-                          snackPosition: SnackPosition.TOP,
-                          margin: UtilsReponsive.paddingAll(Get.context!, padding: 10),
-                          backgroundColor: ColorsManager.backgroundGrey,
-                          colorText: ColorsManager.textColor2,
-                          duration: const Duration(seconds: 4),
-                        );
-                      }
+                      Get.toNamed(Routes.BUDGET, arguments: {
+                        "taskID": controller.taskModel.value.id,
+                        "statusTask": controller.taskModel.value.status == Status.CONFIRM ? true : false,
+                      });
                     }
                   },
                   itemBuilder: (BuildContext context) {

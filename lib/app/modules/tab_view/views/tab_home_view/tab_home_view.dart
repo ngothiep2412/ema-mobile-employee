@@ -205,7 +205,9 @@ class TabHomeView extends BaseView<TabHomeController> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Get.toNamed(Routes.STATISTICS);
+                                      },
                                       child: Text(
                                         'Thống kê',
                                         style: GetTextStyle.getTextStyle(19, 'Nunito', FontWeight.w800, Colors.blueAccent),

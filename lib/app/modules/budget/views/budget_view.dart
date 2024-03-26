@@ -63,7 +63,12 @@ class BudgetView extends BaseView<BudgetController> {
                                     )),
                             InkWell(
                               onTap: () {
-                                Get.toNamed(Routes.CREATE_BUDGET, arguments: {"taskID": controller.taskID});
+                                if (controller.statusTask != true) {
+                                  Get.toNamed(Routes.CREATE_BUDGET, arguments: {"taskID": controller.taskID});
+                                } else {
+                                  Get.snackbar('Không tạo được giao dịch', 'Trạng thái của công việc là ĐÃ XÁC THỰC',
+                                      snackPosition: SnackPosition.TOP, backgroundColor: Colors.white, colorText: Colors.black);
+                                }
                               },
                               child: Container(
                                 width: UtilsReponsive.width(40, context),
@@ -278,8 +283,11 @@ class BudgetView extends BaseView<BudgetController> {
                                   }
                                   return GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(Routes.BUDGET_DETAIL,
-                                          arguments: {"transactionID": controller.listTransaction[index].id, "isNotiNavigate": false});
+                                      Get.toNamed(Routes.BUDGET_DETAIL, arguments: {
+                                        "transactionID": controller.listTransaction[index].id,
+                                        "isNotiNavigate": false,
+                                        "statusTask": controller.statusTask
+                                      });
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(

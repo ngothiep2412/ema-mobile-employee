@@ -96,6 +96,8 @@ class SubtaskDetailViewController extends BaseController {
 
   RxBool checkView = false.obs;
 
+  RxBool isLoadingComment = false.obs;
+
   Future<bool> checkTaskForUser() async {
     try {
       checkToken();
@@ -408,9 +410,18 @@ class SubtaskDetailViewController extends BaseController {
         // ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
         // if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
         if (status == 'DONE') {
-          ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100, status);
-          if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-            checkView.value = false;
+          DateTime now = DateTime.now().toLocal();
+          print('now $now');
+          print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
+          if (taskModel.value.startDate!.toLocal().isAfter(now)) {
+            Get.snackbar('Thông báo', 'Công việc này còn sớm để cập nhật hoàn thành',
+                snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+            // return;
+          } else {
+            ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100, status);
+            if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+              checkView.value = false;
+            }
           }
         } else {
           ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
@@ -581,6 +592,7 @@ class SubtaskDetailViewController extends BaseController {
           snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
     } else {
       try {
+        isLoadingComment.value = true;
         checkToken();
         bool checkTask = await checkTaskForUser();
         if (checkTask) {
@@ -624,7 +636,9 @@ class SubtaskDetailViewController extends BaseController {
           Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
               snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
         }
+        isLoadingComment.value = false;
       } catch (e) {
+        isLoadingComment.value = false;
         checkView.value = false;
       }
     }

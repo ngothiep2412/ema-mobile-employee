@@ -16,6 +16,10 @@ class ColorsManager {
   static const Color backgroundContainer = Color(0xffF4F5F7);
   static const Color calendar = Color(0xffC2B280);
 
+  static Color welcome1 = HexColor.fromHex("#fec900");
+  static Color welcome2 = HexColor.fromHex("#f86c8f");
+  static Color welcome3 = HexColor.fromHex("#fa6e18");
+
   static Color purple = const Color(0xffA855F7);
   static Color green = const Color(0xff22C55E);
 

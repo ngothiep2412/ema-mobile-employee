@@ -335,7 +335,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                               SizedBox(
                                 height: UtilsReponsive.height(10, context),
                               ),
-                              controller.transactionView.value.status != "SUCCESS"
+                              controller.transactionView.value.status != "SUCCESS" && controller.statusTask != true
                                   ? Row(
                                       children: [
                                         InkWell(
@@ -476,7 +476,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                       )
                                     ],
                                   )
-                                : controller.transactionView.value.status != "SUCCESS"
+                                : controller.transactionView.value.status != "SUCCESS" && controller.statusTask != true
                                     ? Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: [
@@ -532,7 +532,8 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                   left: UtilsReponsive.height(15, context),
                                   right: UtilsReponsive.height(15, context),
                                   bottom: UtilsReponsive.height(10, context)),
-                              height: UtilsReponsive.height(200, context),
+                              height: UtilsReponsive.height(80, context),
+                              width: UtilsReponsive.width(300, context),
                               child: ListView.separated(
                                 primary: true,
                                 scrollDirection: Axis.horizontal,
@@ -550,7 +551,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Tệp đã thêm',
+                                          'Tệp thay thế',
                                           style: TextStyle(
                                               fontFamily: 'Nunito',
                                               color: ColorsManager.textColor2,
@@ -591,10 +592,10 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                                 onPressed: () async {
                                                   Navigator.of(Get.context!).pop();
                                                   await controller.editBudget(filePickerEditCommentFile);
-                                                  setStateX(() {
-                                                    isEditComment = false;
-                                                    filePickerEditCommentFile = [];
-                                                  });
+                                                  // setStateX(() {
+                                                  //   isEditComment = false;
+                                                  //   filePickerEditCommentFile = [];
+                                                  // });
                                                 },
                                                 child: Text(
                                                   "Có",
@@ -902,59 +903,80 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
       onLongPress: () {
         _showOptionsAttachmentCommentPopup(context, index);
       },
-      child: CachedNetworkImage(
-        imageUrl: evidenceFile.evidenceUrl!,
-        imageBuilder: (context, imageProvider) => Container(
-            width: UtilsReponsive.width(120, context),
-            // height: UtilsReponsive.height(120, context),
-            padding: UtilsReponsive.paddingAll(context, padding: 5),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: DecorationImage(fit: BoxFit.fill, image: imageProvider))),
-        progressIndicatorBuilder: (context, url, downloadProgress) => Container(
-          padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-          height: UtilsReponsive.height(5, context),
-          width: UtilsReponsive.height(5, context),
-          child: CircularProgressIndicator(
-            color: ColorsManager.primary,
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: ColorsManager.backgroundGrey,
         ),
-        errorWidget: (context, url, error) => Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: ColorsManager.backgroundGrey,
-          ),
-          width: UtilsReponsive.width(110, context),
-          padding: UtilsReponsive.paddingOnly(context, top: 10, left: 10, bottom: 5, right: 10),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Expanded(
-              flex: 2,
-              // child: Text('hiii'),
-              child: evidenceFile.evidenceFileName!.length > 35
-                  ? Text(
-                      evidenceFile.evidenceFileName!.length > 35
-                          ? '${evidenceFile.evidenceFileName!.substring(0, 35)}...'
-                          : evidenceFile.evidenceFileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
-                    )
-                  : Text(
-                      evidenceFile.evidenceFileName!,
-                      style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
-                    ),
-            ),
-            // const Expanded(
-            //   child: Column(
-            //     mainAxisAlignment: MainAxisAlignment.end,
-            //     children: [
-            //       Text(
-            //         'Kích thước',
-            //         style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-          ]),
+        // width: UtilsReponsive.width(110, context),
+        padding: UtilsReponsive.paddingOnly(
+          context,
+          top: 10,
+          left: 10,
+          bottom: 5,
+          right: 10,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(evidenceFile.evidenceFileName!, style: GetTextStyle.getTextStyle(12, 'Nunito', FontWeight.w700, ColorsManager.primary)),
+          ],
         ),
       ),
     );
+    //   CachedNetworkImage(
+    //     imageUrl: evidenceFile.evidenceUrl!,
+    //     imageBuilder: (context, imageProvider) => Container(
+    //         width: UtilsReponsive.width(120, context),
+    //         // height: UtilsReponsive.height(120, context),
+    //         padding: UtilsReponsive.paddingAll(context, padding: 5),
+    //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: DecorationImage(fit: BoxFit.cover, image: imageProvider))),
+    //     progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+    //       padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+    //       height: UtilsReponsive.height(5, context),
+    //       width: UtilsReponsive.height(5, context),
+    //       child: CircularProgressIndicator(
+    //         color: ColorsManager.primary,
+    //       ),
+    //     ),
+    //     errorWidget: (context, url, error) => Container(
+    //       decoration: BoxDecoration(
+    //         borderRadius: BorderRadius.circular(10),
+    //         color: ColorsManager.backgroundGrey,
+    //       ),
+    //       width: UtilsReponsive.width(110, context),
+    //       padding: UtilsReponsive.paddingOnly(context, top: 10, left: 10, bottom: 5, right: 10),
+    //       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    //         Expanded(
+    //           flex: 2,
+    //           // child: Text('hiii'),
+    //           child: evidenceFile.evidenceFileName!.length > 35
+    //               ? Text(
+    //                   evidenceFile.evidenceFileName!.length > 35
+    //                       ? '${evidenceFile.evidenceFileName!.substring(0, 35)}...'
+    //                       : evidenceFile.evidenceFileName!,
+    //                   style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
+    //                 )
+    //               : Text(
+    //                   evidenceFile.evidenceFileName!,
+    //                   style: const TextStyle(fontFamily: 'Nunito', fontSize: 11, fontWeight: FontWeight.w700, color: ColorsManager.textColor),
+    //                 ),
+    //         ),
+    //         // const Expanded(
+    //         //   child: Column(
+    //         //     mainAxisAlignment: MainAxisAlignment.end,
+    //         //     children: [
+    //         //       Text(
+    //         //         'Kích thước',
+    //         //         style: TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+    //         //       ),
+    //         //     ],
+    //         //   ),
+    //         // ),
+    //       ]),
+    //     ),
+    //   ),
+    // );
   }
 
   void _showOptionsAttachmentCommentPopup(BuildContext context, int index) {

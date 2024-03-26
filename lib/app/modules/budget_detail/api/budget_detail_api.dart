@@ -76,6 +76,43 @@ class BudgetDetailApi {
       throw Exception('Exception');
     }
   }
+
+  static Future<ResponseApi> replaceEvidence(String jwtToken, List<PlatformFile> filePicker, String transactionID) async {
+    final uri = Uri.parse("${BaseLink.localBaseLink}${BaseLink.updateEvidence}$transactionID/evidence");
+    MediaType contentType = MediaType('', '');
+
+    http.MultipartRequest request = http.MultipartRequest('PUT', uri);
+    for (var item in filePicker) {
+      if (item.extension == 'doc' || item.extension == 'docx') {
+        contentType = MediaType('application', 'vnd.openxmlformats-officedocument.wordprocessingml.document');
+      } else if (item.extension == "xlsx") {
+        contentType = MediaType('application', 'vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      } else if (item.extension == "jpg") {
+        contentType = MediaType('image', 'jpg');
+      } else if (item.extension == "jpeg") {
+        contentType = MediaType('image', 'jpeg');
+      } else if (item.extension == "png") {
+        contentType = MediaType('image', 'png');
+      } else if (item.extension == "pdf") {
+        contentType = MediaType('application', 'pdf');
+      }
+      http.MultipartFile multipartFile =
+          await http.MultipartFile.fromPath('files', item.path!, contentType: contentType, filename: item.path!.split('/').last);
+      request.files.add(multipartFile);
+    }
+
+    request.headers.addAll(_header(jwtToken));
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response.body);
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return Future<ResponseApi>.value(ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 500 || response.statusCode == 400) {
+      return Future<ResponseApi>.value(ResponseApi.fromJson(jsonDecode(response.body)));
+    } else {
+      throw Exception('Exception');
+    }
+  }
 }
 
 _header(String token) {

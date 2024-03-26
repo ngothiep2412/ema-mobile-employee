@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class BudgetController extends BaseController {
-  BudgetController({required this.taskID});
+  BudgetController({required this.taskID, required this.statusTask});
 
   RxBool isLoading = false.obs;
 
@@ -19,6 +19,7 @@ class BudgetController extends BaseController {
   RxBool isModalVisible = false.obs;
 
   String taskID = '';
+  bool statusTask;
 
   String jwt = '';
   String idUser = '';
@@ -81,7 +82,7 @@ class BudgetController extends BaseController {
       page = 1;
       List<Transaction> list = [];
       if (status.value == 'Tất cả') {
-        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL', taskID);
         if (listBudget.isNotEmpty) {
           for (var item in listBudget) {
             if (item.taskId == taskID) {
@@ -101,7 +102,7 @@ class BudgetController extends BaseController {
         } else if (status.value == 'Thành công') {
           statusRequest = 'SUCCESS';
         }
-        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest);
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest, taskID);
         if (listBudget.isNotEmpty) {
           for (var item in listBudget) {
             if (item.taskId == taskID) {
@@ -131,7 +132,7 @@ class BudgetController extends BaseController {
     listTransaction.clear();
     try {
       checkToken();
-      List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+      List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL', taskID);
       if (listBudget.isNotEmpty) {
         for (var item in listBudget) {
           if (item.taskId == taskID) {
@@ -175,7 +176,7 @@ class BudgetController extends BaseController {
     try {
       List<Transaction> list = [];
       if (status.value == 'Tất cả') {
-        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL', taskID);
         if (listBudget.isNotEmpty) {
           for (var item in listBudget) {
             if (item.taskId == taskID) {
@@ -195,7 +196,7 @@ class BudgetController extends BaseController {
         } else if (status.value == 'Thành công') {
           statusRequest = 'SUCCESS';
         }
-        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest);
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest, taskID);
         if (listBudget.isNotEmpty) {
           for (var item in listBudget) {
             if (item.taskId == taskID) {
@@ -237,7 +238,7 @@ class BudgetController extends BaseController {
         checkToken();
         List<Transaction> list = [];
         if (status.value == 'Tất cả') {
-          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL', taskID);
           if (listBudget.isNotEmpty) {
             for (var item in listBudget) {
               if (item.taskId == taskID) {
@@ -257,7 +258,7 @@ class BudgetController extends BaseController {
           } else if (value == 'Thành công') {
             statusRequest = 'SUCCESS';
           }
-          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest);
+          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest, taskID);
           if (listBudget.isNotEmpty) {
             for (var item in listBudget) {
               if (item.taskId == taskID) {
@@ -282,7 +283,7 @@ class BudgetController extends BaseController {
         checkToken();
         List<Transaction> list = [];
         if (status.value == 'Tất cả') {
-          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL', taskID);
           if (listBudget.isNotEmpty) {
             for (var item in listBudget) {
               if (item.taskId == taskID) {
@@ -302,7 +303,7 @@ class BudgetController extends BaseController {
           } else if (status.value == 'Thành công') {
             statusRequest = 'SUCCESS';
           }
-          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest);
+          List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusRequest, taskID);
           if (listBudget.isNotEmpty) {
             for (var item in listBudget) {
               if (item.taskId == taskID) {
@@ -337,7 +338,7 @@ class BudgetController extends BaseController {
     List<Transaction> list = [];
     try {
       if (value == 'Tất cả') {
-        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL');
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL', taskID);
         if (listBudget.isNotEmpty) {
           for (var item in listBudget) {
             if (item.taskId == taskID) {
@@ -359,7 +360,7 @@ class BudgetController extends BaseController {
         } else if (value == 'Thành công') {
           status = 'SUCCESS';
         }
-        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', status);
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', status, taskID);
         if (listBudget.isNotEmpty) {
           for (var item in listBudget) {
             if (item.taskId == taskID) {

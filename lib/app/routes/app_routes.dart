@@ -32,6 +32,7 @@ abstract class Routes {
   static const TASK_SCHEDULE = _Paths.TASK_SCHEDULE;
   static const PROFILE_CHAT = _Paths.PROFILE_CHAT;
   static const TIMELINE_REASSIGN = _Paths.TIMELINE_REASSIGN;
+  static const STATISTICS = _Paths.STATISTICS;
 }
 
 abstract class _Paths {
@@ -65,4 +66,5 @@ abstract class _Paths {
   static const TASK_SCHEDULE = '/task-schedule';
   static const PROFILE_CHAT = '/profile-chat';
   static const TIMELINE_REASSIGN = '/timeline-reassign';
+  static const STATISTICS = '/statistics';
 }

@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:hrea_mobile_employee/app/base/base_view.dart';
 import 'package:hrea_mobile_employee/app/resources/assets_manager.dart';
@@ -15,28 +14,41 @@ class SplashScreenView extends BaseView<SplashScreenController> {
   Widget buildView(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsManager.primary,
-      body: Center(
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [ColorsManager.primary, ColorsManager.blue, ColorsManager.backgroundWhite], // Thay đổi màu sắc theo ý muốn
+          ),
+        ),
+        child: Center(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            ImageAssets.defaultAvatar,
-            height: 150,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                ImageAssets.logo,
+                height: 170,
+              ),
+              // Text(
+              //   'EMA',
+              //   style: TextStyle(
+              //       letterSpacing: 3, color: Colors.white, fontSize: UtilsReponsive.formatFontSize(42, context), fontWeight: FontWeight.w900),
+              // ),
+              SizedBox(
+                height: UtilsReponsive.height(100, context),
+                width: UtilsReponsive.width(100, context),
+                child: SpinKitFadingCircle(
+                  color: Colors.white, // Màu của nét đứt
+                  size: 50.0, // Kích thước của CircularProgressIndicator
+                ),
+              )
+            ],
           ),
-          SizedBox(
-            height: UtilsReponsive.height(30, context),
-          ),
-          if (defaultTargetPlatform == TargetPlatform.iOS)
-            const CupertinoActivityIndicator(
-              color: Colors.white,
-              radius: 20,
-            )
-          else
-            const CircularProgressIndicator(
-              color: Colors.white,
-            )
-        ],
-      )),
+        ),
+      ),
     );
   }
 }
