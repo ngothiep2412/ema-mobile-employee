@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -34,26 +32,24 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                         ),
                       )
                     : controller.checkView.value == false
-                        ? Expanded(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    ImageAssets.noInternet,
-                                    fit: BoxFit.cover,
-                                    width: UtilsReponsive.widthv2(context, 200),
-                                    height: UtilsReponsive.heightv2(context, 200),
-                                  ),
-                                  SizedBox(
-                                    height: UtilsReponsive.height(20, context),
-                                  ),
-                                  Text(
-                                    'Đang có lỗi xảy ra',
-                                    style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
-                                  ),
-                                ],
-                              ),
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  ImageAssets.noInternet,
+                                  fit: BoxFit.cover,
+                                  width: UtilsReponsive.widthv2(context, 200),
+                                  height: UtilsReponsive.heightv2(context, 200),
+                                ),
+                                SizedBox(
+                                  height: UtilsReponsive.height(20, context),
+                                ),
+                                Text(
+                                  'Đang có lỗi xảy ra',
+                                  style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                                ),
+                              ],
                             ),
                           )
                         : Column(children: [

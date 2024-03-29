@@ -14,7 +14,7 @@ class ForgotPasswordController extends BaseController {
   ResponseApi? responseApi;
   RxBool errorForgotPassword = false.obs;
   RxString errorForgotPasswordText = ''.obs;
-
+  RxBool disableButton = true.obs;
   final count = 0.obs;
   @override
   void onInit() {
@@ -66,7 +66,12 @@ class ForgotPasswordController extends BaseController {
 
   setEmail(String value) {
     emailTxt.value = value;
-    validatorEmail();
+    if (emailTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      disableButton.value = false;
+      validatorEmail();
+    }
   }
 
   validatorEmail() {

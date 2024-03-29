@@ -13,6 +13,7 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: _appBar(context),
         body: Container(
           child: Column(
@@ -51,132 +52,140 @@ class ChangePasswordView extends BaseView<ChangePasswordController> {
                     color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(40))),
                 child: Padding(
                   padding: UtilsReponsive.paddingAll(context, padding: 24),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Obx(
-                        () => TextFormField(
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: controller.oldPasswordObscured.value,
-                          onChanged: (value) => {controller.setOldPassword(value)},
-                          decoration: InputDecoration(
-                              errorBorder: InputBorder.none,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: ColorsManager.textInput,
-                              hintText: "Mật khẩu cũ",
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: Colors.grey[600]!,
-                              ),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  controller.oldPasswordObscured.value = !controller.oldPasswordObscured.value;
-                                },
-                                icon: Icon(
-                                  controller.oldPasswordObscured.value ? Icons.visibility_off : Icons.visibility,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Obx(
+                          () => TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: controller.oldPasswordObscured.value,
+                            onChanged: (value) => {controller.setOldPassword(value)},
+                            decoration: InputDecoration(
+                                errorBorder: InputBorder.none,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: ColorsManager.textInput,
+                                hintText: "Mật khẩu cũ",
+                                prefixIcon: Icon(
+                                  Icons.lock,
                                   color: Colors.grey[600]!,
                                 ),
-                              )),
-                        ),
-                      ),
-                      SizedBox(
-                        height: UtilsReponsive.height(30, context),
-                      ),
-                      Obx(
-                        () => TextFormField(
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: controller.newPasswordObscured.value,
-                          onChanged: (value) => {controller.setNewPassword(value)},
-                          decoration: InputDecoration(
-                              errorBorder: InputBorder.none,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: ColorsManager.textInput,
-                              hintText: "Mật khẩu mới",
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: Colors.grey[600]!,
-                              ),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  controller.newPasswordObscured.value = !controller.newPasswordObscured.value;
-                                },
-                                icon: Icon(
-                                  controller.newPasswordObscured.value ? Icons.visibility_off : Icons.visibility,
-                                  color: Colors.grey[600]!,
-                                ),
-                              )),
-                        ),
-                      ),
-                      SizedBox(
-                        height: UtilsReponsive.height(30, context),
-                      ),
-                      Obx(
-                        () => TextFormField(
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: controller.confirmPasswordObscured.value,
-                          onChanged: (value) => {controller.setConfirmPassword(value)},
-                          decoration: InputDecoration(
-                              errorBorder: InputBorder.none,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: ColorsManager.textInput,
-                              hintText: "Xác nhận mật khẩu",
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: Colors.grey[600]!,
-                              ),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  controller.confirmPasswordObscured.value = !controller.confirmPasswordObscured.value;
-                                },
-                                icon: Icon(
-                                  controller.confirmPasswordObscured.value ? Icons.visibility_off : Icons.visibility,
-                                  color: Colors.grey[600]!,
-                                ),
-                              )),
-                        ),
-                      ),
-                      SizedBox(
-                        height: UtilsReponsive.height(40, context),
-                      ),
-                      Obx(
-                        () => Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: ColorsManager.primary,
-                          ),
-                          child: MaterialButton(
-                            onPressed: () async {
-                              await controller.resetPassword();
-                              controller.errorChangePassword.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
-                            },
-                            child: controller.isLoading.value
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: ColorsManager.primary,
-                                    ),
-                                  )
-                                : Text(
-                                    "Lưu",
-                                    style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w400, Colors.white),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    controller.oldPasswordObscured.value = !controller.oldPasswordObscured.value;
+                                  },
+                                  icon: Icon(
+                                    controller.oldPasswordObscured.value ? Icons.visibility_off : Icons.visibility,
+                                    color: Colors.grey[600]!,
                                   ),
+                                )),
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: UtilsReponsive.height(30, context),
+                        ),
+                        Obx(
+                          () => TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: controller.newPasswordObscured.value,
+                            onChanged: (value) => {controller.setNewPassword(value)},
+                            decoration: InputDecoration(
+                                errorBorder: InputBorder.none,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: ColorsManager.textInput,
+                                hintText: "Mật khẩu mới",
+                                prefixIcon: Icon(
+                                  Icons.lock,
+                                  color: Colors.grey[600]!,
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    controller.newPasswordObscured.value = !controller.newPasswordObscured.value;
+                                  },
+                                  icon: Icon(
+                                    controller.newPasswordObscured.value ? Icons.visibility_off : Icons.visibility,
+                                    color: Colors.grey[600]!,
+                                  ),
+                                )),
+                          ),
+                        ),
+                        SizedBox(
+                          height: UtilsReponsive.height(30, context),
+                        ),
+                        Obx(
+                          () => TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: controller.confirmPasswordObscured.value,
+                            onChanged: (value) => {controller.setConfirmPassword(value)},
+                            decoration: InputDecoration(
+                                errorBorder: InputBorder.none,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: ColorsManager.textInput,
+                                hintText: "Xác nhận mật khẩu",
+                                prefixIcon: Icon(
+                                  Icons.lock,
+                                  color: Colors.grey[600]!,
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    controller.confirmPasswordObscured.value = !controller.confirmPasswordObscured.value;
+                                  },
+                                  icon: Icon(
+                                    controller.confirmPasswordObscured.value ? Icons.visibility_off : Icons.visibility,
+                                    color: Colors.grey[600]!,
+                                  ),
+                                )),
+                          ),
+                        ),
+                        SizedBox(
+                          height: UtilsReponsive.height(40, context),
+                        ),
+                        Obx(
+                          () => Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: controller.disableButton.value ? Colors.grey : ColorsManager.primary,
+                            ),
+                            child: MaterialButton(
+                              onPressed: controller.disableButton.value
+                                  ? null
+                                  : () async {
+                                      await controller.resetPassword();
+                                      if (controller.errorChangePassword.value) {
+                                        _errorMessage(Get.context!);
+                                      } else {
+                                        _successMessage(Get.context!);
+                                      }
+                                    },
+                              child: controller.isLoading.value
+                                  ? Center(
+                                      child: CircularProgressIndicator(
+                                        color: ColorsManager.primary,
+                                      ),
+                                    )
+                                  : Text(
+                                      "Lưu",
+                                      style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w400, Colors.white),
+                                    ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

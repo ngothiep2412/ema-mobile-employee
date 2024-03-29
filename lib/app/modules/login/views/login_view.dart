@@ -12,6 +12,7 @@ class LoginView extends BaseView<LoginController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
+      // resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Container(
           constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height, maxWidth: MediaQuery.of(context).size.width),

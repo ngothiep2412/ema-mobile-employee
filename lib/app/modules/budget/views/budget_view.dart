@@ -469,38 +469,4 @@ class BudgetView extends BaseView<BudgetController> {
       ),
     ));
   }
-
-  AppBar _appBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: ColorsManager.backgroundContainer,
-      leading: IconButton(
-        onPressed: () {
-          Get.back();
-          controller.onDelete();
-        },
-        icon: Icon(
-          Icons.arrow_back_ios_new,
-          color: ColorsManager.primary,
-        ),
-      ),
-      actions: [
-        IconButton(
-            onPressed: () {
-              controller.refreshPage();
-            },
-            icon: const Icon(
-              Icons.refresh,
-              color: ColorsManager.textColor2,
-            )),
-        IconButton(
-            onPressed: () {
-              controller.createBudget();
-            },
-            icon: Icon(
-              Icons.add,
-              color: ColorsManager.primary,
-            )),
-      ],
-    );
-  }
 }

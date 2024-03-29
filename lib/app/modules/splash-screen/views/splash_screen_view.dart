@@ -28,10 +28,10 @@ class SplashScreenView extends BaseView<SplashScreenController> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                ImageAssets.logo,
-                height: 170,
-              ),
+              // Image.asset(
+              //   ImageAssets.logo,
+              //   height: 170,
+              // ),
               // Text(
               //   'EMA',
               //   style: TextStyle(

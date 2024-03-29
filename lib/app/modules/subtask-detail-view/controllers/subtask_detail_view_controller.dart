@@ -174,12 +174,27 @@ class SubtaskDetailViewController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
       idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 
@@ -413,8 +428,8 @@ class SubtaskDetailViewController extends BaseController {
           DateTime now = DateTime.now().toLocal();
           print('now $now');
           print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
-          if (taskModel.value.startDate!.toLocal().isAfter(now)) {
-            Get.snackbar('Thông báo', 'Công việc này còn sớm để cập nhật hoàn thành',
+          if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+            Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
                 snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
             // return;
           } else {
@@ -424,9 +439,18 @@ class SubtaskDetailViewController extends BaseController {
             }
           }
         } else {
-          ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
-          if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
-            checkView.value = false;
+          DateTime now = DateTime.now().toLocal();
+          print('now $now');
+          print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
+          if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+            Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
+                snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+            // return;
+          } else {
+            ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
+            if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
+              checkView.value = false;
+            }
           }
         }
         await updatePageOverall();

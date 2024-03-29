@@ -7,7 +7,6 @@ import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_employee/app/resources/style_manager.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 import '../controllers/profile_controller.dart';
 
@@ -203,7 +202,7 @@ class ProfileView extends BaseView<ProfileController> {
                     onChanged: (value) {
                       controller.setGender(value as String);
                     },
-                    value: controller.selectedGenderVal == "MALE" ? "Nam" : "Nữ",
+                    value: controller.selectedGenderVal.value == "MALE" ? "Nam" : "Nữ",
                     icon: Icon(
                       Icons.arrow_drop_down_circle,
                       color: ColorsManager.primary,
@@ -224,8 +223,8 @@ class ProfileView extends BaseView<ProfileController> {
                     () => Container(
                       height: UtilsReponsive.heightv2(context, 60),
                       child: ElevatedButton(
-                        onPressed: () {
-                          controller.updateProfile();
+                        onPressed: () async {
+                          await controller.updateProfile();
                           print('${controller.errorUpdateProfile}');
                           controller.errorUpdateProfile.value ? _errorMessage(context) : _successMessage(context);
                         },

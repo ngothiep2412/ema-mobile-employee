@@ -64,12 +64,27 @@ class RequestDetailController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
       idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 

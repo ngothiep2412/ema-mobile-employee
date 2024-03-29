@@ -12,6 +12,7 @@ class ResetPasswordView extends BaseView<ResetPasswordController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: ColorsManager.primary,
           elevation: 0,
@@ -126,13 +127,15 @@ class ResetPasswordView extends BaseView<ResetPasswordController> {
                           width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: ColorsManager.primary,
+                            color: controller.disableButton.value ? Colors.grey : ColorsManager.primary,
                           ),
                           child: MaterialButton(
-                            onPressed: () async {
-                              await controller.resetPassword();
-                              controller.errorResetPassword.value ? _errorMessage(context) : _successMessage(context);
-                            },
+                            onPressed: controller.disableButton.value
+                                ? null
+                                : () async {
+                                    await controller.resetPassword();
+                                    controller.errorResetPassword.value ? _errorMessage(context) : _successMessage(context);
+                                  },
                             child: controller.isLoading.value
                                 ? Center(
                                     child: CircularProgressIndicator(

@@ -67,12 +67,27 @@ class BudgetController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
       Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
       idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 
@@ -225,7 +240,31 @@ class BudgetController extends BaseController {
     }
   }
 
-  Future<void> clearFilter() async {}
+  Future<void> clearFilter() async {
+    status.value = 'Tất cả';
+    selectedTimeTypeVal.value = 'Tất cả';
+    List<Transaction> list = [];
+    isLoading.value = true;
+    page = 1;
+    try {
+      List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', 'ALL', taskID);
+      if (listBudget.isNotEmpty) {
+        for (var item in listBudget) {
+          if (item.taskId == taskID) {
+            list = item.transactions!;
+            break;
+          }
+        }
+      }
+      listTransaction.addAll(list);
+      isLoading.value = false;
+    } catch (e) {
+      log(e.toString());
+      errorGetBudget.value = true;
+      isLoading.value = false;
+      errorGetBudgetText.value = "Có lỗi xảy ra";
+    }
+  }
 
   Future<void> setTimeType(String value) async {
     selectedTimeTypeVal.value = value;
@@ -348,19 +387,19 @@ class BudgetController extends BaseController {
           }
         }
       } else {
-        String status = '';
+        String statusTask = '';
         checkToken();
         listTransaction.clear();
         if (value == 'Chờ duyệt') {
-          status = 'PENDING';
+          statusTask = 'PENDING';
         } else if (value == 'Chấp nhận') {
-          status = 'ACCEPTED';
+          statusTask = 'ACCEPTED';
         } else if (value == 'Từ chối') {
-          status = 'REJECTED';
+          statusTask = 'REJECTED';
         } else if (value == 'Thành công') {
-          status = 'SUCCESS';
+          statusTask = 'SUCCESS';
         }
-        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', status, taskID);
+        List<BudgetModel> listBudget = await BudgetApi.getAllBudget(jwt, page, 'DESC', statusTask, taskID);
         if (listBudget.isNotEmpty) {
           for (var item in listBudget) {
             if (item.taskId == taskID) {

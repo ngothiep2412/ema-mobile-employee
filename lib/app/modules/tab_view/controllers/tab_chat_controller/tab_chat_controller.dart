@@ -266,7 +266,7 @@ class TabChatController extends BaseController {
       // listChatUser.clear();
       List<ChatUserModel> list = await TabChatApi.getAllChatUser(jwt, page);
       // List<ChatUserModel> listAll = await TabChatApi.getAllChatUser(jwt, page);
-
+      list = list.where((item) => item.lastMessageSent != null).toList();
       for (var i = 0; i < list.length; i++) {
         var item = list[i];
         for (var userOnline in listUserOnline) {

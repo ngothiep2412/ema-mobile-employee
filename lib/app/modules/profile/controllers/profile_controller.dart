@@ -74,7 +74,7 @@ class ProfileController extends BaseController {
     super.onClose();
   }
 
-  void updateProfile() async {
+  Future<void> updateProfile() async {
     // SharedPreferences pref = await SharedPreferences.getInstance();
     if (fullNameController!.text == '') {
       print(fullNameController!.text);
@@ -97,12 +97,16 @@ class ProfileController extends BaseController {
       try {
         // String? jwtToken = pref.getString('JWT');
         String? jwtToken = GetStorage().read('JWT');
+        String gender = 'MALE';
+        if (selectedGenderVal.value == 'Nữ') {
+          gender = 'FEMALE';
+        }
         if (jwtToken != null) {
           if (imageFile == null) {
             List<String> parts = dateController!.text.split('/');
             String formattedDate = '${parts[2]}-${parts[1]}-${parts[0]}';
             responseApi = await ProfileApi.updateProfile(phoneController!.text, fullNameController!.text, DateTime.parse(formattedDate),
-                addressController!.text, imageUrl.value, selectedGenderVal.value, jwtToken);
+                addressController!.text, imageUrl.value, gender, jwtToken);
             if (responseApi!.statusCode == 200 || responseApi!.statusCode == 201) {
               errorUpdateProfile.value = false;
               await Get.find<TabSettingController>().getProfile();
@@ -117,7 +121,7 @@ class ProfileController extends BaseController {
               String formattedDate = '${parts[2]}-${parts[1]}-${parts[0]}';
 
               ResponseApi responseApiv2 = await ProfileApi.updateProfile(phoneController!.text, fullNameController!.text,
-                  DateTime.parse(formattedDate), addressController!.text, responseApi.result!.downloadUrl!, selectedGenderVal.value, jwtToken);
+                  DateTime.parse(formattedDate), addressController!.text, responseApi.result!.downloadUrl!, gender, jwtToken);
               if (responseApiv2.statusCode == 200 || responseApiv2.statusCode == 201) {
                 errorUpdateProfile.value = false;
                 await Get.find<TabSettingController>().getProfile();

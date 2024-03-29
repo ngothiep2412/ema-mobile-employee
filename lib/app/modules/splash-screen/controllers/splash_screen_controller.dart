@@ -16,15 +16,35 @@ class SplashScreenController extends BaseController {
   void onReady() {
     super.onReady();
     if (getStorage.read('JWT') != null) {
+      DateTime now = DateTime.now().toLocal();
       String jwt = getStorage.read('JWT');
-      print('JwtDecoder.isExpired(jwt) ${JwtDecoder.isExpired(jwt)}');
-      DateTime expirationDate = JwtDecoder.getExpirationDate(jwt);
-      if (JwtDecoder.isExpired(jwt)) {
-        getStorage.remove('JWT');
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
+      // idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
         Get.offAllNamed(Routes.LOGIN);
+        return;
       } else {
         Get.offAllNamed(Routes.TAB_VIEW);
       }
+
+      // String jwt = getStorage.read('JWT');
+      // print('JwtDecoder.isExpired(jwt) ${JwtDecoder.isExpired(jwt)}');
+      // DateTime expirationDate = JwtDecoder.getExpirationDate(jwt);
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   getStorage.remove('JWT');
+      //   Get.offAllNamed(Routes.LOGIN);
+      // } else {
+      //   Get.offAllNamed(Routes.TAB_VIEW);
+      // }
     } else {
       Get.offAllNamed(Routes.LOGIN);
     }

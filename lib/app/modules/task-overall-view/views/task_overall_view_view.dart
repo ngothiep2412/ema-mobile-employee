@@ -161,9 +161,9 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                                                                   ),
                                                               itemBuilder: (context, index) {
                                                                 return GestureDetector(
-                                                                  onTap: () {
+                                                                  onTap: () async {
                                                                     if (!controller.filterChoose.contains(controller.filterList[index])) {
-                                                                      controller.filter(controller.filterList[index]);
+                                                                      await controller.filter(controller.filterList[index]);
                                                                     } else {
                                                                       controller.filter('');
                                                                     }
@@ -241,6 +241,70 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                             ),
                           ],
                         ),
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: UtilsReponsive.height(10, context),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                _showBottomSheetStatus(context);
+                              },
+                              child: Obx(
+                                () => Row(
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Trạng thái: ',
+                                      style: GetTextStyle.getTextStyle(18, 'Nunito', FontWeight.w800, ColorsManager.backgroundWhite),
+                                    ),
+                                    SizedBox(
+                                      width: UtilsReponsive.width(20, context),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: UtilsReponsive.height(10, context),
+                                        vertical: UtilsReponsive.height(15, context),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: controller.status.value == "Đang chuẩn bị"
+                                            ? ColorsManager.grey
+                                            : controller.status.value == "Đang thực hiện"
+                                                ? ColorsManager.blue
+                                                : controller.status.value == "Tất cả"
+                                                    ? ColorsManager.calendar
+                                                    : controller.status.value == "Đã xác thực"
+                                                        ? Colors.purple
+                                                        : ColorsManager.green,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      // width: UtilsReponsive.width(100, context),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        // mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            controller.status.value,
+                                            style: TextStyle(fontWeight: FontWeight.w600, color: ColorsManager.backgroundWhite, fontSize: 15),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_drop_down,
+                                            color: ColorsManager.backgroundWhite,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: UtilsReponsive.height(10, context),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 15),
@@ -583,5 +647,84 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
             )),
       ),
     );
+  }
+
+  void _showBottomSheetStatus(BuildContext context) {
+    Get.bottomSheet(Container(
+      decoration: const BoxDecoration(
+        color: ColorsManager.backgroundGrey,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+      ),
+      constraints: BoxConstraints(maxHeight: UtilsReponsive.width(400, context)),
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          "Tất cả",
+          "Đang chuẩn bị",
+          "Đang thực hiện",
+          "Hoàn thành",
+          "Đã xác thực",
+        ]
+            .map(
+              (e) => GestureDetector(
+                onTap: () async {
+                  Get.back();
+                  if (e == 'Đang chuẩn bị') {
+                    await controller.changeStatus(e);
+                  } else if (e == 'Đang thực hiện') {
+                    await controller.changeStatus(e);
+                  } else if (e == 'Hoàn thành') {
+                    await controller.changeStatus(e);
+                  } else if (e == 'Tất cả') {
+                    await controller.changeStatus(e);
+                  } else if (e == 'Đã xác thực') {
+                    await controller.changeStatus(e);
+                  }
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: e == "Đang chuẩn bị"
+                          ? ColorsManager.grey.withOpacity(0.5)
+                          : e == "Đang thực hiện"
+                              ? ColorsManager.blue.withOpacity(0.5)
+                              : e == "Tất cả"
+                                  ? ColorsManager.calendar
+                                  : e == "Đã xác thực"
+                                      ? Colors.purple.withOpacity(0.5)
+                                      : ColorsManager.green.withOpacity(0.5),
+                      child: Text(e[0],
+                          style: TextStyle(
+                              fontFamily: 'Nunito',
+                              color: ColorsManager.backgroundWhite,
+                              fontSize: UtilsReponsive.height(18, context),
+                              fontWeight: FontWeight.w800)),
+                    ),
+                    title: Text(
+                      e,
+                      style: TextStyle(
+                          fontFamily: 'Nunito',
+                          color: e == "Đang chuẩn bị"
+                              ? ColorsManager.textColor2
+                              : e == "Đang thực hiện"
+                                  ? Colors.blue
+                                  : e == "Tất cả"
+                                      ? ColorsManager.calendar
+                                      : e == "Đã xác thực"
+                                          ? Colors.purple
+                                          : Colors.green,
+                          fontSize: UtilsReponsive.height(18, context),
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    ));
   }
 }

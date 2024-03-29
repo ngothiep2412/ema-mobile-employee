@@ -83,20 +83,22 @@ class OtpView extends BaseView<OtpController> {
                 ),
               ),
               SizedBox(height: UtilsReponsive.height(40, context)),
-              Padding(
-                padding: UtilsReponsive.paddingAll(context, padding: 20),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorsManager.primary,
-                  ),
-                  child: Obx(
-                    () => MaterialButton(
-                      onPressed: () async {
-                        await controller.verifyCode();
-                        controller.errorVerifyCode.value ? _errorMessage(context) : _successMessage(context);
-                      },
+              Obx(
+                () => Padding(
+                  padding: UtilsReponsive.paddingAll(context, padding: 20),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: controller.disableButton.value ? Colors.grey : ColorsManager.primary,
+                    ),
+                    child: MaterialButton(
+                      onPressed: controller.disableButton.value
+                          ? null
+                          : () async {
+                              await controller.verifyCode();
+                              controller.errorVerifyCode.value ? _errorMessage(context) : _successMessage(context);
+                            },
                       child: controller.isLoading.value
                           ? const Center(
                               child: CircularProgressIndicator(

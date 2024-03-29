@@ -8,6 +8,7 @@ import 'package:hrea_mobile_employee/app/modules/event_detail/api/event_detail_a
 import 'package:hrea_mobile_employee/app/modules/event_detail/model/event_detail_model.dart';
 import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class EventDetailController extends BaseController {
   EventDetailController({required this.eventID});
@@ -39,10 +40,27 @@ class EventDetailController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
+      // idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 

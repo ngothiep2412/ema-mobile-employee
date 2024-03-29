@@ -37,26 +37,24 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   )
                 : controller.taskModel.value.status == null || controller.checkView.value == false
                     ? SafeArea(
-                        child: Expanded(
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  ImageAssets.noInternet,
-                                  fit: BoxFit.cover,
-                                  width: UtilsReponsive.widthv2(context, 200),
-                                  height: UtilsReponsive.heightv2(context, 200),
-                                ),
-                                SizedBox(
-                                  height: UtilsReponsive.height(20, context),
-                                ),
-                                Text(
-                                  'Đang có lỗi xảy ra',
-                                  style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
-                                ),
-                              ],
-                            ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                ImageAssets.noInternet,
+                                fit: BoxFit.cover,
+                                width: UtilsReponsive.widthv2(context, 200),
+                                height: UtilsReponsive.heightv2(context, 200),
+                              ),
+                              SizedBox(
+                                height: UtilsReponsive.height(20, context),
+                              ),
+                              Text(
+                                'Đang có lỗi xảy ra',
+                                style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                              ),
+                            ],
                           ),
                         ),
                       )
@@ -1060,6 +1058,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
 
   void _showBottomSheetStatus(BuildContext context, String taskID) {
     Get.bottomSheet(Container(
+      // height: 150,
       decoration: const BoxDecoration(
         color: ColorsManager.backgroundGrey,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -1068,53 +1067,93 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          "Đang chuẩn bị",
+          // "Đang chuẩn bị",
           "Đang thực hiện",
           "Hoàn thành",
-          "Quá hạn",
+          // "Quá hạn",
         ]
             .map(
-              (e) => GestureDetector(
-                onTap: () {
-                  if (e == "Đang chuẩn bị") {
-                    controller.updateStatusTask("PENDING", taskID);
-                    Navigator.of(context).pop();
-                  } else if (e == "Đang thực hiện") {
-                    controller.updateStatusTask("PROCESSING", taskID);
-                    Navigator.of(context).pop();
-                  } else if (e == "Hoàn thành") {
-                    controller.updateStatusTask("DONE", taskID);
-                    Navigator.of(context).pop();
-                  } else if (e == "Quá hạn") {
-                    controller.updateStatusTask("OVERDUE", taskID);
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: e == "Đang chuẩn bị"
-                          ? ColorsManager.grey
-                          : e == "Đang thực hiện"
-                              ? ColorsManager.primary
-                              : e == "Hoàn thành"
-                                  ? ColorsManager.green
-                                  : ColorsManager.red,
-                      child: Text(e[0],
-                          style: TextStyle(
-                              letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.w800)),
+              (e) => Padding(
+                padding: EdgeInsets.only(top: 5, right: 10, left: 10, bottom: 5),
+                child: GestureDetector(
+                  onTap: () {
+                    // if (e == "Đang chuẩn bị") {
+                    //   controller.updateStatusTask("PENDING", taskID);
+                    //   Navigator.of(context).pop();
+                    // } else
+                    if (e == "Đang thực hiện") {
+                      controller.updateStatusTask("PROCESSING", taskID);
+                      Navigator.of(context).pop();
+                    } else if (e == "Hoàn thành") {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text(
+                              "Xác nhận",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 20, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            content: const Text(
+                              "Bạn có muốn đổi trạng thái công việc này là hoàn thành",
+                              style: TextStyle(fontFamily: 'Nunito', fontSize: 15, fontWeight: FontWeight.w700, color: ColorsManager.textColor2),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Đóng hộp thoại
+                                },
+                                child: Text(
+                                  "Hủy",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.primary),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  await controller.updateStatusTask("DONE", taskID);
+                                },
+                                child: Text(
+                                  "Có",
+                                  style: TextStyle(fontFamily: 'Nunito', fontSize: 16, fontWeight: FontWeight.w700, color: ColorsManager.red),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                    // else if (e == "Quá hạn") {
+                    //   controller.updateStatusTask("OVERDUE", taskID);
+                    //   Navigator.of(context).pop();
+                    // }
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    title: Text(
-                      e,
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          letterSpacing: 1,
-                          color: ColorsManager.textColor,
-                          fontSize: UtilsReponsive.height(16, context),
-                          fontWeight: FontWeight.w700),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: e == "Đang chuẩn bị"
+                            ? ColorsManager.grey
+                            : e == "Đang thực hiện"
+                                ? ColorsManager.primary
+                                : e == "Hoàn thành"
+                                    ? ColorsManager.green
+                                    : ColorsManager.red,
+                        child: Text(e[0],
+                            style: TextStyle(
+                                letterSpacing: 1, color: Colors.white, fontSize: UtilsReponsive.height(16, context), fontWeight: FontWeight.w800)),
+                      ),
+                      title: Text(
+                        e,
+                        style: TextStyle(
+                            fontFamily: 'Nunito',
+                            letterSpacing: 1,
+                            color: ColorsManager.textColor,
+                            fontSize: UtilsReponsive.height(16, context),
+                            fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
                 ),
@@ -1269,13 +1308,18 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                 height: UtilsReponsive.heightv2(context, 60),
                               ),
                             )),
-                  title: Text(
-                    controller.listEmployeeSupportView[index].fullName!,
-                    style: TextStyle(
-                        fontFamily: 'Nunito',
-                        color: ColorsManager.textColor,
-                        fontSize: UtilsReponsive.height(17, context),
-                        fontWeight: FontWeight.w800),
+                  title: GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.PROFILE_CHAT, arguments: {"idUserChat": controller.listEmployeeSupportView[index].id});
+                    },
+                    child: Text(
+                      controller.listEmployeeSupportView[index].fullName!,
+                      style: TextStyle(
+                          fontFamily: 'Nunito',
+                          color: ColorsManager.textColor,
+                          fontSize: UtilsReponsive.height(17, context),
+                          fontWeight: FontWeight.w800),
+                    ),
                   ),
                   subtitle: Text(
                     '${controller.listEmployeeSupportView[index].email}',

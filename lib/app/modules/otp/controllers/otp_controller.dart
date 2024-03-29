@@ -15,6 +15,7 @@ class OtpController extends BaseController {
   RxString errorVerifyCodeText = ''.obs;
   RxBool isLoading = false.obs;
 
+  RxBool disableButton = true.obs;
   final count = 0.obs;
   @override
   void onInit() {
@@ -85,6 +86,11 @@ class OtpController extends BaseController {
 
   setOtp(String value) {
     otpTxt.value = value;
+    if (otpTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      disableButton.value = false;
+    }
   }
 
   void increment() => count.value++;

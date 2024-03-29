@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hrea_mobile_employee/app/base/base_controller.dart';
@@ -23,24 +25,176 @@ class TaskOverallViewController extends BaseController {
 
   RxList<String> filterList = <String>[
     "Không chọn",
-    "Ngày tạo (Tăng dần)",
-    "Ngày tạo (Giảm dần)",
+    // "Trạng thái (Tăng dần)",
+    // "Ngày tạo (Giảm dần)",
     "Hạn hoàn thành (Tăng dần)",
     "Hạn hoàn thành (Giảm dần)",
     "Mức độ ưu tiên (Tăng dần)",
     "Mức độ ưu tiên (Giảm dần)",
   ].obs;
 
+  RxString status = 'Tất cả'.obs;
+  RxBool isFilter = false.obs;
+
   RxString filterChoose = ''.obs;
   String jwt = '';
 
   Future<void> refreshPage() async {
-    listTask.clear();
+    // listTask.clear();
     checkView.value = true;
-    jwt = GetStorage().read('JWT');
+    // jwt = GetStorage().read('JWT');
+    // isLoading.value = true;
+    // await getListTask();
+
+    String value = status.value;
     isLoading.value = true;
-    await getListTask();
-    isLoading.value = false;
+    // listTask.clear();
+    String jwt = GetStorage().read('JWT');
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+    listTask.clear();
+
+    List<TaskModel> list = [];
+    try {
+      list = await TaskOverallApi.getTask(jwt, eventID);
+      if (list.isNotEmpty) {
+        for (var item in list) {
+          // if (item.assignTasks!.isNotEmpty) {
+          //   if (item.parent == null && item.status != Status.CANCEL && item.assignTasks![0].user!.id == decodedToken['id']) {
+          //     listTask.add(item);
+          //   }
+          // }
+
+          if (item.assignTasks!.isNotEmpty) {
+            if (item.parent == null && item.status != Status.CANCEL) {
+              if (item.subTask!.isNotEmpty) {
+                for (var subTask in item.subTask!) {
+                  subTask.parent = TaskModel();
+                  subTask.parent!.title = item.title;
+                  for (var assignee in subTask.assignTasks!) {
+                    if (assignee.user!.id == decodedToken['id'] && assignee.status == 'active') {
+                      listTask.add(subTask);
+                    }
+                  }
+                }
+              }
+            }
+          }
+          // listTask.add(item);
+        }
+        // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        // filterChoose.value = '';
+        listTask.sort((a, b) {
+          // Xử lý trường hợp startDate là null
+          if (a.startDate == null && b.startDate != null) {
+            return -1; // Đưa a lên đầu nếu a.startDate là null và b.startDate không phải là null.
+          } else if (a.startDate != null && b.startDate == null) {
+            return 1; // Đưa b lên đầu nếu b.startDate là null và a.startDate không phải là null.
+          } else if (a.startDate == null && b.startDate == null) {
+            return 0; // Nếu cả hai đều là null, không cần sắp xếp.
+          }
+
+          // So sánh ngày nếu cả hai đều không phải là null
+          int dateComparison = a.startDate!.compareTo(b.startDate!);
+          if (dateComparison != 0) {
+            return dateComparison; // Trả về kết quả nếu ngày không giống nhau.
+          } else {
+            // Sắp xếp theo độ ưu tiên nếu ngày giống nhau
+            final priorityOrder = {Priority.HIGH: 0, Priority.MEDIUM: 1, Priority.LOW: 2};
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+            return priorityA.compareTo(priorityB);
+          }
+        });
+      }
+      if (value == 'Tất cả') {
+        if (filterChoose.value.contains("Không chọn")) {
+          // listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        }
+        // else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
+        //   listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+        // } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
+        //   listTask.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+        // }
+        else if (filterChoose.value.contains("Hạn hoàn thành (Tăng dần)")) {
+          listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        } else if (filterChoose.value.contains("Hạn hoàn thành (Giảm dần)")) {
+          listTask.sort((a, b) => b.endDate!.compareTo(a.endDate!));
+        } else if (filterChoose.value.contains("Mức độ ưu tiên (Giảm dần)")) {
+          listTask.sort((a, b) {
+            final priorityOrder = {Priority.HIGH: 0, Priority.MEDIUM: 1, Priority.LOW: 2};
+
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+
+            return priorityA.compareTo(priorityB);
+          });
+        } else if (filterChoose.value.contains("Mức độ ưu tiên (Tăng dần)")) {
+          listTask.sort((a, b) {
+            final priorityOrder = {Priority.LOW: 0, Priority.MEDIUM: 1, Priority.HIGH: 2};
+
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+            return priorityA.compareTo(priorityB);
+          });
+        } else if (filterChoose.value == '') {
+          // listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        }
+      } else {
+        Status statusTask = Status.PENDING;
+        // listTask.clear();
+        if (status.value == 'Đang chuẩn bị') {
+          statusTask = Status.PENDING;
+        } else if (status.value == 'Đang thực hiện') {
+          statusTask = Status.PROCESSING;
+        } else if (status.value == 'Hoàn thành') {
+          statusTask = Status.DONE;
+        } else if (status.value == 'Đã xác thực') {
+          statusTask = Status.CONFIRM;
+        }
+
+        listTask.value = listTask.where((task) => task.status == statusTask).toList();
+
+        if (filterChoose.value.contains("Không chọn")) {
+          // listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        }
+        // else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
+        //   listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+        // } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
+        //   listTask.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+        // }
+        else if (filterChoose.value.contains("Hạn hoàn thành (Tăng dần)")) {
+          listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        } else if (filterChoose.value.contains("Hạn hoàn thành (Giảm dần)")) {
+          listTask.sort((a, b) => b.endDate!.compareTo(a.endDate!));
+        } else if (filterChoose.value.contains("Mức độ ưu tiên (Giảm dần)")) {
+          listTask.sort((a, b) {
+            final priorityOrder = {Priority.HIGH: 0, Priority.MEDIUM: 1, Priority.LOW: 2};
+
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+
+            return priorityA.compareTo(priorityB);
+          });
+        } else if (filterChoose.value.contains("Mức độ ưu tiên (Tăng dần)")) {
+          listTask.sort((a, b) {
+            final priorityOrder = {Priority.LOW: 0, Priority.MEDIUM: 1, Priority.HIGH: 2};
+
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+            return priorityA.compareTo(priorityB);
+          });
+        } else if (filterChoose.value == '') {
+          // listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        }
+      }
+
+      isLoading.value = false;
+    } catch (e) {
+      log(e.toString());
+      isLoading.value = false;
+    }
+
+    // isLoading.value = false;
   }
 
   Future<void> getTaskDetail(TaskModel taskModel) async {
@@ -121,16 +275,18 @@ class TaskOverallViewController extends BaseController {
     }
   }
 
-  filter(String value) {
+  Future<void> filter(String value) async {
     filterChoose.value = value;
     isLoading.value = true;
     if (filterChoose.value.contains("Không chọn")) {
-      listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
-    } else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
-      listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
-    } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
-      listTask.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
-    } else if (filterChoose.value.contains("Hạn hoàn thành (Tăng dần)")) {
+      // await refreshPage();
+    }
+    // else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
+    //   listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+    // } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
+    //   listTask.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    // }
+    else if (filterChoose.value.contains("Hạn hoàn thành (Tăng dần)")) {
       listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
     } else if (filterChoose.value.contains("Hạn hoàn thành (Giảm dần)")) {
       listTask.sort((a, b) => b.endDate!.compareTo(a.endDate!));
@@ -152,7 +308,7 @@ class TaskOverallViewController extends BaseController {
         return priorityA.compareTo(priorityB);
       });
     } else if (filterChoose.value == '') {
-      listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+      // listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
     }
     Future.delayed(const Duration(seconds: 1), () {
       isLoading.value = false;
@@ -173,5 +329,155 @@ class TaskOverallViewController extends BaseController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  Future<void> changeStatus(String value) async {
+    status.value = value;
+    isLoading.value = true;
+    // listTask.clear();
+    String jwt = GetStorage().read('JWT');
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+    listTask.clear();
+
+    List<TaskModel> list = [];
+    try {
+      list = await TaskOverallApi.getTask(jwt, eventID);
+      if (list.isNotEmpty) {
+        for (var item in list) {
+          // if (item.assignTasks!.isNotEmpty) {
+          //   if (item.parent == null && item.status != Status.CANCEL && item.assignTasks![0].user!.id == decodedToken['id']) {
+          //     listTask.add(item);
+          //   }
+          // }
+
+          if (item.assignTasks!.isNotEmpty) {
+            if (item.parent == null && item.status != Status.CANCEL) {
+              if (item.subTask!.isNotEmpty) {
+                for (var subTask in item.subTask!) {
+                  subTask.parent = TaskModel();
+                  subTask.parent!.title = item.title;
+                  for (var assignee in subTask.assignTasks!) {
+                    if (assignee.user!.id == decodedToken['id'] && assignee.status == 'active') {
+                      listTask.add(subTask);
+                    }
+                  }
+                }
+              }
+            }
+          }
+          // listTask.add(item);
+        }
+        // listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        // filterChoose.value = '';
+        listTask.sort((a, b) {
+          // Xử lý trường hợp startDate là null
+          if (a.startDate == null && b.startDate != null) {
+            return -1; // Đưa a lên đầu nếu a.startDate là null và b.startDate không phải là null.
+          } else if (a.startDate != null && b.startDate == null) {
+            return 1; // Đưa b lên đầu nếu b.startDate là null và a.startDate không phải là null.
+          } else if (a.startDate == null && b.startDate == null) {
+            return 0; // Nếu cả hai đều là null, không cần sắp xếp.
+          }
+
+          // So sánh ngày nếu cả hai đều không phải là null
+          int dateComparison = a.startDate!.compareTo(b.startDate!);
+          if (dateComparison != 0) {
+            return dateComparison; // Trả về kết quả nếu ngày không giống nhau.
+          } else {
+            // Sắp xếp theo độ ưu tiên nếu ngày giống nhau
+            final priorityOrder = {Priority.HIGH: 0, Priority.MEDIUM: 1, Priority.LOW: 2};
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+            return priorityA.compareTo(priorityB);
+          }
+        });
+      }
+      if (value == 'Tất cả') {
+        if (filterChoose.value.contains("Không chọn")) {
+          // listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        }
+        // else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
+        //   listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+        // } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
+        //   listTask.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+        // }
+        else if (filterChoose.value.contains("Hạn hoàn thành (Tăng dần)")) {
+          listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        } else if (filterChoose.value.contains("Hạn hoàn thành (Giảm dần)")) {
+          listTask.sort((a, b) => b.endDate!.compareTo(a.endDate!));
+        } else if (filterChoose.value.contains("Mức độ ưu tiên (Giảm dần)")) {
+          listTask.sort((a, b) {
+            final priorityOrder = {Priority.HIGH: 0, Priority.MEDIUM: 1, Priority.LOW: 2};
+
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+
+            return priorityA.compareTo(priorityB);
+          });
+        } else if (filterChoose.value.contains("Mức độ ưu tiên (Tăng dần)")) {
+          listTask.sort((a, b) {
+            final priorityOrder = {Priority.LOW: 0, Priority.MEDIUM: 1, Priority.HIGH: 2};
+
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+            return priorityA.compareTo(priorityB);
+          });
+        } else if (filterChoose.value == '') {
+          // listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        }
+      } else {
+        Status statusTask = Status.PENDING;
+        // listTask.clear();
+        if (status.value == 'Đang chuẩn bị') {
+          statusTask = Status.PENDING;
+        } else if (status.value == 'Đang thực hiện') {
+          statusTask = Status.PROCESSING;
+        } else if (status.value == 'Hoàn thành') {
+          statusTask = Status.DONE;
+        } else if (status.value == 'Đã xác thực') {
+          statusTask = Status.CONFIRM;
+        }
+
+        listTask.value = listTask.where((task) => task.status == statusTask).toList();
+
+        if (filterChoose.value.contains("Không chọn")) {
+          // listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        }
+        // else if (filterChoose.value.contains("Ngày tạo (Tăng dần)")) {
+        //   listTask.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+        // } else if (filterChoose.value.contains("Ngày tạo (Giảm dần)")) {
+        //   listTask.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+        // }
+        else if (filterChoose.value.contains("Hạn hoàn thành (Tăng dần)")) {
+          listTask.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        } else if (filterChoose.value.contains("Hạn hoàn thành (Giảm dần)")) {
+          listTask.sort((a, b) => b.endDate!.compareTo(a.endDate!));
+        } else if (filterChoose.value.contains("Mức độ ưu tiên (Giảm dần)")) {
+          listTask.sort((a, b) {
+            final priorityOrder = {Priority.HIGH: 0, Priority.MEDIUM: 1, Priority.LOW: 2};
+
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+
+            return priorityA.compareTo(priorityB);
+          });
+        } else if (filterChoose.value.contains("Mức độ ưu tiên (Tăng dần)")) {
+          listTask.sort((a, b) {
+            final priorityOrder = {Priority.LOW: 0, Priority.MEDIUM: 1, Priority.HIGH: 2};
+
+            final priorityA = priorityOrder[a.priority] ?? 2;
+            final priorityB = priorityOrder[b.priority] ?? 2;
+            return priorityA.compareTo(priorityB);
+          });
+        } else if (filterChoose.value == '') {
+          // listTask.value = List.from(listTask)..sort((a, b) => a.endDate!.compareTo(b.endDate!));
+        }
+      }
+
+      isLoading.value = false;
+    } catch (e) {
+      log(e.toString());
+      isLoading.value = false;
+    }
   }
 }

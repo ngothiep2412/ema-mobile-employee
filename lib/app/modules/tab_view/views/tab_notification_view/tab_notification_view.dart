@@ -183,7 +183,8 @@ class TabNotificationView extends BaseView<TabNotificationController> {
                                                   } else if (controller.listNotifications[index].type == "BUDGET") {
                                                     Get.toNamed(Routes.BUDGET_DETAIL, arguments: {
                                                       "transactionID": controller.listNotifications[index].commonId,
-                                                      "isNotiNavigate": true
+                                                      "isNotiNavigate": true,
+                                                      "statusTask": false,
                                                     });
                                                   }
                                                 },

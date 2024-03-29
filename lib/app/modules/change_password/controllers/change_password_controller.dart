@@ -6,6 +6,7 @@ import 'package:hrea_mobile_employee/app/base/base_controller.dart';
 import 'package:hrea_mobile_employee/app/modules/change_password/api/change_password_api.dart';
 import 'package:hrea_mobile_employee/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ChangePasswordController extends BaseController {
   RxBool oldPasswordObscured = true.obs;
@@ -20,6 +21,8 @@ class ChangePasswordController extends BaseController {
   RxBool errorChangePassword = false.obs;
   RxString errorChangePasswordText = ''.obs;
   RxBool isLoading = false.obs;
+
+  RxBool disableButton = true.obs;
 
   String jwt = '';
 
@@ -40,10 +43,27 @@ class ChangePasswordController extends BaseController {
   }
 
   void checkToken() {
+    DateTime now = DateTime.now().toLocal();
     if (GetStorage().read('JWT') != null) {
       jwt = GetStorage().read('JWT');
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(jwt);
+      print('decodedToken ${decodedToken}');
+      print('now ${now}');
+
+      DateTime expTime = DateTime.fromMillisecondsSinceEpoch(decodedToken['exp'] * 1000);
+      print(expTime.toLocal());
+      // idUser = decodedToken['id'];
+      // if (JwtDecoder.isExpired(jwt)) {
+      //   Get.offAllNamed(Routes.LOGIN);
+      //   return;
+      // }
+      if (expTime.toLocal().isBefore(now)) {
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
     } else {
       Get.offAllNamed(Routes.LOGIN);
+      return;
     }
   }
 
@@ -107,14 +127,37 @@ class ChangePasswordController extends BaseController {
 
   setOldPassword(String value) {
     oldPasswordTxt.value = value;
+    if (newPasswordTxt.isEmpty || confirmPasswordTxt.isEmpty || oldPasswordTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      disableButton.value = false;
+    }
   }
 
   setNewPassword(String value) {
     newPasswordTxt.value = value;
+    if (oldPasswordTxt.isEmpty || confirmPasswordTxt.isEmpty || newPasswordTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      if (confirmPasswordTxt.value != newPasswordTxt.value) {
+        disableButton.value = true;
+      } else {
+        disableButton.value = false;
+      }
+    }
   }
 
   setConfirmPassword(String value) {
     confirmPasswordTxt.value = value;
+    if (oldPasswordTxt.isEmpty || newPasswordTxt.isEmpty || confirmPasswordTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      if (confirmPasswordTxt.value != newPasswordTxt.value) {
+        disableButton.value = true;
+      } else {
+        disableButton.value = false;
+      }
+    }
   }
 
   void increment() => count.value++;

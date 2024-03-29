@@ -14,6 +14,7 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
   @override
   Widget buildView(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: ColorsManager.primary,
           elevation: 0,
@@ -84,13 +85,15 @@ class ForgotPasswordView extends BaseView<ForgotPasswordController> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: ColorsManager.primary,
+                      color: controller.disableButton.value ? Colors.grey : ColorsManager.primary,
                     ),
                     child: MaterialButton(
-                      onPressed: () async {
-                        await controller.sendOtp();
-                        controller.errorForgotPassword.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
-                      },
+                      onPressed: controller.disableButton.value
+                          ? null
+                          : () async {
+                              await controller.sendOtp();
+                              controller.errorForgotPassword.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
+                            },
                       child: controller.isLoading.value
                           ? const Center(
                               child: CircularProgressIndicator(

@@ -19,8 +19,8 @@ class ProfileApi {
       "address": address,
       "avatar": avatar,
       "gender": gender,
-      "role": "EMPLOYEE",
-      "isFullTime": false,
+      // "role": "EMPLOYEE",
+      // "isFullTime": false,
     };
 
     print('dob ${dob}');

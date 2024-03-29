@@ -18,6 +18,8 @@ class ResetPasswordController extends BaseController {
   RxString errorResetPasswordText = ''.obs;
   RxBool isLoading = false.obs;
 
+  RxBool disableButton = true.obs;
+
   final count = 0.obs;
   @override
   void onInit() {
@@ -84,10 +86,29 @@ class ResetPasswordController extends BaseController {
 
   setPassword(String value) {
     passwordTxt.value = value;
+
+    if (passwordTxt.isEmpty || confirmPasswordTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      if (confirmPasswordTxt.value != passwordTxt.value) {
+        disableButton.value = true;
+      } else {
+        disableButton.value = false;
+      }
+    }
   }
 
   setConfirmPassword(String value) {
     confirmPasswordTxt.value = value;
+    if (passwordTxt.isEmpty || confirmPasswordTxt.isEmpty) {
+      disableButton.value = true;
+    } else {
+      if (confirmPasswordTxt.value != passwordTxt.value) {
+        disableButton.value = true;
+      } else {
+        disableButton.value = false;
+      }
+    }
   }
 
   void increment() => count.value++;

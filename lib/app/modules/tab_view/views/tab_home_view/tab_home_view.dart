@@ -121,7 +121,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                 ],
                               ),
                               SizedBox(
-                                height: UtilsReponsive.height(40, context),
+                                height: UtilsReponsive.height(50, context),
                               ),
                               GestureDetector(
                                 onTap: () => showSearch(
@@ -238,7 +238,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                 Obx(
                                   () => controller.listEventToday.isNotEmpty
                                       ? Container(
-                                          height: MediaQuery.of(context).size.height / 2.5,
+                                          height: MediaQuery.of(context).size.height / 2.7,
                                           padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
                                           child: GridView.builder(
                                             scrollDirection: Axis.horizontal,
@@ -249,14 +249,14 @@ class TabHomeView extends BaseView<TabHomeController> {
                                             },
                                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 1,
-                                              mainAxisSpacing: 20,
+                                              mainAxisSpacing: 5,
                                               crossAxisSpacing: 10,
                                               childAspectRatio: 1,
                                             ),
                                           ),
                                         )
                                       : Container(
-                                          height: MediaQuery.of(context).size.height / 3,
+                                          height: MediaQuery.of(context).size.height / 2.7,
                                           child: Column(
                                             children: [
                                               Container(
@@ -290,7 +290,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                 Obx(
                                   () => controller.listEventUpComing.isNotEmpty
                                       ? Container(
-                                          height: MediaQuery.of(context).size.height / 2.5,
+                                          height: MediaQuery.of(context).size.height / 2.7,
                                           // height: MediaQuery.of(context).size.height / 1.38,
                                           padding: EdgeInsets.all(UtilsReponsive.width(8, context)),
                                           child: GridView.builder(
@@ -302,14 +302,14 @@ class TabHomeView extends BaseView<TabHomeController> {
                                             },
                                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 1,
-                                              mainAxisSpacing: 20,
+                                              mainAxisSpacing: 5,
                                               crossAxisSpacing: 10,
                                               childAspectRatio: 1,
                                             ),
                                           ),
                                         )
                                       : Container(
-                                          height: MediaQuery.of(context).size.height / 3,
+                                          height: MediaQuery.of(context).size.height / 2.7,
                                           child: Column(
                                             children: [
                                               Container(
@@ -481,7 +481,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                     ? "Đang diễn ra"
                                     : "Đã kết thúc",
                         style: TextStyle(
-                            fontFamily: 'Nunito', fontWeight: FontWeight.w800, fontSize: UtilsReponsive.height(15, context), color: Colors.white),
+                            fontFamily: 'Nunito', fontWeight: FontWeight.w800, fontSize: UtilsReponsive.height(12, context), color: Colors.white),
                       ),
                     )
                   ],
