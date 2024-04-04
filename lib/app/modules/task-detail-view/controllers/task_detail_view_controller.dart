@@ -146,15 +146,15 @@ class TaskDetailViewController extends BaseController {
         return comment2.createdAt!.compareTo(comment1.createdAt!);
       });
 
-      if (taskModel.value.estimationTime != null) {
-        est.value = taskModel.value.estimationTime!.toDouble();
-      }
-      if (taskModel.value.effort != null) {
-        effort.value = taskModel.value.effort!.toDouble();
-        effortController.text = taskModel.value.effort.toString();
-      } else {
-        effortController.text = '0.0';
-      }
+      // if (taskModel.value.estimationTime != null) {
+      //   est.value = taskModel.value.estimationTime!.toDouble();
+      // }
+      // if (taskModel.value.effort != null) {
+      //   effort.value = taskModel.value.effort!.toDouble();
+      //   effortController.text = taskModel.value.effort.toString();
+      // } else {
+      //   effortController.text = '0.0';
+      // }
       getAllAttachment();
 
       // for (var item in taskModel.value.assignTasks!) {
@@ -627,7 +627,6 @@ class TaskDetailViewController extends BaseController {
       return;
     }
   }
-
 
   void deleteCommentFile(CommentFile commentFile) {
     isLoadingDeleteComment.value = true;

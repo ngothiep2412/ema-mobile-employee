@@ -140,7 +140,7 @@ class ProfileController extends BaseController {
         log(e.toString());
         errorUpdateProfile.value = true;
         isLoading.value = false;
-        errorUpdateProfileText.value = "Có lỗi xảy ra";
+        errorUpdateProfileText.value = "Đang có lỗi xảy ra";
       }
     }
   }

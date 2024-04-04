@@ -238,7 +238,7 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                       ),
                                       controller.transactionView.value.status == 'ACCEPTED' || controller.transactionView.value.status == 'SUCCESS'
                                           ? Text(
-                                              'Tài liệu hóa đơn chứng từ',
+                                              'Tài liệu và hóa đơn chứng từ',
                                               style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.textColor),
                                             )
                                           : const SizedBox(),
@@ -753,7 +753,13 @@ class BudgetDetailView extends BaseView<BudgetDetailController> {
                                 onPressed: () async {
                                   Navigator.of(Get.context!).pop();
                                   await controller.deleteBudget();
-                                  controller.errorUpdateBudget.value ? _errorMessage(Get.context!) : _successMessage(Get.context!);
+                                  controller.errorUpdateBudget.value
+                                      ? _errorMessage(Get.context!)
+                                      : Get.snackbar('Thông báo', 'Xóa khoản chi thành công',
+                                          snackPosition: SnackPosition.TOP,
+                                          backgroundColor: Colors.white,
+                                          colorText: Color.fromARGB(255, 81, 146, 83));
+                                  ;
                                 },
                                 child: Text('Xóa',
                                     style: TextStyle(

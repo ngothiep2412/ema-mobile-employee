@@ -59,7 +59,7 @@ class ForgotPasswordController extends BaseController {
         log(e.toString());
         isLoading.value = false;
         errorForgotPassword.value = true;
-        errorForgotPasswordText.value = "Có lỗi xảy ra";
+        errorForgotPasswordText.value = "Đang có lỗi xảy ra";
       }
     }
   }

@@ -57,7 +57,7 @@ class TabViewView extends BaseView<TabViewController> {
               //     }),
               GButton(
                   icon: CupertinoIcons.bubble_left_bubble_right_fill,
-                  text: 'Chat',
+                  text: 'Tin nhắn',
                   iconColor: ColorsManager.primary,
                   onPressed: () {
                     controller.onTapped(1);

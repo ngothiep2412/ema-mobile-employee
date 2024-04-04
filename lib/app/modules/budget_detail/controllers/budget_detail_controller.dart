@@ -103,13 +103,13 @@ class BudgetDetailController extends BaseController {
         Get.back();
       } else {
         errorUpdateBudget.value = true;
-        errorUpdateBudgetText.value = 'Có lỗi xảy ra';
+        errorUpdateBudgetText.value = 'Đang có lỗi xảy ra';
       }
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
       errorUpdateBudget.value = true;
-      errorUpdateBudgetText.value = 'Có lỗi xảy ra';
+      errorUpdateBudgetText.value = 'Đang có lỗi xảy ra';
       print(e);
     }
   }
@@ -184,6 +184,8 @@ class BudgetDetailController extends BaseController {
               listAttachmentEvidence.add(Evidence(
                   evidenceFileName: item.fileName, evidenceFileSize: item.fileSize, evidenceFileType: item.fileType, evidenceUrl: item.downloadUrl));
             }
+            Get.snackbar('Thông báo', 'Cập nhật tài liệu hóa đơn thành công',
+                snackPosition: SnackPosition.TOP, backgroundColor: Colors.white, colorText: Color.fromARGB(255, 81, 146, 83));
           } else {
             checkView.value = false;
           }

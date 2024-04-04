@@ -95,9 +95,9 @@ class CreateBudgetController extends BaseController {
           estExpenseController.text = '';
           errorCreateBudget.value = false;
           await Get.find<BudgetController>().getAllRequestBudget(1);
-        } else {
+        } else if (responseApiv.statusCode == 400 || responseApiv.statusCode == 500) {
           errorCreateBudget.value = true;
-          errorCreateBudgetText.value = "Không thể tạo đơn";
+          errorCreateBudgetText.value = "Không thể tạo yêu cầu giao dịch cho công việc này";
         }
 
         isLoading.value = false;

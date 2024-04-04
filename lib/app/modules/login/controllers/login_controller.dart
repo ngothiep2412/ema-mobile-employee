@@ -101,7 +101,7 @@ class LoginController extends BaseController {
         log(e.toString());
         errorLogin.value = true;
         isLoading.value = false;
-        errorLoginText.value = "Có lỗi xảy ra";
+        errorLoginText.value = "Đang có lỗi xảy ra";
       }
     }
   }

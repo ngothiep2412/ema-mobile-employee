@@ -20,6 +20,8 @@ class CreateBudgetApi {
     print('budget create' + response.statusCode.toString());
     if (response.statusCode == 201 || response.statusCode == 200) {
       return Future<ResponseApi>.value(ResponseApi.fromJson(jsonDecode(response.body)));
+    } else if (response.statusCode == 400 || response.statusCode == 500) {
+      return Future<ResponseApi>.value(ResponseApi.fromJson(jsonDecode(response.body)));
     } else {
       throw Exception('Exception');
     }

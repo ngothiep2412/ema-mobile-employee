@@ -18,8 +18,8 @@ class TaskModel {
   String? description;
   Priority? priority;
   Status? status;
-  dynamic estimationTime;
-  dynamic effort;
+  // dynamic estimationTime;
+  // dynamic effort;
   String? createdBy;
   String? nameAssigner;
   String? avatarAssigner;
@@ -43,9 +43,9 @@ class TaskModel {
     this.description,
     this.priority,
     this.status,
-    this.estimationTime,
+    // this.estimationTime,
     this.progress,
-    this.effort,
+    // this.effort,
     this.createdBy,
     this.nameAssigner,
     this.avatarAssigner,
@@ -69,9 +69,9 @@ class TaskModel {
         description: json["description"],
         priority: json["priority"] == null ? null : priorityValues.map[json["priority"]]!,
         status: json["status"] == null ? null : statusValues.map[json["status"]]!,
-        estimationTime: json["estimationTime"],
+        // estimationTime: json["estimationTime"],
         progress: json["progress"],
-        effort: json["effort"],
+        // effort: json["effort"],
         createdBy: json["createdBy"],
         modifiedBy: json["modifiedBy"],
         approvedBy: json["approvedBy"],
@@ -93,9 +93,9 @@ class TaskModel {
         "description": description,
         "priority": priorityValues.reverse[priority],
         "status": statusValues.reverse[status],
-        "estimationTime": estimationTime,
+        // "estimationTime": estimationTime,
         "progress": progress,
-        "effort": effort,
+        // "effort": effort,
         "createdBy": createdBy,
         "modifiedBy": modifiedBy,
         "approvedBy": approvedBy,

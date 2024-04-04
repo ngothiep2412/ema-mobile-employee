@@ -116,10 +116,16 @@ class SubtaskDetailViewController extends BaseController {
         //     break;
         //   }
         // }
-        for (var index = 0; index < taskModelCheck.value.assignTasks!.length; index++) {}
-        if (taskModelCheck.value.assignTasks![0].user!.id == idUser && taskModelCheck.value.assignTasks![0].status == "active") {
-          isCheckTask = true;
+        // taskModelCheck.value.assignTasks![0].user!.id == idUser
+        for (var index = 0; index < taskModelCheck.value.assignTasks!.length; index++) {
+          if (taskModelCheck.value.assignTasks![index].user!.id == idUser) {
+            isCheckTask = true;
+            break;
+          }
         }
+        // if (taskModelCheck.value.assignTasks![0].status == "active") {
+        //   isCheckTask = true;
+        // }
       }
       if (isCheckTask) {
         return true;
@@ -142,8 +148,13 @@ class SubtaskDetailViewController extends BaseController {
 
       bool isCheckTask = false;
       if (taskModelCheck.value.assignTasks != null && taskModelCheck.value.assignTasks!.isNotEmpty) {
+        // item.user!.id == idUser &&
         for (var item in taskModelCheck.value.assignTasks!) {
-          if (item.user!.id == idUser && item.status == "active") {
+          // if (item.status == "active") {
+          //   isCheckTask = true;
+          //   break;
+          // }
+          if (item.user!.id == idUser) {
             isCheckTask = true;
             break;
           }
@@ -268,16 +279,27 @@ class SubtaskDetailViewController extends BaseController {
       String status = taskModel.value.status.toString();
       if (value == 100) {
         status = 'DONE';
+      } else {
+        status = 'PROCESSING';
       }
       if (checkTask) {
-        ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, value, status);
-        if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
-          progress.value = value;
-          // if (value == 100) {
-          //   await updateStatusTask('DONE', taskID);
-          // }
+        DateTime now = DateTime.now().toLocal();
+        print('now $now');
+        print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
+        if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+          Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
+              snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
+          // return;
         } else {
-          checkView.value = false;
+          ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, value, status);
+          if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+            progress.value = value;
+            // if (value == 100) {
+            //   await updateStatusTask('DONE', taskID);
+            // }
+          } else {
+            checkView.value = false;
+          }
         }
       } else {
         Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
@@ -386,18 +408,18 @@ class SubtaskDetailViewController extends BaseController {
         });
       }
 
-      if (taskModel.value.estimationTime != null) {
-        est.value = taskModel.value.estimationTime!.toDouble();
-        estController.text = taskModel.value.estimationTime.toString();
-      } else {
-        estController.text = '0.0';
-      }
-      if (taskModel.value.effort != null) {
-        effort.value = taskModel.value.effort!.toDouble();
-        effortController.text = taskModel.value.effort.toString();
-      } else {
-        effortController.text = '0.0';
-      }
+      // if (taskModel.value.estimationTime != null) {
+      //   est.value = taskModel.value.estimationTime!.toDouble();
+      //   estController.text = taskModel.value.estimationTime.toString();
+      // } else {
+      //   estController.text = '0.0';
+      // }
+      // if (taskModel.value.effort != null) {
+      //   effort.value = taskModel.value.effort!.toDouble();
+      //   effortController.text = taskModel.value.effort.toString();
+      // } else {
+      //   effortController.text = '0.0';
+      // }
 
       progress.value = double.parse(taskModel.value.progress.toString());
       progressView.value = double.parse(taskModel.value.progress.toString());
@@ -617,6 +639,7 @@ class SubtaskDetailViewController extends BaseController {
     } else {
       try {
         isLoadingComment.value = true;
+
         checkToken();
         bool checkTask = await checkTaskForUser();
         if (checkTask) {

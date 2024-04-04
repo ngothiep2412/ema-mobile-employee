@@ -136,7 +136,7 @@ class BudgetController extends BaseController {
       log(e.toString());
       errorGetBudget.value = true;
       isLoading.value = false;
-      errorGetBudgetText.value = "Có lỗi xảy ra";
+      errorGetBudgetText.value = "Đang có lỗi xảy ra";
     }
   }
 
@@ -174,7 +174,7 @@ class BudgetController extends BaseController {
       log(e.toString());
       errorGetBudget.value = true;
       isLoading.value = false;
-      errorGetBudgetText.value = "Có lỗi xảy ra";
+      errorGetBudgetText.value = "Đang có lỗi xảy ra";
     }
   }
 
@@ -262,7 +262,7 @@ class BudgetController extends BaseController {
       log(e.toString());
       errorGetBudget.value = true;
       isLoading.value = false;
-      errorGetBudgetText.value = "Có lỗi xảy ra";
+      errorGetBudgetText.value = "Đang có lỗi xảy ra";
     }
   }
 
@@ -315,7 +315,7 @@ class BudgetController extends BaseController {
         log(e.toString());
         errorGetBudget.value = true;
         isLoading.value = false;
-        errorGetBudgetText.value = "Có lỗi xảy ra";
+        errorGetBudgetText.value = "Đang có lỗi xảy ra";
       }
     } else {
       try {
@@ -362,7 +362,7 @@ class BudgetController extends BaseController {
         log(e.toString());
         errorGetBudget.value = true;
         isLoading.value = false;
-        errorGetBudgetText.value = "Có lỗi xảy ra";
+        errorGetBudgetText.value = "Đang có lỗi xảy ra";
       }
     }
   }
@@ -420,7 +420,7 @@ class BudgetController extends BaseController {
       log(e.toString());
       errorGetBudget.value = true;
       isLoading.value = false;
-      errorGetBudgetText.value = "Có lỗi xảy ra";
+      errorGetBudgetText.value = "Đang có lỗi xảy ra";
     }
   }
 

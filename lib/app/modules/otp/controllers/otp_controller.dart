@@ -61,7 +61,7 @@ class OtpController extends BaseController {
         log(e.toString());
         errorVerifyCode.value = true;
         isLoading.value = false;
-        errorVerifyCodeText.value = "Có lỗi xảy ra";
+        errorVerifyCodeText.value = "Đang có lỗi xảy ra";
       }
     }
   }
@@ -80,7 +80,7 @@ class OtpController extends BaseController {
     } catch (e) {
       log(e.toString());
       errorVerifyCode.value = true;
-      errorVerifyCodeText.value = "Có lỗi xảy ra";
+      errorVerifyCodeText.value = "Đang có lỗi xảy ra";
     }
   }
 

@@ -120,7 +120,7 @@ class ChangePasswordController extends BaseController {
         log(e.toString());
         errorChangePassword.value = true;
         isLoading.value = false;
-        errorChangePasswordText.value = "Có lỗi xảy ra";
+        errorChangePasswordText.value = "Đang có lỗi xảy ra";
       }
     }
   }

@@ -41,18 +41,36 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                ImageAssets.noInternet,
-                                fit: BoxFit.cover,
-                                width: UtilsReponsive.widthv2(context, 200),
-                                height: UtilsReponsive.heightv2(context, 200),
-                              ),
-                              SizedBox(
-                                height: UtilsReponsive.height(20, context),
-                              ),
-                              Text(
-                                'Đang có lỗi xảy ra',
-                                style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                              Expanded(
+                                child: RefreshIndicator(
+                                  onRefresh: controller.refreshPage,
+                                  child: ListView(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            height: UtilsReponsive.height(100, context),
+                                          ),
+                                          Image.asset(
+                                            ImageAssets.noInternet,
+                                            fit: BoxFit.cover,
+                                            width: UtilsReponsive.widthv2(context, 200),
+                                            height: UtilsReponsive.heightv2(context, 200),
+                                          ),
+                                          SizedBox(
+                                            height: UtilsReponsive.height(20, context),
+                                          ),
+                                          Text(
+                                            'Đang có lỗi xảy ra',
+                                            style: GetTextStyle.getTextStyle(20, 'Nunito', FontWeight.w800, ColorsManager.primary),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
                           ),

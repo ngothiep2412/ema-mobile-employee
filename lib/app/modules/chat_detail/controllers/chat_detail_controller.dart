@@ -216,7 +216,7 @@ class ChatDetailController extends BaseController {
       log(e.toString());
       errorGetChatUser.value = true;
       isLoading.value = false;
-      errorGetChatUserText.value = "Có lỗi xảy ra";
+      errorGetChatUserText.value = "Đang có lỗi xảy ra";
       checkInView.value = false;
     }
   }
@@ -255,7 +255,7 @@ class ChatDetailController extends BaseController {
       log(e.toString());
       errorGetChatUser.value = true;
       isLoading.value = false;
-      errorGetChatUserText.value = "Có lỗi xảy ra";
+      errorGetChatUserText.value = "Đang có lỗi xảy ra";
       checkInView.value = false;
     }
   }
@@ -312,7 +312,7 @@ class ChatDetailController extends BaseController {
       log(e.toString());
       errorGetChatUser.value = true;
       checkInView.value = false;
-      errorGetChatUserText.value = "Có lỗi xảy ra";
+      errorGetChatUserText.value = "Đang có lỗi xảy ra";
     }
   }
 

@@ -75,7 +75,7 @@ class EditDescriptionController extends BaseController {
       isLoading.value = false;
     } catch (e) {
       errorUpdateTask.value = true;
-      errorUpdateTaskText.value = 'Có lỗi xảy ra';
+      errorUpdateTaskText.value = 'Đang có lỗi xảy ra';
       print(e);
     }
   }
