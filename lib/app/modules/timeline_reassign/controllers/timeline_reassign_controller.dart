@@ -59,16 +59,19 @@ class TimelineReassignController extends BaseController {
     }
   }
 
-
   Future<void> getListTask() async {
     try {
       isLoading.value = true;
       checkToken();
-
       taskModel.value = await TaskDetailApi.getTaskDetail(jwt, taskID);
       taskModel.value.assignTasks!
           // Sắp xếp các công việc từ mới nhất đến cũ nhất dựa trên createdAt
           .sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+      // taskModel.value.assignTasks!
+      //     // Sắp xếp các công việc từ mới nhất đến cũ nhất dựa trên createdAt
+      //     .sort((a, b) => b.updatedAt!.compareTo(a.updatedAt!));
+      // print('${taskModel.value.assignTasks![1].createdAt}');
+      // print('${taskModel.value.assignTasks![1].updatedAt!.toLocal()}');
 
       isLoading.value = false;
     } catch (e) {
