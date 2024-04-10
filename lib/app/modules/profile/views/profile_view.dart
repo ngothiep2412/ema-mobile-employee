@@ -225,7 +225,7 @@ class ProfileView extends BaseView<ProfileController> {
                       child: ElevatedButton(
                         onPressed: () async {
                           await controller.updateProfile();
-                          print('${controller.errorUpdateProfile}');
+
                           controller.errorUpdateProfile.value ? _errorMessage(context) : _successMessage(context);
                         },
                         style: ElevatedButton.styleFrom(

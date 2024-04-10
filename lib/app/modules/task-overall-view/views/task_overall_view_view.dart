@@ -491,17 +491,29 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                         width: UtilsReponsive.width(10, context),
                       ),
                       Expanded(
-                        child: Text(
-                          taskModel.title!,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            color: ColorsManager.textColor2,
-                            fontSize: UtilsReponsive.height(20, context),
-                            fontWeight: FontWeight.w700,
-                            // decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
+                        child: taskModel.status == Status.CONFIRM
+                            ? Text(
+                                taskModel.title!,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  color: ColorsManager.textColor2,
+                                  fontSize: UtilsReponsive.height(20, context),
+                                  fontWeight: FontWeight.w700,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              )
+                            : Text(
+                                taskModel.title!,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  color: ColorsManager.textColor2,
+                                  fontSize: UtilsReponsive.height(20, context),
+                                  fontWeight: FontWeight.w700,
+                                  // decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
                       )
                     ],
                   ),

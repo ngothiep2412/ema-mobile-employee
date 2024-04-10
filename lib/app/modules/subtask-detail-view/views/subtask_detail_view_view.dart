@@ -1168,9 +1168,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         style: TextStyle(
                             fontFamily: 'Nunito',
                             letterSpacing: 1,
-                            color: ColorsManager.textColor,
-                            fontSize: UtilsReponsive.height(16, context),
-                            fontWeight: FontWeight.w700),
+                            color: ColorsManager.textColor2,
+                            fontSize: UtilsReponsive.height(18, context),
+                            fontWeight: FontWeight.w800),
                       ),
                     ),
                   ),
@@ -1802,13 +1802,13 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                         ),
                                         content: Text(
-                                          'Bạn có chắc chắn muốn xóa bình luận này không?',
+                                          'Xóa một bình luận là vĩnh viễn. Không có cách hoàn tác',
                                           style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.textColor2),
                                         ),
                                         actions: [
                                           TextButton(
                                             child: Text(
-                                              'Không',
+                                              'Hủy',
                                               style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.primary),
                                             ),
                                             onPressed: () {
@@ -1817,7 +1817,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                           ),
                                           TextButton(
                                             child: Text(
-                                              'Có',
+                                              'Xác nhận',
                                               style: GetTextStyle.getTextStyle(16, 'Nunito', FontWeight.w700, ColorsManager.red),
                                             ),
                                             onPressed: () {

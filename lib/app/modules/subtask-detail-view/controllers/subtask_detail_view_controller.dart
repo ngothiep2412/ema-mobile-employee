@@ -286,7 +286,9 @@ class SubtaskDetailViewController extends BaseController {
         DateTime now = DateTime.now().toLocal();
         print('now $now');
         print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
-        if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+        if (taskModel.value.startDate!.toLocal().isAfter(now)
+            // || taskModel.value.endDate!.toLocal().isBefore(now)
+            ) {
           Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
               snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
           // return;
@@ -294,9 +296,8 @@ class SubtaskDetailViewController extends BaseController {
           ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, value, status);
           if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
             progress.value = value;
-            // if (value == 100) {
-            //   await updateStatusTask('DONE', taskID);
-            // }
+            Get.snackbar('Thành công', 'Cập nhật trạng thái thành công',
+                snackPosition: SnackPosition.BOTTOM, backgroundColor: const Color.fromARGB(255, 81, 146, 83), colorText: Colors.white);
           } else {
             checkView.value = false;
           }
@@ -450,7 +451,9 @@ class SubtaskDetailViewController extends BaseController {
           DateTime now = DateTime.now().toLocal();
           print('now $now');
           print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
-          if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+          if (taskModel.value.startDate!.toLocal().isAfter(now)
+              // || taskModel.value.endDate!.toLocal().isBefore(now)
+              ) {
             Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
                 snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
             // return;
@@ -458,13 +461,18 @@ class SubtaskDetailViewController extends BaseController {
             ResponseApi responseApi = await SubTaskDetailApi.updateProgressTask(jwt, taskID, 100, status);
             if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
               checkView.value = false;
+            } else if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+              Get.snackbar('Thành công', 'Cập nhật trạng thái thành công',
+                  snackPosition: SnackPosition.BOTTOM, backgroundColor: const Color.fromARGB(255, 81, 146, 83), colorText: Colors.white);
             }
           }
         } else {
           DateTime now = DateTime.now().toLocal();
           print('now $now');
           print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
-          if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
+          if (taskModel.value.startDate!.toLocal().isAfter(now)
+              // || taskModel.value.endDate!.toLocal().isBefore(now)
+              ) {
             Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
                 snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
             // return;
@@ -472,6 +480,9 @@ class SubtaskDetailViewController extends BaseController {
             ResponseApi responseApi = await SubTaskDetailApi.updateStatusTask(jwt, taskID, status);
             if (responseApi.statusCode == 400 || responseApi.statusCode == 500) {
               checkView.value = false;
+            } else if (responseApi.statusCode == 200 || responseApi.statusCode == 201) {
+              Get.snackbar('Thành công', 'Cập nhật trạng thái thành công',
+                  snackPosition: SnackPosition.BOTTOM, backgroundColor: const Color.fromARGB(255, 81, 146, 83), colorText: Colors.white);
             }
           }
         }
