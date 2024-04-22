@@ -14,11 +14,11 @@ class PolicyView extends BaseView<PolicyController> {
 
     final List<Testimonial> testimonials = [
       Testimonial('John Smith',
-          'I have been using Product A for the past year and I am extremely satisfied with it. The customer support is excellent and the product itself is top-quality. I highly recommend it to anyone in need of a reliable and efficient solution.'),
+          'Tôi đã sử dụng Sản phẩm EMA trong năm qua và tôi vô cùng hài lòng với nó. Hỗ trợ khách hàng là tuyệt vời và bản thân sản phẩm có chất lượng hàng đầu. Tôi đặc biệt giới thiệu nó cho bất kỳ ai cần một giải pháp đáng tin cậy và hiệu quả.'),
       Testimonial('Jane Doe',
-          'I was skeptical about Product B at first, but after using it for a few weeks I am pleasantly surprised. It is easy to use and customize, and it has saved me a lot of time and effort. I will definitely be using it again in the future.'),
+          'Lúc đầu, tôi nghi ngờ về Sản phẩm EMA, nhưng sau khi sử dụng được vài tuần, tôi rất ngạc nhiên. Nó rất dễ sử dụng và tùy chỉnh, đồng thời nó đã giúp tôi tiết kiệm rất nhiều thời gian và công sức. Tôi chắc chắn sẽ sử dụng nó một lần nữa trong tương lai.'),
       Testimonial('Bob Johnson',
-          'Product C exceeded my expectations. Not only is it energy efficient, but it is also environmentally friendly. I feel good about using it and will be recommending it to my friends and family.'),
+          'Sản phẩm EMA vượt quá sự mong đợi của tôi. Nó không chỉ tiết kiệm năng lượng mà còn thân thiện với môi trường. Tôi cảm thấy hài lòng khi sử dụng và sẽ giới thiệu cho bạn bè, người thân.'),
     ];
 
     return Scaffold(
@@ -57,7 +57,7 @@ class PolicyView extends BaseView<PolicyController> {
                   width: screenWidth,
                   padding: EdgeInsets.all(8),
                   child: Text(
-                    'Our company offers a wide range of high-quality products and services to meet the needs of our customers.',
+                    'Công ty chúng tôi cung cấp nhiều loại sản phẩm và dịch vụ chất lượng cao để đáp ứng nhu cầu của khách hàng.',
                     style: Theme.of(context).textTheme.bodyMedium,
                   )),
 
@@ -69,31 +69,31 @@ class PolicyView extends BaseView<PolicyController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Mission Statement:',
+                        'Tuyên bố sứ mệnh: ',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'Our mission is to provide high-quality products and services to our customers.',
+                        'Sứ mệnh của chúng tôi là cung cấp các sản phẩm và dịch vụ chất lượng cao cho khách hàng.',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       SizedBox(height: 16),
                       Text(
-                        'Values:',
+                        'Những giá trị: ',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SizedBox(height: 8),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Customer satisfaction is our top priority'),
+                        title: Text('Sự hài lòng của khách hàng là ưu tiên hàng đầu của chúng tôi'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('We strive for continuous improvement'),
+                        title: Text('Chúng tôi nỗ lực cải tiến liên tục'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('We value honesty and integrity in all our actions'),
+                        title: Text('Chúng tôi coi trọng sự trung thực và liêm chính trong mọi hành động của mình'),
                       ),
                     ],
                   )),
@@ -106,21 +106,21 @@ class PolicyView extends BaseView<PolicyController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'History:',
+                        'Lịch sử:',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SizedBox(height: 8),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Founded in 2010'),
+                        title: Text('Được thành lập vào năm 2024'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Started as a small business with a few employees'),
+                        title: Text('Bắt đầu từ một doanh nghiệp nhỏ với một vài nhân viên'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Grown into a successful and well-respected organization'),
+                        title: Text('Phát triển thành một tổ chức thành công và được tôn trọng'),
                       ),
                     ],
                   )),
@@ -133,21 +133,21 @@ class PolicyView extends BaseView<PolicyController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Products:',
+                        'Sản phẩm:',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SizedBox(height: 8),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Product A: High-quality and durable'),
+                        title: Text('Chất lượng cao và bền'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Product B: Easy to use and customize'),
+                        title: Text('Dễ sử dụng và tùy chỉnh'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Product C: Energy efficient and environmentally friendly'),
+                        title: Text('Tiết kiệm năng lượng và thân thiện với môi trường'),
                       ),
                     ],
                   )),
@@ -160,21 +160,21 @@ class PolicyView extends BaseView<PolicyController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Awards:',
+                        'Những giải thưởng:',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SizedBox(height: 8),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Best Product Award 2020'),
+                        title: Text('Giải thưởng Sản phẩm Tốt nhất 2024'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Innovation of the Year 2021'),
+                        title: Text('Đổi mới của năm 2024'),
                       ),
                       ListTile(
                         leading: Icon(Icons.check),
-                        title: Text('Customer Satisfaction Award 2022'),
+                        title: Text('Giải thưởng Sự hài lòng của Khách hàng 2024'),
                       ),
                     ],
                   )),
@@ -184,7 +184,7 @@ class PolicyView extends BaseView<PolicyController> {
                 width: screenWidth,
                 padding: EdgeInsets.all(8),
                 child: Text(
-                  'Testimonials:',
+                  'Lời chứng thực:',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
@@ -226,7 +226,7 @@ class PolicyView extends BaseView<PolicyController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Contact Us:',
+                        'Liên hệ với chúng tôi:',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SizedBox(height: 8),
