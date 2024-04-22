@@ -188,7 +188,7 @@ class TimelineReassignView extends BaseView<TimelineReassignController> {
                     ],
                   ),
                 ),
-          Text(DateFormat('EEEE, dd MMM yy, hh:mm', 'vi_VN').format(assignTask.createdAt!),
+          Text(DateFormat('EEEE, dd MMM yy', 'vi_VN').format(assignTask.createdAt!),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white, fontFamily: 'Nunito')),
         ],
       ),

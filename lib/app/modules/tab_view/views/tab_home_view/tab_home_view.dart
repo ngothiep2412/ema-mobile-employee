@@ -436,7 +436,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                       style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
                     ),
                     Text(
-                      DateFormat('dd-MM-yyyy').format(eventModel.endDate!),
+                      DateFormat('dd-MM-yyyy').format(eventModel.processingDate!),
                       style: GetTextStyle.getTextStyle(15, 'Nunito', FontWeight.w800, Colors.blueAccent),
                     ),
                   ],
