@@ -1249,9 +1249,9 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
           child: Container(
             margin: EdgeInsets.only(left: UtilsReponsive.width(10, context)),
             child: Text(
-              'Hạn: $startTime - $endTime',
+              '$startTime ${getCurrentTime(controller.taskModel.value.startDate!.toLocal())} - $endTime ${getCurrentTime(controller.taskModel.value.endDate!.toLocal())}',
               style: TextStyle(
-                  letterSpacing: 1,
+                  // letterSpacing: 1,
                   fontFamily: 'Nunito',
                   overflow: TextOverflow.clip,
                   color: controller.taskModel.value.status == Status.PENDING

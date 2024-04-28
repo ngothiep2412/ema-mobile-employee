@@ -8,6 +8,7 @@ import 'package:hrea_mobile_employee/app/resources/reponsive_utils.dart';
 import 'package:hrea_mobile_employee/app/resources/style_manager.dart';
 import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hrea_mobile_employee/app/utils/calculate_time_difference.dart';
 import '../controllers/task_overall_view_controller.dart';
 
 class TaskOverallViewView extends BaseView<TaskOverallViewController> {
@@ -617,7 +618,7 @@ class TaskOverallViewView extends BaseView<TaskOverallViewController> {
                           taskModel.endDate != null
                               ? Expanded(
                                   child: Text(
-                                      'Hạn: ${controller.dateFormat.format(taskModel.startDate!.toLocal())} - ${controller.dateFormat.format(taskModel.endDate!.toLocal())}',
+                                      '${controller.dateFormat.format(taskModel.startDate!.toLocal())} ${getCurrentTime(taskModel.startDate!.toLocal())} - ${controller.dateFormat.format(taskModel.endDate!.toLocal())} ${getCurrentTime(taskModel.endDate!.toLocal())}',
                                       overflow: TextOverflow.clip,
                                       style: GetTextStyle.getTextStyle(
                                         15,
