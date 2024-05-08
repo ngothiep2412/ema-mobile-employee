@@ -9,6 +9,7 @@ import 'package:hrea_mobile_employee/app/modules/budget/controllers/budget_contr
 import 'package:hrea_mobile_employee/app/modules/budget/model/budget_model.dart';
 import 'package:hrea_mobile_employee/app/modules/budget_detail/api/budget_detail_api.dart';
 import 'package:hrea_mobile_employee/app/modules/budget_detail/model/upload_evidence_model.dart';
+import 'package:hrea_mobile_employee/app/resources/color_manager.dart';
 import 'package:hrea_mobile_employee/app/resources/response_api_model.dart';
 import 'package:hrea_mobile_employee/app/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -185,7 +186,7 @@ class BudgetDetailController extends BaseController {
                   evidenceFileName: item.fileName, evidenceFileSize: item.fileSize, evidenceFileType: item.fileType, evidenceUrl: item.downloadUrl));
             }
             Get.snackbar('Thông báo', 'Cập nhật tài liệu hóa đơn thành công',
-                snackPosition: SnackPosition.TOP, backgroundColor: Colors.white, colorText: Color.fromARGB(255, 81, 146, 83));
+                snackPosition: SnackPosition.TOP, backgroundColor: Colors.white, colorText: ColorsManager.textColor);
           } else {
             checkView.value = false;
           }

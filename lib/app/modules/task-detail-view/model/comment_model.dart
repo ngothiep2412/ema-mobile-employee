@@ -4,8 +4,7 @@
 
 import 'dart:convert';
 
-CommentModel commentModelFromJson(String str) =>
-    CommentModel.fromJson(json.decode(str));
+CommentModel commentModelFromJson(String str) => CommentModel.fromJson(json.decode(str));
 
 String commentModelToJson(CommentModel data) => json.encode(data.toJson());
 
@@ -16,6 +15,7 @@ class CommentModel {
   bool? status;
   User? user;
   List<CommentFile>? commentFiles;
+  bool? isEditComment = false;
 
   CommentModel({
     this.id,
@@ -24,20 +24,17 @@ class CommentModel {
     this.status,
     this.user,
     this.commentFiles,
+    this.isEditComment = false,
   });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
         id: json["id"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
+        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         text: json["text"],
         status: json["status"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
-        commentFiles: json["commentFiles"] == null
-            ? []
-            : List<CommentFile>.from(
-                json["commentFiles"]!.map((x) => CommentFile.fromJson(x))),
+        commentFiles: json["commentFiles"] == null ? [] : List<CommentFile>.from(json["commentFiles"]!.map((x) => CommentFile.fromJson(x))),
+        isEditComment: false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,9 +43,7 @@ class CommentModel {
         "text": text,
         "status": status,
         "user": user?.toJson(),
-        "commentFiles": commentFiles == null
-            ? []
-            : List<dynamic>.from(commentFiles!.map((x) => x.toJson())),
+        "commentFiles": commentFiles == null ? [] : List<dynamic>.from(commentFiles!.map((x) => x.toJson())),
       };
 }
 
@@ -90,8 +85,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         email: json["email"],
-        profile:
-            json["profile"] == null ? null : Profile.fromJson(json["profile"]),
+        profile: json["profile"] == null ? null : Profile.fromJson(json["profile"]),
       );
 
   Map<String, dynamic> toJson() => {

@@ -75,7 +75,7 @@ class PushNotificationsProvider {
     if (notification != null && android != null) {
       String sentTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(
         DateTime.fromMillisecondsSinceEpoch(
-          message.sentTime!.toLocal().add(const Duration(hours: 7)).millisecondsSinceEpoch,
+          message.sentTime!.toLocal().millisecondsSinceEpoch,
         ),
       );
 

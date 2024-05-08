@@ -214,7 +214,14 @@ class ChatDetailView extends GetView<ChatDetailController> {
                     height: UtilsReponsive.height(60, context),
                     padding: EdgeInsets.only(bottom: 10),
                     width: double.infinity,
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Colors.grey,
+                          width: 0.2,
+                        ),
+                      ),
+                    ),
                     child: Row(
                       children: [
                         Obx(

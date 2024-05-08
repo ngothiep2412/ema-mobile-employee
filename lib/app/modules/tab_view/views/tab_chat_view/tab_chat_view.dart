@@ -315,7 +315,7 @@ Widget chatUsersList({required ChatUserModel chatUserModel, required TabChatCont
                 child: Row(
                   children: [
                     Stack(children: [
-                       CircleAvatar(
+                      CircleAvatar(
                         backgroundImage: CachedNetworkImageProvider(chatUserModel.creator!.id == controller.idUser
                             ? chatUserModel.recipient!.profile!.avatar!
                             : chatUserModel.creator!.profile!.avatar!),
@@ -372,7 +372,7 @@ Widget chatUsersList({required ChatUserModel chatUserModel, required TabChatCont
                                             fontFamily: 'Nunito', fontSize: 14, color: ColorsManager.textColor2, fontWeight: FontWeight.w600),
                                       ),
                                 Text(
-                                  '${calculateTimeDifferenceMessenger(chatUserModel.lastMessageSentAt!)}',
+                                  calculateTimeDifferenceMessenger(chatUserModel.lastMessageSentAt!),
                                   style: const TextStyle(
                                       fontFamily: 'Nunito', fontSize: 14, color: ColorsManager.textColor2, fontWeight: FontWeight.w600),
                                 ),

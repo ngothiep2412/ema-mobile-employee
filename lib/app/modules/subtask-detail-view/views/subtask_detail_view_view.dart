@@ -866,130 +866,135 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                 ),
                               ),
                             ),
-                            Obx(
-                              () => controller.isCheckEditComment.value
-                                  ? SizedBox()
-                                  : Positioned(
-                                      bottom: 0,
-                                      left: 0,
-                                      right: 0,
-                                      child: Obx(
-                                        () => controller.filePicker.isNotEmpty
-                                            ? Container(
-                                                decoration: const BoxDecoration(
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: ColorsManager.textColor,
-                                                      blurRadius: 1.0,
-                                                    ),
-                                                  ],
-                                                  color: Colors.white,
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    Container(
-                                                      height: UtilsReponsive.height(170, context),
-                                                      padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-                                                      child: ListView.separated(
-                                                        scrollDirection: Axis.horizontal,
-                                                        itemCount: controller.filePicker.length,
-                                                        separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(15, context)),
-                                                        itemBuilder: (context, index) {
-                                                          return attchfileComment(controller.filePicker[index], context, index);
-                                                        },
+                            controller.taskModel.value.parent!.status != Status.CONFIRM
+                                ? Obx(
+                                    () => controller.isCheckEditComment.value
+                                        ? SizedBox()
+                                        : Positioned(
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            child: Obx(
+                                              () => controller.filePicker.isNotEmpty
+                                                  ? Container(
+                                                      decoration: const BoxDecoration(
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: ColorsManager.textColor,
+                                                            blurRadius: 1.0,
+                                                          ),
+                                                        ],
+                                                        color: Colors.white,
                                                       ),
-                                                    ),
-                                                    TextField(
-                                                      onChanged: (value) => {controller.commentController.text = value},
-                                                      controller: controller.commentController,
-                                                      focusNode: controller.focusNodeComment,
-                                                      keyboardType: TextInputType.text,
-                                                      maxLines: 5,
-                                                      minLines: 1,
-                                                      cursorColor: Colors.black,
-                                                      decoration: InputDecoration(
-                                                        prefixIcon: IconButton(
-                                                            onPressed: () async {
-                                                              await controller.selectFileComment();
-                                                            },
-                                                            icon: const Icon(Icons.attach_file_outlined)),
-                                                        suffixIcon: controller.isLoadingComment.value != true
-                                                            ? IconButton(
-                                                                onPressed: () async {
-                                                                  await controller.createComment();
-                                                                },
-                                                                icon: const Icon(Icons.double_arrow_sharp))
-                                                            : Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                child: SpinKitFadingCircle(
-                                                                  color: ColorsManager.primary,
-                                                                  size: 20,
-                                                                ),
+                                                      child: Column(
+                                                        children: [
+                                                          Container(
+                                                            height: UtilsReponsive.height(170, context),
+                                                            padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
+                                                            child: ListView.separated(
+                                                              scrollDirection: Axis.horizontal,
+                                                              itemCount: controller.filePicker.length,
+                                                              separatorBuilder: (context, index) =>
+                                                                  SizedBox(width: UtilsReponsive.width(15, context)),
+                                                              itemBuilder: (context, index) {
+                                                                return attchfileComment(controller.filePicker[index], context, index);
+                                                              },
+                                                            ),
+                                                          ),
+                                                          TextField(
+                                                            onChanged: (value) => {controller.commentController.text = value},
+                                                            controller: controller.commentController,
+                                                            focusNode: controller.focusNodeComment,
+                                                            keyboardType: TextInputType.text,
+                                                            maxLines: 5,
+                                                            minLines: 1,
+                                                            cursorColor: Colors.black,
+                                                            decoration: InputDecoration(
+                                                              prefixIcon: IconButton(
+                                                                  onPressed: () async {
+                                                                    await controller.selectFileComment();
+                                                                  },
+                                                                  icon: const Icon(Icons.attach_file_outlined)),
+                                                              suffixIcon: controller.isLoadingComment.value != true
+                                                                  ? IconButton(
+                                                                      onPressed: () async {
+                                                                        await controller.createComment();
+                                                                      },
+                                                                      icon: const Icon(Icons.double_arrow_sharp))
+                                                                  : Container(
+                                                                      width: 10,
+                                                                      height: 10,
+                                                                      child: SpinKitFadingCircle(
+                                                                        color: ColorsManager.primary,
+                                                                        size: 20,
+                                                                      ),
+                                                                    ),
+                                                              contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
+                                                              hintText: 'Nhập bình luận',
+                                                              focusedBorder: const UnderlineInputBorder(
+                                                                borderSide: BorderSide(color: Colors.grey), // Màu gạch dưới khi TextField được chọn
                                                               ),
-                                                        contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
-                                                        hintText: 'Nhập bình luận',
-                                                        focusedBorder: const UnderlineInputBorder(
-                                                          borderSide: BorderSide(color: Colors.grey), // Màu gạch dưới khi TextField được chọn
-                                                        ),
-                                                        enabledBorder: const UnderlineInputBorder(
-                                                          borderSide: BorderSide(color: Colors.grey), // Màu gạch dưới khi TextField không được chọn
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            : Container(
-                                                color: Colors.white,
-                                                child: Column(
-                                                  children: [
-                                                    TextField(
-                                                      onChanged: (value) => {controller.commentController.text = value},
-                                                      controller: controller.commentController,
-                                                      focusNode: controller.focusNodeComment,
-                                                      keyboardType: TextInputType.text,
-                                                      maxLines: 5,
-                                                      minLines: 1,
-                                                      cursorColor: Colors.black,
-                                                      decoration: InputDecoration(
-                                                        prefixIcon: IconButton(
-                                                            onPressed: () async {
-                                                              await controller.selectFileComment();
-                                                            },
-                                                            icon: const Icon(
-                                                              Icons.attach_file_outlined,
-                                                            )),
-                                                        suffixIcon: controller.isLoadingComment.value != true
-                                                            ? IconButton(
-                                                                onPressed: () async {
-                                                                  await controller.createComment();
-                                                                },
-                                                                icon: const Icon(Icons.double_arrow_sharp))
-                                                            : Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                child: SpinKitFadingCircle(
-                                                                  color: ColorsManager.primary,
-                                                                  size: 20,
-                                                                ),
+                                                              enabledBorder: const UnderlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(color: Colors.grey), // Màu gạch dưới khi TextField không được chọn
                                                               ),
-                                                        contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
-                                                        hintText: 'Nhập bình luận',
-                                                        focusedBorder: const UnderlineInputBorder(
-                                                          borderSide: BorderSide(color: Colors.grey), // Màu gạch dưới khi TextField được chọn
-                                                        ),
-                                                        enabledBorder: const UnderlineInputBorder(
-                                                          borderSide: BorderSide(color: Colors.grey), // Màu gạch dưới khi TextField không được chọn
-                                                        ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(
+                                                      color: Colors.white,
+                                                      child: Column(
+                                                        children: [
+                                                          TextField(
+                                                            onChanged: (value) => {controller.commentController.text = value},
+                                                            controller: controller.commentController,
+                                                            focusNode: controller.focusNodeComment,
+                                                            keyboardType: TextInputType.text,
+                                                            maxLines: 5,
+                                                            minLines: 1,
+                                                            cursorColor: Colors.black,
+                                                            decoration: InputDecoration(
+                                                              prefixIcon: IconButton(
+                                                                  onPressed: () async {
+                                                                    await controller.selectFileComment();
+                                                                  },
+                                                                  icon: const Icon(
+                                                                    Icons.attach_file_outlined,
+                                                                  )),
+                                                              suffixIcon: controller.isLoadingComment.value != true
+                                                                  ? IconButton(
+                                                                      onPressed: () async {
+                                                                        await controller.createComment();
+                                                                      },
+                                                                      icon: const Icon(Icons.double_arrow_sharp))
+                                                                  : Container(
+                                                                      width: 10,
+                                                                      height: 10,
+                                                                      child: SpinKitFadingCircle(
+                                                                        color: ColorsManager.primary,
+                                                                        size: 20,
+                                                                      ),
+                                                                    ),
+                                                              contentPadding: EdgeInsets.all(UtilsReponsive.width(15, context)),
+                                                              hintText: 'Nhập bình luận',
+                                                              focusedBorder: const UnderlineInputBorder(
+                                                                borderSide: BorderSide(color: Colors.grey), // Màu gạch dưới khi TextField được chọn
+                                                              ),
+                                                              enabledBorder: const UnderlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(color: Colors.grey), // Màu gạch dưới khi TextField không được chọn
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                            )
+                                            ),
+                                          ),
+                                  )
+                                : SizedBox()
                           ],
                         ),
                       ),
@@ -1590,7 +1595,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         itemCount: controller.listComment.length,
                         separatorBuilder: (context, index) => SizedBox(height: UtilsReponsive.height(30, context)),
                         itemBuilder: (context, index) {
-                          return comment(controller.listComment[index], context);
+                          return comment(controller.listComment[index], context, index);
                         }),
                   )
                 : GestureDetector(
@@ -1629,9 +1634,10 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
     );
   }
 
-  StatefulBuilder comment(CommentModel commentModel, BuildContext context) {
-    bool isEditComment = false;
-    TextEditingController commentTextController = TextEditingController(text: commentModel.text);
+  StatefulBuilder comment(CommentModel commentModel, BuildContext context, int index) {
+    // bool isEditComment = false;
+    // TextEditingController commentTextController = TextEditingController(text: commentModel.text);
+    String commentText = commentModel.text!;
     List<PlatformFile> filePickerEditCommentFile = [];
     return StatefulBuilder(builder: (context, setStateX) {
       return SizedBox(
@@ -1707,7 +1713,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               return _filesComment(
                                 commentModel.commentFiles![index],
                                 context,
-                                isEditComment,
+                                controller.listComment[index].isEditComment!,
                               );
                             },
                           ),
@@ -1738,8 +1744,8 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                           itemCount: filePickerEditCommentFile.length,
                           separatorBuilder: (context, index) => SizedBox(width: UtilsReponsive.width(15, context)),
                           itemBuilder: (context, index) {
-                            return editFileComment(
-                                filePickerEditCommentFile[index], context, index, isEditComment, setStateX, filePickerEditCommentFile);
+                            return editFileComment(filePickerEditCommentFile[index], context, index, controller.listComment[index].isEditComment!,
+                                setStateX, filePickerEditCommentFile);
                           },
                         ),
                       ),
@@ -1747,12 +1753,13 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                   )
                 : SizedBox(),
             SizedBox(height: UtilsReponsive.height(10, context)),
-            isEditComment == true
+            controller.listComment[index].isEditComment == true
                 ? Container(
                     constraints: BoxConstraints(maxHeight: UtilsReponsive.height(300, context), minHeight: UtilsReponsive.height(100, context)),
                     child: FormFieldWidget(
                       setValueFunc: (value) {
-                        commentTextController.text = value;
+                        print(commentText);
+                        commentText = value;
                       },
                       // controllerEditting: controller.commentTextController,
                       maxLine: 4,
@@ -1769,23 +1776,25 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                         fontWeight: FontWeight.w700),
                   ),
             SizedBox(height: UtilsReponsive.width(10, context)),
-            isEditComment == false
+            controller.listComment[index].isEditComment == false
                 ? Row(
                     children: [
                       InkWell(
                           onTap: () {
                             controller.isCheckEditComment.value = true;
                             setStateX(() {
-                              isEditComment = true;
+                              controller.listComment[index].isEditComment = true;
                             });
                           },
                           child: commentModel.user!.id == controller.idUser
                               ? Align(
                                   alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'Chỉnh sửa',
-                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
-                                  ))
+                                  child: controller.taskModel.value.parent!.status != Status.CONFIRM
+                                      ? Text(
+                                          'Chỉnh sửa',
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
+                                        )
+                                      : SizedBox())
                               : SizedBox()),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
@@ -1823,7 +1832,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                             onPressed: () {
                                               controller.deleteComment(commentModel);
                                               setStateX(() {
-                                                isEditComment = true;
+                                                controller.listComment[index].isEditComment = true;
                                               });
                                               Navigator.of(context).pop();
                                             },
@@ -1834,10 +1843,12 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                               },
                               child: Align(
                                   alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'Xóa',
-                                    style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.red),
-                                  )))
+                                  child: controller.taskModel.value.parent!.status != Status.CONFIRM
+                                      ? Text(
+                                          'Xóa',
+                                          style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.red),
+                                        )
+                                      : SizedBox()))
                           : SizedBox(),
                     ],
                   )
@@ -1845,7 +1856,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                     children: [
                       InkWell(
                           onTap: () async {
-                            if (commentTextController.text == "") {
+                            if (commentText == "") {
                               Get.snackbar(
                                 'Thông báo',
                                 'Bạn phải nhập ít nhất 1 kí tự',
@@ -1856,19 +1867,30 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                                 duration: const Duration(seconds: 4),
                               );
                             } else {
-                              await controller.editComment(commentModel, commentTextController.text, commentModel.id!, filePickerEditCommentFile);
+                              await controller.editComment(commentModel, commentText, commentModel.id!, filePickerEditCommentFile);
                               setStateX(() {
-                                isEditComment = false;
+                                controller.listComment[index].isEditComment = false;
                               });
                               controller.isCheckEditComment.value = false;
                             }
                           },
-                          child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                'Lưu',
-                                style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
-                              ))),
+                          child: Obx(
+                            () => Align(
+                                alignment: Alignment.topLeft,
+                                child: controller.isLoadingCommentV2.value
+                                    ? Container(
+                                        width: 30,
+                                        height: 30,
+                                        child: SpinKitFadingCircle(
+                                          color: ColorsManager.primary,
+                                          size: 20,
+                                        ),
+                                      )
+                                    : Text(
+                                        'Lưu',
+                                        style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w700, ColorsManager.primary),
+                                      )),
+                          )),
                       SizedBox(
                         width: UtilsReponsive.width(10, context),
                       ),
@@ -1877,7 +1899,7 @@ class SubtaskDetailViewView extends BaseView<SubtaskDetailViewController> {
                             await controller.cancel(commentModel.id!);
                             filePickerEditCommentFile.clear();
                             setStateX(() {
-                              isEditComment = false;
+                              controller.listComment[index].isEditComment = false;
                             });
                             controller.isCheckEditComment.value = false;
                           },

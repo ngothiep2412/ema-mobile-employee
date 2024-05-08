@@ -97,6 +97,8 @@ class SubtaskDetailViewController extends BaseController {
   RxBool checkView = false.obs;
 
   RxBool isLoadingComment = false.obs;
+  RxBool isLoadingCommentV2 = false.obs;
+  // RxBool isEditComment = false.obs;
 
   Future<bool> checkTaskForUser() async {
     try {
@@ -280,7 +282,7 @@ class SubtaskDetailViewController extends BaseController {
         DateTime now = DateTime.now().toLocal();
         print('now $now');
         print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
-        if (taskModel.value.startDate!.toLocal().isAfter(now)
+        if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)
             // || taskModel.value.endDate!.toLocal().isBefore(now)
             ) {
           Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
@@ -396,11 +398,13 @@ class SubtaskDetailViewController extends BaseController {
         );
       }
 
-      listComment.value = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
-      if (listComment.isNotEmpty) {
-        listComment.sort((comment1, comment2) {
+      List<CommentModel> list;
+      list = await SubTaskDetailApi.getAllComment(jwt, taskModel.value.id!);
+      if (list.isNotEmpty) {
+        list.sort((comment1, comment2) {
           return comment2.createdAt!.compareTo(comment1.createdAt!);
         });
+        listComment.value = list;
       }
 
       // if (taskModel.value.estimationTime != null) {
@@ -445,9 +449,7 @@ class SubtaskDetailViewController extends BaseController {
           DateTime now = DateTime.now().toLocal();
           print('now $now');
           print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
-          if (taskModel.value.startDate!.toLocal().isAfter(now)
-              // || taskModel.value.endDate!.toLocal().isBefore(now)
-              ) {
+          if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
             Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
                 snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
             // return;
@@ -464,9 +466,7 @@ class SubtaskDetailViewController extends BaseController {
           DateTime now = DateTime.now().toLocal();
           print('now $now');
           print('taskModel.value.startDate!.toLocal() ${taskModel.value.startDate!.toLocal()}');
-          if (taskModel.value.startDate!.toLocal().isAfter(now)
-              // || taskModel.value.endDate!.toLocal().isBefore(now)
-              ) {
+          if (taskModel.value.startDate!.toLocal().isAfter(now) || taskModel.value.endDate!.toLocal().isBefore(now)) {
             Get.snackbar('Thông báo', 'Công việc này có thời hạn công việc không cho phép cập nhật',
                 snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
             // return;
@@ -784,6 +784,7 @@ class SubtaskDetailViewController extends BaseController {
     try {
       checkToken();
       bool checkTask = await checkTaskForUser();
+      isLoadingCommentV2.value = true;
       if (checkTask) {
         List<CommentFile> list = [];
         for (var item in listComment) {
@@ -819,8 +820,10 @@ class SubtaskDetailViewController extends BaseController {
         Get.snackbar('Thông báo', 'Công việc này không khả dụng nữa',
             snackPosition: SnackPosition.TOP, backgroundColor: Colors.transparent, colorText: ColorsManager.textColor);
       }
+      isLoadingCommentV2.value = false;
     } catch (e) {
       checkView.value = false;
+      isLoadingCommentV2.value = false;
     }
   }
 }

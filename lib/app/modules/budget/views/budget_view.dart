@@ -322,10 +322,7 @@ class BudgetView extends BaseView<BudgetController> {
                                                   'Ngày nộp đơn: ',
                                                   style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.w600, ColorsManager.textColor2),
                                                 ),
-                                                Text(
-                                                    controller.dateFormat
-                                                        .format(controller.listTransaction[index].createdAt!.toLocal().add(const Duration(hours: 7)))
-                                                        .toString(),
+                                                Text(controller.dateFormat.format(controller.listTransaction[index].createdAt!.toLocal()).toString(),
                                                     style: GetTextStyle.getTextStyle(14, 'Nunito', FontWeight.bold, ColorsManager.textColor)),
                                               ],
                                             ),
